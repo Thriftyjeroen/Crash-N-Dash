@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
@@ -11,28 +12,23 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         playerObject = this.transform.parent.GetComponent<GameObject>();
+        ResetPlayerHealth();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    public bool CheckIfPlayerDead() => playerHealth <= 0 ? true : false;
 
-    }
-
-    void RemovePlayerHealth(float AmountToBeRemoved)
+    public void RemovePlayerHealth(float AmountToBeRemoved)
     {
         playerHealth += AmountToBeRemoved;
     }
 
-    void AddPlayerHealth(float AmountToBeAdded)
+    public void AddPlayerHealth(float AmountToBeAdded)
     {
         playerHealth += AmountToBeAdded;
     }
 
-    private void ResetPlayerHealth()
+    public void ResetPlayerHealth()
     {
         playerHealth = maxPossibleHealth;
     }
-
-
 }
