@@ -8,6 +8,8 @@ public class PlayerHealth : MonoBehaviour
     public float playerHealth;
     public float maxPossibleHealth = 100.0f;
 
+    bool testboel = true;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
