@@ -10,13 +10,6 @@ public class EnemyTestScript : MonoBehaviour
         ThisObjectDamage = random.Next(20, 60);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
     //give damage to player according to how much damage this object can give
     public float ToBeGivenDamage() => ThisObjectDamage;
 }

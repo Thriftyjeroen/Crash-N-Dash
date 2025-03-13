@@ -1,21 +1,21 @@
 using System;
+using System.Collections;
+using UnityEditor.Rendering;
 using UnityEngine;
-
+//this script needs to be attached to a player (gets automatically done by the PlayerHealthChecks script
 public class PlayerHealth : MonoBehaviour
 {
-    string EnemyDamageTag = "Enemy";          
+    string EnemyDamageTag = "Enemy";
     GameObject playerObject;
     public float playerHealth;
     public float maxPossibleHealth = 100.0f;
 
-    bool testboel = true;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerObject = this.gameObject;
-        print(playerObject.name);
         ResetPlayerHealth();
     }
 
@@ -36,6 +36,11 @@ public class PlayerHealth : MonoBehaviour
         playerHealth = maxPossibleHealth;
     }
 
+    void PlayerDead()
+    {
+        this.gameObject.SetActive(false);
+        //zet hier eventueel effects ofzo bij wanneer de player dood gaat
+    }
 
     //for oncollission2d both the playerobject and the collider need to be on fully kinematic settings 
     //and add tag to the enemy gameobject
@@ -49,6 +54,8 @@ public class PlayerHealth : MonoBehaviour
         else
         {
             print("found collision but no tag?");
+            print(playerObject.name + "collided with" + collision.gameObject.name);
+            //error message when gameobject is disabled but still collides(?)
         }
     }
 }
