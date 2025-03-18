@@ -102,4 +102,6 @@ public class PlayerHealthChecks : MonoBehaviour
         }
         return closestPossibleSpawn;
     }
+
+    public GameObject[] GetAllPlayers() => objectsWithPlayerTag;
 }
