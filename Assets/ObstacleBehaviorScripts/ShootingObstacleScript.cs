@@ -2,28 +2,37 @@ using System.Collections;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class ObstacleScript : MonoBehaviour
 {
     GameObject[] players;
-    [SerializeField] GameObject healthManager;
-    [SerializeField] GameObject parentObstacle;
+    GameObject healthManager;
+    GameObject parentObstacle;
     bool allowedToShoot = true;
-    [SerializeField]GameObject bulletPrefab;
+    [SerializeField] GameObject bulletPrefab;
+    string Playertag = "Player";
+    string CheckpointTag = "CheckPoint";
+    string ObstacleTag = "Enemy";
+
+    //  [SerializeField]GameObject testPlayerObject;
+
+    float bulletSpeed = 100;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        players = GameObject.FindGameObjectsWithTag(Playertag);
         try
         {
             healthManager = GameObject.Find("healthManager");
-            players = healthManager.GetComponent<PlayerHealthChecks>().GetAllPlayers();
         }
         catch
         {
             print("cannot find object with playerhealtcheck script attached to it");
         }
         parentObstacle = this.gameObject;
+
     }
 
     // Update is called once per frame
@@ -31,28 +40,35 @@ public class ObstacleScript : MonoBehaviour
     {
         if (allowedToShoot == true)
         {
-            switch (parentObstacle.name)
+            findClosestPlayer(players, parentObstacle);
+            float distance = Vector3.Distance(parentObstacle.transform.position, findClosestPlayer(players, parentObstacle));
+            if (distance < 5)
             {
-                case "turret":
-                    StartCoroutine(shootNormalBullet(3));
-                    break;
-                case "shotgun":
-                    StartCoroutine(shootShotgunBullet(5));
-                    break;
-                case "flamethrower":
-                    shootFlamethrower(5);
-                    break;
-                case "lazer":
-                    break;
-                default:
-                    print("i dont know what i am cuh, pls hewp devewopeee :(");
-                    break;
+                switch (parentObstacle.name)
+                {
+                    case "turret":
+                        StartCoroutine(shootNormalBullet(1));
+                        break;
+                    case "shotgun":
+                        StartCoroutine(shootShotgunBullet(3));
+                        break;
+                    case "flamethrower":
+                        shootFlamethrower(5);
+                        break;
+                    case "lazer":
+                        break;
+                    default:
+                        print("i dont know what i am cuh, pls hewp devewopeee :(");
+                        break;
+                }
+
             }
+
         }
     }
     IEnumerator shootNormalBullet(float waitForSec)
     {
-        InstantiateBullet(parentObstacle.transform.position, findClosestPlayer(players));
+        StartCoroutine(InstantiateBullet(parentObstacle.transform.position, findClosestPlayer(players, parentObstacle)));
         print("i shot normal bullet");
         allowedToShoot = false;
         yield return new WaitForSeconds(waitForSec);
@@ -62,18 +78,25 @@ public class ObstacleScript : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            InstantiateBullet(parentObstacle.transform.position, findClosestPlayer(players));
+            StartCoroutine(InstantiateBullet(parentObstacle.transform.position, findClosestPlayer(players, parentObstacle) * i));
         }
         allowedToShoot = false;
         yield return new WaitForSeconds(waitForSec);
         allowedToShoot = true;
     }
-
-    void InstantiateBullet(Vector3 thisObstaclePosition, Vector3 closestPlayerPos)
+    IEnumerator InstantiateBullet(Vector3 thisObstaclePosition, Vector3 closestPlayerPos)
     {
-        GameObject newBullet = Instantiate(bulletPrefab,parentObstacle.transform.position,Quaternion.identity);
-    }
+        //get direction of player as vector 3
+        Vector3 targetDir = (closestPlayerPos - thisObstaclePosition).normalized;
 
+        GameObject newBullet = Instantiate(bulletPrefab, parentObstacle.transform.position, Quaternion.identity);
+        Rigidbody2D rb = newBullet.GetComponent<Rigidbody2D>();
+
+        //add force to direction of player
+        rb.AddRelativeForce(targetDir * bulletSpeed);
+        yield return new WaitForSeconds(4);
+        GameObject.Destroy(newBullet);
+    }
     IEnumerator throwFlamesAtPlayer(Vector3 thisObstaclePosition, Vector3 closestPlayerPos, float seconds)
     {
         allowedToShoot = true;
@@ -81,7 +104,6 @@ public class ObstacleScript : MonoBehaviour
         allowedToShoot = false;
         StartCoroutine(flameThrowerCountdown(seconds));
     }
-
     IEnumerator flameThrowerCountdown(float seconds)
     {
         allowedToShoot = false;
@@ -90,26 +112,22 @@ public class ObstacleScript : MonoBehaviour
     }
     void shootFlamethrower(float seconds)
     {
-        throwFlamesAtPlayer(parentObstacle.transform.position, findClosestPlayer(players), seconds);
+        throwFlamesAtPlayer(parentObstacle.transform.position, findClosestPlayer(players, parentObstacle), seconds);
     }
 
-    Vector3 findClosestPlayer(GameObject[] players)
+    Vector3 findClosestPlayer(GameObject[] players, GameObject thisObstacle)
     {
-        Vector3 closestPosition = new Vector3(0, 0, 0);
-        foreach (GameObject player in players)
+        Vector3 returnthing = new Vector3(0, 0, 0);
+        float closestDistance = 100;
+        foreach (GameObject p in players)
         {
-            if (player.transform.position.magnitude > closestPosition.magnitude)
+            float distance = Vector3.Distance(thisObstacle.transform.position, p.transform.position);
+            if (closestDistance > distance)
             {
-                closestPosition = player.transform.position;
+                returnthing = p.transform.position;
             }
+            print(distance);
         }
-        if (closestPosition == new Vector3(0, 0, 0))
-        {
-            System.Random random1 = new System.Random();
-            System.Random random2 = new System.Random();
-            System.Random random3 = new System.Random();
-            closestPosition = new Vector3(random1.Next(0, 9), random1.Next(0, 9), random1.Next(0, 9));
-        }
-        return closestPosition;
+        return returnthing;
     }
 }
