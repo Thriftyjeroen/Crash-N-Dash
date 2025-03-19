@@ -6,10 +6,10 @@ using static UnityEngine.GraphicsBuffer;
 
 public class ObstacleScript : MonoBehaviour
 {
-    GameObject[] players;
-    GameObject healthManager;
-    GameObject parentObstacle;
-    bool allowedToShoot = true;
+   public GameObject[] players;
+    public GameObject healthManager;
+    public GameObject parentObstacle;
+    public bool allowedToShoot = true;
     [SerializeField] GameObject bulletPrefab;
     string Playertag = "Player";
     string CheckpointTag = "CheckPoint";
@@ -40,7 +40,6 @@ public class ObstacleScript : MonoBehaviour
     {
         if (allowedToShoot == true)
         {
-            findClosestPlayer(players, parentObstacle);
             float distance = Vector3.Distance(parentObstacle.transform.position, findClosestPlayer(players, parentObstacle));
             if (distance < 5)
             {
@@ -118,16 +117,18 @@ public class ObstacleScript : MonoBehaviour
     Vector3 findClosestPlayer(GameObject[] players, GameObject thisObstacle)
     {
         Vector3 returnthing = new Vector3(0, 0, 0);
-        float closestDistance = 100;
+        float closestDistance = float.PositiveInfinity;
+
         foreach (GameObject p in players)
         {
             float distance = Vector3.Distance(thisObstacle.transform.position, p.transform.position);
-            if (closestDistance < distance)
+            if (distance < closestDistance)
             {
+                closestDistance = distance;
                 returnthing = p.transform.position;
             }
-            print(distance);
         }
+        print(closestDistance);
         return returnthing;
     }
 }
