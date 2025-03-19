@@ -1,17 +1,16 @@
-using Unity.Mathematics;
-using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    Vector2 rotationValue;
+    Vector2 rotateDirection;
     Rigidbody2D rb;
     float accel = 0;
-    float maxSpeed = 100;
+    float maxSpeed = 10;
     float minSpeed = 0;
-    float rotationSpeed = .5f;
-    [SerializeField] GameObject target;
+    float rotationSpeed = 1f;
+    float maxForce = 50;
+    float forceMult = 0;
 
     private void Start()
     {
@@ -20,23 +19,34 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        
-        //rb.linearVelocity = transform.forward * accel;
-        transform.Rotate(new Vector3(0,0,1),rotationValue.x * rotationSpeed);
+        //ClampRotation();
+
+        if (pushGas)
+        {
+            transform.Rotate(new Vector3(0, 0, 1), rotateDirection.x * rotationSpeed);
+        }
     }
 
     private void FixedUpdate()
     {
-        if (pushGas) rb.AddForce(transform.up * accel, ForceMode2D.Force);
-        print(accel);
+
+
+        if (pushGas) rb.AddForce(transform.up * LimitSpeed(accel), ForceMode2D.Force);
+
+
+        //AddToClamp();
+
+
+        //print(accel);
         if (pushGas && accel < maxSpeed)
         {
-            accel += 0.5f;
+            accel += 0.1f;
         }
         else if (!pushGas && accel > minSpeed)
         {
             accel -= 0.5f;
         }
+        if (accel < minSpeed) accel = minSpeed;
 
     }
 
@@ -44,11 +54,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.performed)
         {
-            rotationValue = context.ReadValue<Vector2>();      
+            rotateDirection = context.ReadValue<Vector2>();
         }
         else
         {
-            rotationValue = Vector2.zero;
+            rotateDirection = Vector2.zero;
         }
     }
 
@@ -63,7 +73,87 @@ public class PlayerMovement : MonoBehaviour
         {
             pushGas = false;
         }
-        //while button is being pressed acceleration should go up
-        //when button is not being pressed acceleration should go down
     }
+
+    float LimitSpeed(float accel)
+    {
+        float currentspeed = rb.linearVelocity.magnitude;
+        float forceToGive = 0;
+
+        if (currentspeed > maxForce - (maxForce / 4))
+        {
+            forceMult = accel * maxForce - (currentspeed / maxForce);
+            forceToGive = forceMult;
+
+        }
+        else
+        {
+            forceToGive = accel;
+        }
+
+
+        return forceToGive;
+    }
+
+    //float rotationClamp = 0.382f;
+    //float singleClamp = 0.008f;
+
+
+    //bool addLeft = false;
+    //bool addRight = false;
+    //void ClampRotation()
+    //{
+    //    if (transform.rotation.z > rotationClamp && transform.rotation.z > rotationClamp + 0.02f)
+    //    {
+    //        transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotationClamp / singleClamp));
+    //    }
+    //    else if (transform.rotation.z < -rotationClamp && transform.rotation.z < -rotationClamp - 0.02f)
+    //    {
+    //        transform.rotation = Quaternion.Euler(new Vector3(0, 0, -rotationClamp / singleClamp));
+    //    }
+
+
+
+    //    if (rotateDirection == new Vector2(1, 0) && pushGas && transform.rotation.z > rotationClamp && transform.rotation.z > rotationClamp + 0.02f)
+    //    {
+    //        addLeft = true;
+    //        addRight = false;
+    //    }
+    //    else if (rotateDirection == new Vector2(-1, 0))
+    //    {
+    //        addRight = true;
+    //        addLeft = false;
+    //    }
+    //    else if (rotateDirection == new Vector2(0, 0))
+    //    {
+    //        addLeft = false;
+    //        addRight = false;
+    //    }
+
+    //}
+
+    //void AddToClamp()
+    //{           
+    //    if (addLeft)
+    //    {   
+    //        if (rotationClamp < 0)
+    //        {
+    //            rotationClamp -= singleClamp;
+    //        }
+    //        else
+    //        {
+    //            rotationClamp += singleClamp;
+    //        }
+    //    }
+    //    else if (addRight)
+    //    {
+    //        //rotationClamp -= singleClamp;
+    //    }
+
+    //    if (rotationClamp > 1)
+    //    {
+    //        rotationClamp = -1;
+    //    }
+
+    //}
 }
