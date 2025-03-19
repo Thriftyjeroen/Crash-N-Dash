@@ -15,12 +15,13 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        GetInfo();
     }
 
     private void Update()
     {
         //ClampRotation();
+        GetInfo();
+
 
         if (pushGas)
         {
@@ -37,7 +38,6 @@ public class PlayerMovement : MonoBehaviour
         //AddToClamp();
 
 
-        //print(accel);
         if (pushGas && accel < maxAccel)
         {
             accel += 0.1f;
