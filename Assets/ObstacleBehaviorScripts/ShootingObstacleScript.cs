@@ -1,15 +1,18 @@
 using System.Collections;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 
 public class ObstacleScript : MonoBehaviour
 {
-   public GameObject[] players;
+    public GameObject[] players;
     public GameObject healthManager;
     public GameObject parentObstacle;
     public bool allowedToShoot = true;
+    public bool isFlameThrowerShooting = false;
     [SerializeField] GameObject bulletPrefab;
     string Playertag = "Player";
     string CheckpointTag = "CheckPoint";
@@ -52,7 +55,10 @@ public class ObstacleScript : MonoBehaviour
                         StartCoroutine(shootShotgunBullet(3));
                         break;
                     case "flamethrower":
-                        shootFlamethrower(5);
+                        if (distance < 3)
+                        {
+                            shootFlameThrower(4);
+                        }
                         break;
                     case "lazer":
                         break;
@@ -68,7 +74,6 @@ public class ObstacleScript : MonoBehaviour
     IEnumerator shootNormalBullet(float waitForSec)
     {
         StartCoroutine(InstantiateBullet(parentObstacle.transform.position, findClosestPlayer(players, parentObstacle)));
-        print("i shot normal bullet");
         allowedToShoot = false;
         yield return new WaitForSeconds(waitForSec);
         allowedToShoot = true;
@@ -83,6 +88,31 @@ public class ObstacleScript : MonoBehaviour
         yield return new WaitForSeconds(waitForSec);
         allowedToShoot = true;
     }
+    void shootFlameThrower(float waitForSec)
+    {
+        allowedToShoot = false;
+        StartCoroutine(shootFlames(5));
+    }
+    IEnumerator shootFlames(float waitForSec)
+    {
+        isFlameThrowerShooting = true;
+        int amountOfFlameThrowerCorrections = 20;
+        for (int i = 0; i < amountOfFlameThrowerCorrections; i++)
+        {
+            Vector3 targetDir = (findClosestPlayer(players, parentObstacle) - parentObstacle.transform.position).normalized;
+
+            //idk what this does 
+            float angleOfZ = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
+
+            Quaternion newRotation = Quaternion.Euler(parentObstacle.transform.rotation.x, parentObstacle.transform.rotation.y, angleOfZ-90);
+            parentObstacle.transform.rotation = newRotation;
+            yield return new WaitForSeconds(waitForSec / amountOfFlameThrowerCorrections);
+        }
+        yield return new WaitForSeconds(waitForSec);
+        isFlameThrowerShooting = false;  
+        allowedToShoot = true;
+    }
+
     IEnumerator InstantiateBullet(Vector3 thisObstaclePosition, Vector3 closestPlayerPos)
     {
         //get direction of player as vector 3
@@ -95,23 +125,6 @@ public class ObstacleScript : MonoBehaviour
         rb.AddRelativeForce(targetDir * bulletSpeed);
         yield return new WaitForSeconds(4);
         GameObject.Destroy(newBullet);
-    }
-    IEnumerator throwFlamesAtPlayer(Vector3 thisObstaclePosition, Vector3 closestPlayerPos, float seconds)
-    {
-        allowedToShoot = true;
-        yield return new WaitForSeconds(seconds);
-        allowedToShoot = false;
-        StartCoroutine(flameThrowerCountdown(seconds));
-    }
-    IEnumerator flameThrowerCountdown(float seconds)
-    {
-        allowedToShoot = false;
-        yield return new WaitForSeconds(seconds);
-        allowedToShoot = true;
-    }
-    void shootFlamethrower(float seconds)
-    {
-        throwFlamesAtPlayer(parentObstacle.transform.position, findClosestPlayer(players, parentObstacle), seconds);
     }
 
     Vector3 findClosestPlayer(GameObject[] players, GameObject thisObstacle)
@@ -128,7 +141,6 @@ public class ObstacleScript : MonoBehaviour
                 returnthing = p.transform.position;
             }
         }
-        print(closestDistance);
         return returnthing;
     }
 }
