@@ -9,7 +9,6 @@ public class ObstacleSpawner : MonoBehaviour
     //check if there is an item avaliable in the pool
     [SerializeField] private GameObject obstacle;
     Vector3 spawnPosition;
-    bool validPositionFound;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
