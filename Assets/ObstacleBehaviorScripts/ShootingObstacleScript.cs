@@ -122,7 +122,7 @@ public class ObstacleScript : MonoBehaviour
         foreach (GameObject p in players)
         {
             float distance = Vector3.Distance(thisObstacle.transform.position, p.transform.position);
-            if (closestDistance > distance)
+            if (closestDistance < distance)
             {
                 returnthing = p.transform.position;
             }
