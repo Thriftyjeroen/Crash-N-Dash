@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 34100522022604366}
   - component: {fileID: 1954957613054487688}
   - component: {fileID: 1481536674039117664}
-  - component: {fileID: 8781306868549923085}
-  - component: {fileID: 4337964584321433759}
+  - component: {fileID: 1939589507358900423}
+  - component: {fileID: 7029573099945845525}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -192,7 +192,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8781306868549923085}
+      - m_Target: {fileID: 7029573099945845525}
         m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
         m_MethodName: Rotation
         m_Mode: 0
@@ -208,7 +208,7 @@ MonoBehaviour:
     m_ActionName: 'PlayerMovement/Movement[/SwitchProControllerHID/leftStick/up,/SwitchProControllerHID/leftStick/down,/SwitchProControllerHID/leftStick/left,/SwitchProControllerHID/leftStick/right]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8781306868549923085}
+      - m_Target: {fileID: 7029573099945845525}
         m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
         m_MethodName: GoForward
         m_Mode: 0
@@ -227,7 +227,7 @@ MonoBehaviour:
   m_DefaultActionMap: PlayerMovement
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &8781306868549923085
+--- !u!114 &1939589507358900423
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -236,22 +236,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 2079395262517111632}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8b4a639e2ca1c34f8d261a8658f7ae6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4337964584321433759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2079395262517111632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0818272db7d8204cb59f731a69fc63c, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e7dc556da65b0746be6f3d1190543f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxAccel: 10
   minAccel: 0
   rotationSpeed: 50
   maxSpeed: 50
+--- !u!114 &7029573099945845525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079395262517111632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a5bb0fadfe56434c9d96899751d7261, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

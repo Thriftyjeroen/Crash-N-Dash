@@ -1021,7 +1021,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1970523896}
   - component: {fileID: 1970523897}
-  - component: {fileID: 1970523898}
   m_Layer: 0
   m_Name: InputManager
   m_TagString: Untagged
@@ -1056,14 +1055,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 0
   m_MaxPlayerCount: -1
   m_AllowJoining: 1
   m_JoinBehavior: 0
   m_PlayerJoinedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1970523898}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: QuickTest, Assembly-CSharp
         m_MethodName: PlayerJoined
         m_Mode: 1
@@ -1100,18 +1099,6 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &1970523898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1970523894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5ae532a139045c499f64a287bdb524a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2077903854
 GameObject:
   m_ObjectHideFlags: 0
