@@ -27,7 +27,7 @@ Dit zijn onze teamregels/afspraken:
 23. Aan het begin van de dag, text standup + fysieke standup.
 24. Code is leesbaar en begrijpelijk voor iedereen, voeg desnoods comments toe/diagram.
 25. Grote spelbrekende bugs pushen word niet getolereerd, test eerst.
-
+26. Als iemand een koptelefoon/oordopjes in heeft of het duidelijk aangeeft moet je hun niet afleiden behalve als het echt belanrijk is (Sam heeft een vriendin)
 
 SCRUM Values:
 Commitment - Werk aan je werk (5, 21)
