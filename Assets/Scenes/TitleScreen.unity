@@ -296,10 +296,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 800, y: 800}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -362,6 +362,8 @@ GameObject:
   - component: {fileID: 1322146706}
   - component: {fileID: 1322146705}
   - component: {fileID: 1322146707}
+  - component: {fileID: 1322146709}
+  - component: {fileID: 1322146710}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -411,6 +413,86 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   intro: {fileID: 812671422}
   loop: {fileID: 1981388347}
+--- !u!114 &1322146709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322146704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 737f31f9ab4adee4aa07a164c0b608af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+--- !u!114 &1322146710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322146704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: cfbfa7192da66cc4fb4ad1e2264692fa, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 20b0edd3-0c97-4ea6-a386-aa715cf2658e
+    m_ActionName: 'MenuMap/Up[/ShanWan Controller Adapter1/button13,/ShanWan Controller
+      Adapter2/button13,/ShanWan Controller Adapter3/button13,/ShanWan Controller
+      Adapter/button13,/Keyboard/upArrow,/ShanWan Controller Adapter1/stick/up,/ShanWan
+      Controller Adapter2/stick/up,/ShanWan Controller Adapter3/stick/up,/ShanWan
+      Controller Adapter/stick/up]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b9d77f8c-ea72-47d3-924e-43a9556401f7
+    m_ActionName: 'MenuMap/Down[/ShanWan Controller Adapter1/button15,/ShanWan Controller
+      Adapter2/button15,/ShanWan Controller Adapter3/button15,/ShanWan Controller
+      Adapter/button15,/Keyboard/downArrow,/ShanWan Controller Adapter1/stick/down,/ShanWan
+      Controller Adapter2/stick/down,/ShanWan Controller Adapter3/stick/down,/ShanWan
+      Controller Adapter/stick/down]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5ebe3052-8c8c-480a-8375-e5c703e4461e
+    m_ActionName: 'MenuMap/Select[/ShanWan Controller Adapter1/button2,/ShanWan Controller
+      Adapter2/button2,/ShanWan Controller Adapter3/button2,/ShanWan Controller Adapter/button2]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1322146709}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MainMenu
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 716fd271-ad18-425f-87cc-4e83f0b26ad8
+    m_ActionName: MenuMap/AnyKey
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: MenuMap
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &1413435313
 GameObject:
   m_ObjectHideFlags: 0
