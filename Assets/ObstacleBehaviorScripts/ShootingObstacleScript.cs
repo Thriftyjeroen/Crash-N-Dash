@@ -3,6 +3,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 
@@ -25,6 +26,8 @@ public class ObstacleScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
+
         players = GameObject.FindGameObjectsWithTag(Playertag);
         try
         {
@@ -35,7 +38,6 @@ public class ObstacleScript : MonoBehaviour
             print("cannot find object with playerhealtcheck script attached to it");
         }
         parentObstacle = this.gameObject;
-
     }
 
     // Update is called once per frame
@@ -48,10 +50,10 @@ public class ObstacleScript : MonoBehaviour
             {
                 switch (parentObstacle.name)
                 {
-                    case "turret":
+                    case "TurretGun":
                         StartCoroutine(shootNormalBullet(1));
                         break;
-                    case "shotgun":
+                    case "TurretShotgun":
                         StartCoroutine(shootShotgunBullet(3));
                         break;
                     case "flamethrower":
@@ -96,6 +98,7 @@ public class ObstacleScript : MonoBehaviour
     IEnumerator shootFlames(float waitForSec)
     {
         isFlameThrowerShooting = true;
+        parentObstacle.transform.GetChild(0).gameObject.SetActive(isFlameThrowerShooting);
         int amountOfFlameThrowerCorrections = 20;
         for (int i = 0; i < amountOfFlameThrowerCorrections; i++)
         {
@@ -104,12 +107,13 @@ public class ObstacleScript : MonoBehaviour
             //idk what this does 
             float angleOfZ = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
 
-            Quaternion newRotation = Quaternion.Euler(parentObstacle.transform.rotation.x, parentObstacle.transform.rotation.y, angleOfZ-90);
+            Quaternion newRotation = Quaternion.Euler(parentObstacle.transform.rotation.x, parentObstacle.transform.rotation.y, angleOfZ - 90);
             parentObstacle.transform.rotation = newRotation;
             yield return new WaitForSeconds(waitForSec / amountOfFlameThrowerCorrections);
         }
         yield return new WaitForSeconds(waitForSec);
-        isFlameThrowerShooting = false;  
+        isFlameThrowerShooting = false;
+        parentObstacle.transform.GetChild(0).gameObject.SetActive(isFlameThrowerShooting);
         allowedToShoot = true;
     }
 

@@ -58,4 +58,21 @@ public class PlayerHealth : MonoBehaviour
             //error message when gameobject is disabled but still collides(?)
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == EnemyDamageTag)
+        {
+            RemovePlayerHealth(collision.gameObject.GetComponent<EnemyTestScript>().ToBeGivenDamage());
+            print("collided with" + collision.gameObject.tag);
+        }
+        else
+        {
+            print("unknown collided with" + collision.gameObject.name);
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+       
+    }
 }
