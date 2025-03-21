@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using UnityEditor.Rendering;
 using UnityEngine;
 //this script needs to be attached to a player (gets automatically done by the PlayerHealthChecks script
 public class PlayerHealth : MonoBehaviour
