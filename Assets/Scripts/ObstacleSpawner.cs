@@ -28,17 +28,17 @@ public class ObstacleSpawner : MonoBehaviour
         spawnPosition = new Vector3(Random.Range(-10f, 10f), Random.Range(-5f, 5f), 0);
 
         // Check if the position is on a track using Physics2D.OverlapPoint
-        Collider2D hitCollider = Physics2D.OverlapPoint(spawnPosition);
-        if (hitCollider != null && hitCollider.CompareTag("Track"))
-        {
+        //Collider2D hitCollider = Physics2D.OverlapPoint(spawnPosition);
+        //if (hitCollider != null && hitCollider.CompareTag("Track"))
+        //{
             // Instantiate the obstacle at a valid position
             Instantiate(obstacle, spawnPosition, Quaternion.identity);
-        }
-        else
-        {
-            //If it didnt find a valid position call the method again
-            OnLap();
-        }
+        //}
+        //else
+        //{
+        //    //If it didnt find a valid position call the method again
+        //    OnLap();
+        //}
         
         
     }
