@@ -1,15 +1,19 @@
 using System.Collections;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
+using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 
 public class ObstacleScript : MonoBehaviour
 {
-    GameObject[] players;
-    GameObject healthManager;
-    GameObject parentObstacle;
-    bool allowedToShoot = true;
+    public GameObject[] players;
+    public GameObject healthManager;
+    public GameObject parentObstacle;
+    public bool allowedToShoot = true;
+    public bool isFlameThrowerShooting = false;
     [SerializeField] GameObject bulletPrefab;
     string Playertag = "Player";
     string CheckpointTag = "CheckPoint";
@@ -22,6 +26,8 @@ public class ObstacleScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
+
         players = GameObject.FindGameObjectsWithTag(Playertag);
         try
         {
@@ -32,7 +38,6 @@ public class ObstacleScript : MonoBehaviour
             print("cannot find object with playerhealtcheck script attached to it");
         }
         parentObstacle = this.gameObject;
-
     }
 
     // Update is called once per frame
@@ -40,20 +45,22 @@ public class ObstacleScript : MonoBehaviour
     {
         if (allowedToShoot == true)
         {
-            findClosestPlayer(players, parentObstacle);
             float distance = Vector3.Distance(parentObstacle.transform.position, findClosestPlayer(players, parentObstacle));
             if (distance < 5)
             {
                 switch (parentObstacle.name)
                 {
-                    case "turret":
+                    case "TurretGun":
                         StartCoroutine(shootNormalBullet(1));
                         break;
-                    case "shotgun":
+                    case "TurretShotgun":
                         StartCoroutine(shootShotgunBullet(3));
                         break;
                     case "flamethrower":
-                        shootFlamethrower(5);
+                        if (distance < 3)
+                        {
+                            shootFlameThrower(4);
+                        }
                         break;
                     case "lazer":
                         break;
@@ -69,7 +76,6 @@ public class ObstacleScript : MonoBehaviour
     IEnumerator shootNormalBullet(float waitForSec)
     {
         StartCoroutine(InstantiateBullet(parentObstacle.transform.position, findClosestPlayer(players, parentObstacle)));
-        print("i shot normal bullet");
         allowedToShoot = false;
         yield return new WaitForSeconds(waitForSec);
         allowedToShoot = true;
@@ -84,6 +90,33 @@ public class ObstacleScript : MonoBehaviour
         yield return new WaitForSeconds(waitForSec);
         allowedToShoot = true;
     }
+    void shootFlameThrower(float waitForSec)
+    {
+        allowedToShoot = false;
+        StartCoroutine(shootFlames(5));
+    }
+    IEnumerator shootFlames(float waitForSec)
+    {
+        isFlameThrowerShooting = true;
+        parentObstacle.transform.GetChild(0).gameObject.SetActive(isFlameThrowerShooting);
+        int amountOfFlameThrowerCorrections = 20;
+        for (int i = 0; i < amountOfFlameThrowerCorrections; i++)
+        {
+            Vector3 targetDir = (findClosestPlayer(players, parentObstacle) - parentObstacle.transform.position).normalized;
+
+            //idk what this does 
+            float angleOfZ = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
+
+            Quaternion newRotation = Quaternion.Euler(parentObstacle.transform.rotation.x, parentObstacle.transform.rotation.y, angleOfZ - 90);
+            parentObstacle.transform.rotation = newRotation;
+            yield return new WaitForSeconds(waitForSec / amountOfFlameThrowerCorrections);
+        }
+        yield return new WaitForSeconds(waitForSec);
+        isFlameThrowerShooting = false;
+        parentObstacle.transform.GetChild(0).gameObject.SetActive(isFlameThrowerShooting);
+        allowedToShoot = true;
+    }
+
     IEnumerator InstantiateBullet(Vector3 thisObstaclePosition, Vector3 closestPlayerPos)
     {
         //get direction of player as vector 3
@@ -97,36 +130,20 @@ public class ObstacleScript : MonoBehaviour
         yield return new WaitForSeconds(4);
         GameObject.Destroy(newBullet);
     }
-    IEnumerator throwFlamesAtPlayer(Vector3 thisObstaclePosition, Vector3 closestPlayerPos, float seconds)
-    {
-        allowedToShoot = true;
-        yield return new WaitForSeconds(seconds);
-        allowedToShoot = false;
-        StartCoroutine(flameThrowerCountdown(seconds));
-    }
-    IEnumerator flameThrowerCountdown(float seconds)
-    {
-        allowedToShoot = false;
-        yield return new WaitForSeconds(seconds);
-        allowedToShoot = true;
-    }
-    void shootFlamethrower(float seconds)
-    {
-        throwFlamesAtPlayer(parentObstacle.transform.position, findClosestPlayer(players, parentObstacle), seconds);
-    }
 
     Vector3 findClosestPlayer(GameObject[] players, GameObject thisObstacle)
     {
         Vector3 returnthing = new Vector3(0, 0, 0);
-        float closestDistance = 100;
+        float closestDistance = float.PositiveInfinity;
+
         foreach (GameObject p in players)
         {
             float distance = Vector3.Distance(thisObstacle.transform.position, p.transform.position);
-            if (closestDistance < distance)
+            if (distance < closestDistance)
             {
+                closestDistance = distance;
                 returnthing = p.transform.position;
             }
-            print(distance);
         }
         return returnthing;
     }

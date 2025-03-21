@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - CheckPoint
+  - Track
   layers:
   - Default
   - TransparentFX
@@ -40,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Player
+    uniqueID: 1977146239
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

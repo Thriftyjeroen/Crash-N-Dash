@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using UnityEditor.Rendering;
 using UnityEngine;
 //this script needs to be attached to a player (gets automatically done by the PlayerHealthChecks script
 public class PlayerHealth : MonoBehaviour
@@ -57,5 +56,22 @@ public class PlayerHealth : MonoBehaviour
             print(playerObject.name + "collided with" + collision.gameObject.name);
             //error message when gameobject is disabled but still collides(?)
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == EnemyDamageTag)
+        {
+            RemovePlayerHealth(collision.gameObject.GetComponent<EnemyTestScript>().ToBeGivenDamage());
+            print("collided with" + collision.gameObject.tag);
+        }
+        else
+        {
+            print("unknown collided with" + collision.gameObject.name);
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+       
     }
 }
