@@ -805,6 +805,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1387326930}
   - component: {fileID: 1387326929}
+  - component: {fileID: 1387326931}
   m_Layer: 0
   m_Name: InputManager
   m_TagString: Untagged
@@ -832,8 +833,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: QuickTest, Assembly-CSharp
-        m_MethodName: PlayerJoined
+        m_TargetAssemblyTypeName: PlayerList, Assembly-CSharp
+        m_MethodName: AddToList
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -883,6 +884,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1387326931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387326928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccf785223b334414d89298b892494e93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  players: []
 --- !u!1 &1394130648
 GameObject:
   m_ObjectHideFlags: 0
