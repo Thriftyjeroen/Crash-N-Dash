@@ -26,8 +26,6 @@ public class ObstacleScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
-
         players = GameObject.FindGameObjectsWithTag(Playertag);
         try
         {
@@ -38,6 +36,10 @@ public class ObstacleScript : MonoBehaviour
             print("cannot find object with playerhealtcheck script attached to it");
         }
         parentObstacle = this.gameObject;
+        if(parentObstacle.name == "flamethrower")
+        {
+            parentObstacle.transform.GetChild(0).gameObject.SetActive(isFlameThrowerShooting);
+        }
     }
 
     // Update is called once per frame
@@ -59,7 +61,7 @@ public class ObstacleScript : MonoBehaviour
                     case "flamethrower":
                         if (distance < 3)
                         {
-                            shootFlameThrower(4);
+                            shootFlameThrower(3);
                         }
                         break;
                     case "lazer":
@@ -111,9 +113,11 @@ public class ObstacleScript : MonoBehaviour
             parentObstacle.transform.rotation = newRotation;
             yield return new WaitForSeconds(waitForSec / amountOfFlameThrowerCorrections);
         }
-        yield return new WaitForSeconds(waitForSec);
         isFlameThrowerShooting = false;
         parentObstacle.transform.GetChild(0).gameObject.SetActive(isFlameThrowerShooting);
+
+        //timer until flamethrower can shoot again
+        yield return new WaitForSeconds(waitForSec);
         allowedToShoot = true;
     }
 
