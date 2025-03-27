@@ -36,7 +36,7 @@ public class ObstacleScript : MonoBehaviour
             print("cannot find object with playerhealtcheck script attached to it");
         }
         parentObstacle = this.gameObject;
-        if(parentObstacle.name == "flamethrower")
+        if(parentObstacle.name.Contains("flamethrower"))
         {
             parentObstacle.transform.GetChild(0).gameObject.SetActive(isFlameThrowerShooting);
         }
@@ -52,19 +52,20 @@ public class ObstacleScript : MonoBehaviour
             {
                 switch (parentObstacle.name)
                 {
-                    case "TurretGun":
+                    // with the "when" keyword another condition can be added, basically an if statement kinda
+                    case string name when name.Contains("TurretGun"):
                         StartCoroutine(shootNormalBullet(1));
                         break;
-                    case "TurretShotgun":
+                    case string name when name.Contains("TurretShotgun"):
                         StartCoroutine(shootShotgunBullet(3));
                         break;
-                    case "flamethrower":
+                    case string name when name.Contains("flamethrower"):
                         if (distance < 3)
                         {
                             shootFlameThrower(3);
                         }
                         break;
-                    case "lazer":
+                    case string name when name.Contains("lazer"):
                         break;
                     default:
                         print("i dont know what i am cuh, pls hewp devewopeee :(");
