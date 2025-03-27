@@ -16,9 +16,10 @@ GameObject:
   - component: {fileID: 1939589507358900423}
   - component: {fileID: 7029573099945845525}
   - component: {fileID: -2650693090662122466}
+  - component: {fileID: -6631930433250543160}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,7 +36,8 @@ Transform:
   m_LocalPosition: {x: -3.56, y: -1.48, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75559, z: 0.75}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8355487607643872509}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &4439249139274166682
@@ -256,6 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a5bb0fadfe56434c9d96899751d7261, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
 --- !u!114 &-2650693090662122466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,3 +271,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec8aa064eea49eb49949bbc0bf91227a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6631930433250543160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079395262517111632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb12c2c0c86029e43a2e291e52de1aaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spikePrefab: {fileID: 8240762933719485118, guid: 9579a0b81b2e31b4f8205b2c787975e9, type: 3}
+  minePrefab: {fileID: 8240762933719485118, guid: fe2ec1794b3dccb43807572f9696898b, type: 3}
+  oilPrefab: {fileID: 8240762933719485118, guid: a768b6091f6c3894d9872fd5a8fdfc35, type: 3}
+  shieldPrefab: {fileID: 6995032955346997030, guid: 88f06ced0052c9649ac7e94952e68461, type: 3}
+  grapplePrefab: {fileID: 9039605853354439399, guid: 4e8ca0ce30459d14d9768801680fe372, type: 3}
+  fakePowerupBoxPrefab: {fileID: 8240762933719485118, guid: b7591f54712fb9e43b9161e77c1308dd, type: 3}
+--- !u!1 &3092342873791891545
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8355487607643872509}
+  m_Layer: 0
+  m_Name: SpikeSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8355487607643872509
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3092342873791891545}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -0, y: -0.866, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2089214694193685635}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
