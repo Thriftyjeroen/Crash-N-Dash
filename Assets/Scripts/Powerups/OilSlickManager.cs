@@ -21,5 +21,6 @@ public class OilSlickManager : MonoBehaviour
         playerMovement.rotationSpeed = 0f;
         yield return new WaitForSecondsRealtime(1);
         playerMovement.rotationSpeed = 50;
+        Destroy(gameObject);
     }
 }

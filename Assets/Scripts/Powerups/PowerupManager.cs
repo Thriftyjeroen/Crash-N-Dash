@@ -25,7 +25,6 @@ public class PowerupManager : MonoBehaviour
     }
     public PowerupType GetRandomItem()
     {
-        return PowerupType.FakePowerupBox;
         return (PowerupType)UnityEngine.Random.Range(0, powerupAmount);
     }
 
