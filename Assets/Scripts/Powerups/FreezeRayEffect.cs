@@ -31,10 +31,12 @@ public class FreezeRayEffect : MonoBehaviour
         Color originalColor = spriteRenderer.color;
         spriteRenderer.color = Color.blue;
         playerMovement.rotationSpeed = 0f;
+        float originalSpeed = playerMovement.maxAccel;
         playerMovement.maxAccel = 0.01f;
+
         yield return new WaitForSecondsRealtime(1);
         playerMovement.rotationSpeed = 50;
-        playerMovement.maxAccel = 10f;
+        playerMovement.maxAccel = originalSpeed;
         spriteRenderer.color = originalColor;
         Destroy(gameObject.transform.parent.gameObject);
     }
