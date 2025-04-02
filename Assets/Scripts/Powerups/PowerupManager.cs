@@ -12,6 +12,7 @@ public class PowerupManager : MonoBehaviour
     [SerializeField] GameObject shieldPrefab;
     [SerializeField] GameObject grapplePrefab;
     [SerializeField] GameObject fakePowerupBoxPrefab;
+    [SerializeField] GameObject freezeRayPrefab;
 
 
     int powerupAmount = 1;
@@ -63,6 +64,10 @@ public class PowerupManager : MonoBehaviour
             case PowerupType.GrappleHook:
                 GrappleHook(pPlayer);
                 break;
+
+            case PowerupType.FreezeRay:
+                FreezeRay(pPlayer);
+                break;
         }
     }
 
@@ -86,8 +91,6 @@ public class PowerupManager : MonoBehaviour
         LayerMask mask = LayerMask.GetMask("CheckPoint");
 
         RaycastHit2D hit = Physics2D.Raycast(pPlayer.transform.position, transform.up, 100, ~mask);
-
-        print($"Hitpoint of grapple isssss: {hit.collider.gameObject.name}");
 
         StartCoroutine(GotoGrapplePoint(hit.point, pPlayer));
         
@@ -124,6 +127,41 @@ public class PowerupManager : MonoBehaviour
 
         Destroy(grappleHook);
     }
+
+    void FreezeRay(GameObject pPlayer)
+    {
+        LayerMask mask = LayerMask.GetMask("Wall");
+
+        RaycastHit2D hit = Physics2D.Raycast(pPlayer.transform.position, transform.up, 100, mask);
+
+        StartCoroutine(ShootFreezeRay(hit.point, pPlayer));
+
+    }
+
+    IEnumerator ShootFreezeRay(Vector2 goal, GameObject pPlayer)
+    {
+        GameObject freezeRay = Instantiate(freezeRayPrefab, pPlayer.transform, new());
+        FreezeRayEffect freezeDetector = freezeRay.GetComponentInChildren<FreezeRayEffect>();
+        
+        LineRenderer lineRenderer = freezeRay.GetComponent<LineRenderer>();
+
+        float time = 0f;
+        while (time < 1f)
+        {
+            time += Time.deltaTime * 5f;
+            Vector2 newPos = Vector2.Lerp(pPlayer.transform.position, goal, time);
+            freezeRay.transform.position = newPos;
+            lineRenderer.SetPosition(0, pPlayer.transform.position);
+            lineRenderer.SetPosition(1, newPos);
+            freezeDetector.transform.position = newPos;
+            yield return null;
+        }
+
+        if (!freezeDetector.activated)
+        {
+            Destroy(freezeRay);
+        }
+    }
 }
 
 public enum PowerupType
@@ -134,5 +172,6 @@ public enum PowerupType
     OilSlick,
     Shield,
     GrappleHook,
-    FakePowerupBox
+    FakePowerupBox,
+    FreezeRay
 }

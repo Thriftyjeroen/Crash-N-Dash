@@ -1,31 +1,30 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class PlayerItemManager : MonoBehaviour
 {
     PowerupManager powerupManager;
     public PowerupType? currentItem;
-    TMP_Text debugText;
+    TMP_Text itemText;
 
     private void Start()
     {
         powerupManager = GetComponent<PowerupManager>();
+        itemText = GetComponentInChildren<TMP_Text>();
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public void OnItemUse(InputAction.CallbackContext context)
     {
-        #if UNITY_EDITOR
-            if (Input.GetKeyDown(KeyCode.E)) currentItem = powerupManager.GetRandomItem();
-            debugText = GameObject.Find("DebugText").GetComponent<TMP_Text>();
-            debugText.text = currentItem.ToString();
-        #endif
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (context.performed)
         {
             powerupManager.Activate(currentItem, gameObject);
             currentItem = null;
+            itemText.text = null;
         }
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -33,5 +32,6 @@ public class PlayerItemManager : MonoBehaviour
         if (currentItem != null) return;
 
         currentItem = powerupManager.GetRandomItem();
+        itemText.text = currentItem.ToString();
     }
 }
