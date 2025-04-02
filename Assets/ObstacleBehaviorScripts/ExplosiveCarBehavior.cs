@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using static UnityEngine.GraphicsBuffer;
 
 public class ExplosiveCarBehavior : MonoBehaviour
 {
@@ -7,18 +10,23 @@ public class ExplosiveCarBehavior : MonoBehaviour
     float carSpeed = 2;    //change this to playercarspeed + small difference
     bool ExplodeCar = false;
     Vector3 targetPosition = Vector3.zero;
-    GameObject thisCar;
+    public GameObject thisCar;
     Rigidbody2D rb;
+    public float carAngle = 0;
+    float carSteeringSmoothness = 4f;
+    Vector3 deltaPositionCarAndPlayer = Vector3.zero;
+    float carMaxExplosiveDamage = 50;
 
     void Start()
     {
-        thisCar = GetComponent<GameObject>();
+        thisCar = this.gameObject;
         rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
         LookAtPlayer(targetPosition);
+        GoForward();
     }
 
     ///begin tracking player
@@ -27,18 +35,21 @@ public class ExplosiveCarBehavior : MonoBehaviour
     {
         targetPosition = newTargetPosition;
     }
-    public void CheckRangeFromPlayer(Vector3 thisObjectPosition, Vector3 playerPosition, GameObject[] players)
+    public bool CheckRangeFromPlayer(Vector3 thisObjectPosition, Vector3 playerPosition, GameObject[] players)
     {
         float distance = Vector3.Distance(thisObjectPosition, playerPosition);
         if (distance < 1)
         {
             MakeCarGoBoom(players);
+            GoForward();
+            return true;
         }
+        return false;
     }
     void MakeCarGoBoom(GameObject[] players)
     {
-        GetCarsInRange(players);
-        //animatie
+        damagePlayers(GetCarsInRange(players));
+        GameObject.Destroy(thisCar);
     }
     List<GameObject> GetCarsInRange(GameObject[] players)
     {
@@ -50,12 +61,34 @@ public class ExplosiveCarBehavior : MonoBehaviour
         return returnList;
     }
 
+    void damagePlayers(List<GameObject> players)
+    {
+        foreach (GameObject p in players)
+        {
+            try
+            {
+                p.GetComponent<PlayerHealth>().RemovePlayerHealth(carMaxExplosiveDamage);
+            }
+            catch
+            {
+                print("kan geen playerhealth vinden");
+            }
+        }
+    }
+
     ///end tracking player
     void LookAtPlayer(Vector3 targetPosition)
     {
-        float angleOfZ = Mathf.Atan2(targetPosition.y, targetPosition.x) * Mathf.Rad2Deg;
+        deltaPositionCarAndPlayer = targetPosition - thisCar.transform.position;
+        float radians = Mathf.Atan2(deltaPositionCarAndPlayer.y, deltaPositionCarAndPlayer.x);
+        carAngle = (radians * Mathf.Rad2Deg) - 90;
+        Quaternion buh = Quaternion.Euler(0f, 0f, carAngle);
+        transform.rotation = Quaternion.Lerp(transform.rotation, buh, Time.deltaTime * carSteeringSmoothness);
 
-        Quaternion newRotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, angleOfZ);
-        transform.rotation = newRotation;
+    }
+
+    void GoForward()
+    {
+        thisCar.transform.Translate(Vector3.up * carSpeed * Time.deltaTime);
     }
 }

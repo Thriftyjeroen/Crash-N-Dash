@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class EvilCarFactoryBehavior : MonoBehaviour
@@ -31,6 +32,8 @@ public class EvilCarFactoryBehavior : MonoBehaviour
             if (targetObject != null)
             {
                 StartCoroutine(updateTargetLocation(targetObject.transform.position, 0.5f));
+                activeCar.GetComponent<ExplosiveCarBehavior>().CheckRangeFromPlayer(activeCar.transform.position,targetObject.transform.position,players);
+
             }
             else
             {
