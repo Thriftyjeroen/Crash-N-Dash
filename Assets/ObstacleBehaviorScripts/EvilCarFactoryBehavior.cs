@@ -29,11 +29,10 @@ public class EvilCarFactoryBehavior : MonoBehaviour
     {
         if (carDead == false && canUpdatePlayerLocation == true)
         {
-            if (targetObject != null)
+            if (targetObject != null && activeCar != null)
             {
                 StartCoroutine(updateTargetLocation(targetObject.transform.position, 0.5f));
-                activeCar.GetComponent<ExplosiveCarBehavior>().CheckRangeFromPlayer(activeCar.transform.position,targetObject.transform.position,players);
-
+                activeCar.GetComponent<ExplosiveCarBehavior>().CheckRangeFromPlayer(activeCar.transform.position, targetObject.transform.position, players);
             }
             else
             {
