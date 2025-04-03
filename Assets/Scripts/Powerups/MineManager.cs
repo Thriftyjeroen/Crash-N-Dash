@@ -17,6 +17,8 @@ public class MineManager : MonoBehaviour
     {
         if (!collision.gameObject.name.Contains("Player")) return;
 
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<BoxCollider2D>().enabled = false;
 
         StartCoroutine(DestroySelf());
         particles.Play();
