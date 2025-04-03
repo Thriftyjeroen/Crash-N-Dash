@@ -12,7 +12,8 @@ public class PlayerHealthChecks : MonoBehaviour
 
     public GameObject[] objectsWithPlayerTag;
     public List<GameObject> currentlyDeadPlayers;
-    float PlayerTimeOutWhenDead = 1f;
+    public List<GameObject> playerObstacles;
+    float PlayerTimeOutWhenDead = 1.5f;
 
     void Start()
     {
@@ -46,7 +47,6 @@ public class PlayerHealthChecks : MonoBehaviour
             if (!currentlyDeadPlayers.Contains(obj))
             {
                 StartCoroutine(PlayerRespawnTimer(PlayerTimeOutWhenDead, obj));
-                MakePlayerPrefabAnObstacle(obj, obj.transform.position);
                 currentlyDeadPlayers.Add(obj);
             }
         }
@@ -68,30 +68,32 @@ public class PlayerHealthChecks : MonoBehaviour
     
     public IEnumerator PlayerRespawnTimer(float seconds, GameObject obj)
     {
-        obj.gameObject.SetActive(false);
-
+        MakePlayerPrefabAnObstacle(obj);
+        obj.GetComponent<Renderer>().enabled = false;
         yield return new WaitForSeconds(seconds);
-
+        obj.GetComponent<Renderer>().enabled = true;
         currentlyDeadPlayers.Remove(obj);
         obj.GetComponent<PlayerHealth>().ResetPlayerHealth();
-        obj.gameObject.SetActive(true);
-
         GameObject closestSpawn = FindClosestCheckpoint(obj);
+
         obj.transform.position = closestSpawn.transform.position;
         obj.transform.rotation = closestSpawn.transform.rotation;
     }
     /// <summary>
     /// method makes a copy of the player, removes the scripts and adds an enemyscript so it can deal damage to players
     /// </summary>
-    void MakePlayerPrefabAnObstacle(GameObject toCopyObject, Vector3 location)
+    void MakePlayerPrefabAnObstacle(GameObject toCopyObject)
     {
         GameObject newGameObject = Instantiate(toCopyObject);
         newGameObject.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
         Destroy(newGameObject.GetComponent<PlayerHealth>());
         Destroy(newGameObject.GetComponent<HealthTestscript>());
+        Destroy(newGameObject.GetComponent<PlayerItemManager>());
+        Destroy(newGameObject.GetComponent<PowerupManager>());
         newGameObject.tag = "Untagged";
         newGameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         newGameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
+        playerObstacles.Add(newGameObject);
 
 
         //newGameObject.AddComponent<EnemyTestScript>();
