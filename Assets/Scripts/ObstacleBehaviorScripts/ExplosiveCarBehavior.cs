@@ -27,6 +27,7 @@ public class ExplosiveCarBehavior : MonoBehaviour
     {
         LookAtPlayer(targetPosition);
         GoForward();
+        if (GetComponentInChildren<MineManager>() == null) Destroy(thisCar);
     }
 
     ///begin tracking player
@@ -48,8 +49,10 @@ public class ExplosiveCarBehavior : MonoBehaviour
     }
     void MakeCarGoBoom(GameObject[] players)
     {
+        /*
         damagePlayers(GetCarsInRange(players));
         GameObject.Destroy(thisCar);
+        */
     }
     List<GameObject> GetCarsInRange(GameObject[] players)
     {
