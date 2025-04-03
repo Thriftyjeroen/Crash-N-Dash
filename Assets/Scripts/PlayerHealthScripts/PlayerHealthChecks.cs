@@ -31,6 +31,15 @@ public class PlayerHealthChecks : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        objectsWithPlayerTag = GameObject.FindGameObjectsWithTag(Playertag);
+        foreach (GameObject obj in objectsWithPlayerTag)
+        {
+            if (obj.GetComponent<PlayerHealth>() == null)
+            {
+                obj.AddComponent<PlayerHealth>();
+                obj.GetComponent<PlayerHealth>().ResetPlayerHealth();
+            }
+        }
         //checks if each player still has more than 0 hp each frame
         foreach (GameObject obj in CheckAllPlayerLives(objectsWithPlayerTag))
         {
