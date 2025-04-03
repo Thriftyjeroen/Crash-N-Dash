@@ -12,7 +12,7 @@ public class PlayerHealthChecks : MonoBehaviour
 
     public GameObject[] objectsWithPlayerTag;
     public List<GameObject> currentlyDeadPlayers;
-    float PlayerTimeOutWhenDead = 2.5f;
+    float PlayerTimeOutWhenDead = 1f;
 
     void Start()
     {
@@ -46,6 +46,7 @@ public class PlayerHealthChecks : MonoBehaviour
             if (!currentlyDeadPlayers.Contains(obj))
             {
                 StartCoroutine(PlayerRespawnTimer(PlayerTimeOutWhenDead, obj));
+                MakePlayerPrefabAnObstacle(obj, obj.transform.position);
                 currentlyDeadPlayers.Add(obj);
             }
         }
@@ -63,14 +64,18 @@ public class PlayerHealthChecks : MonoBehaviour
         return returnList;
     }
 
+
+    
     public IEnumerator PlayerRespawnTimer(float seconds, GameObject obj)
     {
-        MakePlayerPrefabAnObstacle(obj, obj.transform.position);
         obj.gameObject.SetActive(false);
+
         yield return new WaitForSeconds(seconds);
+
         currentlyDeadPlayers.Remove(obj);
         obj.GetComponent<PlayerHealth>().ResetPlayerHealth();
         obj.gameObject.SetActive(true);
+
         GameObject closestSpawn = FindClosestCheckpoint(obj);
         obj.transform.position = closestSpawn.transform.position;
         obj.transform.rotation = closestSpawn.transform.rotation;
@@ -80,8 +85,7 @@ public class PlayerHealthChecks : MonoBehaviour
     /// </summary>
     void MakePlayerPrefabAnObstacle(GameObject toCopyObject, Vector3 location)
     {
-        GameObject newGameObject;
-        newGameObject = Instantiate(toCopyObject);
+        GameObject newGameObject = Instantiate(toCopyObject);
         newGameObject.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
         Destroy(newGameObject.GetComponent<PlayerHealth>());
         Destroy(newGameObject.GetComponent<HealthTestscript>());
