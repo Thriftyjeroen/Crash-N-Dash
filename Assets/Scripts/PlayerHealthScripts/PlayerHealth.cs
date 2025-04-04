@@ -48,13 +48,10 @@ public class PlayerHealth : MonoBehaviour
         if (collision.gameObject.tag == EnemyDamageTag)
         {
             RemovePlayerHealth(collision.gameObject.GetComponent<EnemyTestScript>().ToBeGivenDamage());
-            print("collided with" + collision.gameObject.tag);
-        }
-        else
-        {
-            print("found collision but no tag?");
-            print(playerObject.name + "collided with" + collision.gameObject.name);
-            //error message when gameobject is disabled but still collides(?)
+            if (collision.gameObject.name.Contains("bullet"))
+            {
+                GameObject.Destroy(collision.gameObject);
+            }
         }
     }
 
@@ -63,15 +60,14 @@ public class PlayerHealth : MonoBehaviour
         if (collision.gameObject.tag == EnemyDamageTag)
         {
             RemovePlayerHealth(collision.gameObject.GetComponent<EnemyTestScript>().ToBeGivenDamage());
-            print("collided with" + collision.gameObject.tag);
-        }
-        else
-        {
-            print("unknown collided with" + collision.gameObject.name);
+            if (collision.gameObject.name.Contains("bullet"))
+            {
+                GameObject.Destroy(collision.gameObject);
+            }
         }
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-       
+
     }
 }

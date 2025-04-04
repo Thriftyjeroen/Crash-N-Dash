@@ -31,6 +31,15 @@ public class PlayerHealthChecks : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        objectsWithPlayerTag = GameObject.FindGameObjectsWithTag(Playertag);
+        foreach (GameObject obj in objectsWithPlayerTag)
+        {
+            if (obj.GetComponent<PlayerHealth>() == null)
+            {
+                obj.AddComponent<PlayerHealth>();
+                obj.GetComponent<PlayerHealth>().ResetPlayerHealth();
+            }
+        }
         //checks if each player still has more than 0 hp each frame
         foreach (GameObject obj in CheckAllPlayerLives(objectsWithPlayerTag))
         {
@@ -76,6 +85,7 @@ public class PlayerHealthChecks : MonoBehaviour
         newGameObject.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
         Destroy(newGameObject.GetComponent<PlayerHealth>());
         Destroy(newGameObject.GetComponent<HealthTestscript>());
+        newGameObject.tag = "Untagged";
         newGameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         newGameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
 
