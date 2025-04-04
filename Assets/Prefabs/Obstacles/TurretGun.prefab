@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5513575699879977028}
   - component: {fileID: 7871972685234501182}
-  - component: {fileID: 7276738926742121299}
   - component: {fileID: 1798690051543688500}
   - component: {fileID: 7669598787124014939}
+  - component: {fileID: -7530344056526792511}
   m_Layer: 0
   m_Name: TurretGun
   m_TagString: Untagged
@@ -91,24 +91,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7276738926742121299
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8035503258586005908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f66207bdc7ea17a42b93ff55a2dcb75b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  players: []
-  healthManager: {fileID: 0}
-  parentObstacle: {fileID: 0}
-  allowedToShoot: 1
-  isFlameThrowerShooting: 0
-  bulletPrefab: {fileID: 37993412922236802, guid: 0dd619dc53f137d4a8f91e1a09d8d944, type: 3}
 --- !u!50 &1798690051543688500
 Rigidbody2D:
   serializedVersion: 5
@@ -182,6 +164,24 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-7530344056526792511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8035503258586005908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f66207bdc7ea17a42b93ff55a2dcb75b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  players: []
+  healthManager: {fileID: 0}
+  parentObstacle: {fileID: 0}
+  allowedToShoot: 1
+  isFlameThrowerShooting: 0
+  bulletPrefab: {fileID: 37993412922236802, guid: 0dd619dc53f137d4a8f91e1a09d8d944, type: 3}
 --- !u!1 &9140784424472619103
 GameObject:
   m_ObjectHideFlags: 0

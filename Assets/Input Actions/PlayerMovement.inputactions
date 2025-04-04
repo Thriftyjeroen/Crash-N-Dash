@@ -220,6 +220,17 @@
                     "action": "Use Item",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "793f505c-b2be-4a7c-b9f7-87551edfcbb1",
+                    "path": "<HID::usb gamepad           >/button3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Use Item",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

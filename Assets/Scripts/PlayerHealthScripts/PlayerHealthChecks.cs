@@ -84,6 +84,7 @@ public class PlayerHealthChecks : MonoBehaviour
     /// </summary>
     void MakePlayerPrefabAnObstacle(GameObject toCopyObject)
     {
+        return;
         GameObject newGameObject = Instantiate(toCopyObject);
         newGameObject.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
         Destroy(newGameObject.GetComponent<PlayerHealth>());

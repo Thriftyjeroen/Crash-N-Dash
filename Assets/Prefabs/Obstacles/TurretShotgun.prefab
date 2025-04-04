@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7530344056526792511, guid: 9a01abe24dece1147a9d4b327c2ff7dd, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 37993412922236802, guid: 0dd619dc53f137d4a8f91e1a09d8d944, type: 3}
     - target: {fileID: 1798690051543688500, guid: 9a01abe24dece1147a9d4b327c2ff7dd, type: 3}
       propertyPath: m_Simulated
       value: 1

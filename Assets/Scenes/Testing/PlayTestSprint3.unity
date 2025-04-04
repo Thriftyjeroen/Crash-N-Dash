@@ -1059,6 +1059,14 @@ MonoBehaviour:
         m_Groups: 
         m_Action: Join
         m_Flags: 0
+      - m_Name: 
+        m_Id: f7862170-f833-431d-a744-fbd12611928f
+        m_Path: <HID::usb gamepad           >/button10
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
       m_Flags: 0
     m_Reference: {fileID: 0}
   m_PlayerPrefab: {fileID: 2079395262517111632, guid: cec0a1a2c1031bb4fa8e4f0ddfc464b0, type: 3}
