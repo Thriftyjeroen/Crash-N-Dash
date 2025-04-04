@@ -2,43 +2,37 @@ using UnityEngine;
 
 public class ObstacleSpawner : MonoBehaviour
 {
-    //CheckList    
-    //check if there is an item avaliable in the pool
+    [SerializeField] private GameObject obstaclePrefab;
+    [SerializeField] private string poolKey = "Obstacle";
+    [SerializeField] private int poolSize = 10;
 
-    [SerializeField] private GameObject obstacle;
     Vector3 spawnPosition;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        ObjectPooler.SetupPool(obstaclePrefab.GetComponent<Component>(), poolSize, poolKey);
     }
 
     public void OnLap()
     {
-        //// Generate a random position within the range of the map
-        //spawnPosition = new Vector3(Random.Range(-10f, 10f), Random.Range(-5f, 5f), 0);
+        spawnPosition = new Vector3(Random.Range(-10f, 10f), Random.Range(-5f, 5f), 0);
 
-        //// Check if the position is on a track using Physics2D.OverlapPoint
-        //Collider2D hitCollider = Physics2D.OverlapPoint(spawnPosition);
-        //if (hitCollider != null && hitCollider.CompareTag("Track"))
-        //{
-        //    // Instantiate the obstacle at a valid position
-           Instantiate(obstacle, spawnPosition, Quaternion.identity);
-        //}
-        //else
-        //{
-        //    //If it didnt find a valid position call the method again
-        //    OnLap();
-        //}
-        
-        
+        Collider2D hitCollider = Physics2D.OverlapPoint(spawnPosition);
+        if (hitCollider != null && hitCollider.CompareTag("Track"))
+        {
+            // Get an object from the pool OR create a new one if necessary
+            GameObject obstacle = ObjectPooler.DequeueObject(poolKey, obstaclePrefab.GetComponent<Component>()).gameObject;
+
+            if (obstacle != null)
+            {
+                obstacle.transform.position = spawnPosition;
+                obstacle.transform.rotation = Quaternion.identity;
+                obstacle.SetActive(true);
+            }
+        }
+        else
+        {
+            OnLap(); // Retry if not a valid position
+        }
     }
-
 }
