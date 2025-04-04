@@ -12,10 +12,12 @@ GameObject:
   - component: {fileID: 4439249139274166682}
   - component: {fileID: 34100522022604366}
   - component: {fileID: 1954957613054487688}
-  - component: {fileID: 1481536674039117664}
   - component: {fileID: 1939589507358900423}
   - component: {fileID: 7029573099945845525}
   - component: {fileID: -5750227756962191972}
+  - component: {fileID: 8599756620824022971}
+  - component: {fileID: -2122107762159478681}
+  - component: {fileID: 8409529440627560731}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -152,7 +154,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 1.5
+  m_LinearDamping: 1.75
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -166,7 +168,48 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &1481536674039117664
+--- !u!114 &1939589507358900423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079395262517111632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e7dc556da65b0746be6f3d1190543f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxAccel: 5
+  minAccel: 0
+  rotationSpeed: 75
+  maxSpeed: 20
+  debuffs: 
+--- !u!114 &7029573099945845525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079395262517111632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a5bb0fadfe56434c9d96899751d7261, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5750227756962191972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079395262517111632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3ad3633938a7a4ab953ab15039edc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8599756620824022971
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,12 +266,72 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f964680c-2ce0-4de7-98ba-3314df6dcb59
     m_ActionName: PlayerMovement/Gas
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 792605d8-ed4d-4218-8c88-61ea43239f40
+    m_ActionName: 'debuffcards/left[/SwitchProControllerHID/dpad/left,/Keyboard/leftArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1cdd3070-80cc-4585-9865-241d0743828f
+    m_ActionName: 'debuffcards/right[/SwitchProControllerHID/dpad/right,/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1a5aa9a1-381c-4891-9ae2-5ff38698fc19
+    m_ActionName: 'debuffcards/select[/SwitchProControllerHID/buttonSouth,/Keyboard/enter]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -2122107762159478681}
+        m_TargetAssemblyTypeName: GiveDebuff, Assembly-CSharp
+        m_MethodName: IndexDown
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9cf2263c-42ef-4c22-ae75-86fba67ff2a8
+    m_ActionName: 'PlayerMovement/left[/SwitchProControllerHID/dpad/left]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -2122107762159478681}
+        m_TargetAssemblyTypeName: GiveDebuff, Assembly-CSharp
+        m_MethodName: IndexUp
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 05e400ee-9514-4535-9fed-bf351de89ce1
+    m_ActionName: 'PlayerMovement/right[/SwitchProControllerHID/dpad/right]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -2122107762159478681}
+        m_TargetAssemblyTypeName: GiveDebuff, Assembly-CSharp
+        m_MethodName: Select
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b3dfa822-f401-4b6e-8cef-ab9d77a86058
+    m_ActionName: 'PlayerMovement/select[/SwitchProControllerHID/buttonSouth]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Pro Controller
   m_DefaultActionMap: PlayerMovement
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1939589507358900423
+--- !u!114 &-2122107762159478681
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,14 +340,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2079395262517111632}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e7dc556da65b0746be6f3d1190543f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 750bddfde3ca8d34db05b0cb64dffd50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAccel: 5
-  minAccel: 0
-  rotationSpeed: 75
-  maxSpeed: 20
---- !u!114 &7029573099945845525
+  debuffCardPrefab: {fileID: 2087865721706988742, guid: ee2b86191a5d4524f8c674ba05dc3db8, type: 3}
+  DebuffChoices: []
+  cardPrefabs: []
+--- !u!114 &8409529440627560731
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -253,18 +355,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2079395262517111632}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a5bb0fadfe56434c9d96899751d7261, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-5750227756962191972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2079395262517111632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3ad3633938a7a4ab953ab15039edc2, type: 3}
+  m_Script: {fileID: 11500000, guid: f6ca9cdf5b753eb49bca44309b6a6dad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

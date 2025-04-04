@@ -97,71 +97,9 @@ public class PlayerMovement : MonoBehaviour
 
     void GetInfo()
     {
-         maxAccel = gameObject.GetComponent<Player>().maxAccel;
-         minAccel = gameObject.GetComponent<Player>().minAccel;
-         rotationSpeed = gameObject.GetComponent<Player>().rotationSpeed;
-         maxSpeed = gameObject.GetComponent<Player>().maxSpeed;
+         maxAccel = gameObject.GetComponent<Player>().GetMaxAccel();
+         minAccel = gameObject.GetComponent<Player>().GetMinAccel();
+         rotationSpeed = gameObject.GetComponent<Player>().GetRotationSpeed();
+         maxSpeed = gameObject.GetComponent<Player>().GetMaxSpeed();
     }
-
-    //float rotationClamp = 0.382f;
-    //float singleClamp = 0.008f;
-
-
-    //bool addLeft = false;
-    //bool addRight = false;
-    //void ClampRotation()
-    //{
-    //    if (transform.rotation.z > rotationClamp && transform.rotation.z > rotationClamp + 0.02f)
-    //    {
-    //        transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotationClamp / singleClamp));
-    //    }
-    //    else if (transform.rotation.z < -rotationClamp && transform.rotation.z < -rotationClamp - 0.02f)
-    //    {
-    //        transform.rotation = Quaternion.Euler(new Vector3(0, 0, -rotationClamp / singleClamp));
-    //    }
-
-
-
-    //    if (rotateDirection == new Vector2(1, 0) && pushGas && transform.rotation.z > rotationClamp && transform.rotation.z > rotationClamp + 0.02f)
-    //    {
-    //        addLeft = true;
-    //        addRight = false;
-    //    }
-    //    else if (rotateDirection == new Vector2(-1, 0))
-    //    {
-    //        addRight = true;
-    //        addLeft = false;
-    //    }
-    //    else if (rotateDirection == new Vector2(0, 0))
-    //    {
-    //        addLeft = false;
-    //        addRight = false;
-    //    }
-
-    //}
-
-    //void AddToClamp()
-    //{           
-    //    if (addLeft)
-    //    {   
-    //        if (rotationClamp < 0)
-    //        {
-    //            rotationClamp -= singleClamp;
-    //        }
-    //        else
-    //        {
-    //            rotationClamp += singleClamp;
-    //        }
-    //    }
-    //    else if (addRight)
-    //    {
-    //        //rotationClamp -= singleClamp;
-    //    }
-
-    //    if (rotationClamp > 1)
-    //    {
-    //        rotationClamp = -1;
-    //    }
-
-    //}
 }
