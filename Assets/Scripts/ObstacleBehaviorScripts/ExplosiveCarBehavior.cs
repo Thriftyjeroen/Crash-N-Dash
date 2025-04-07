@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using static UnityEngine.GraphicsBuffer;
 
 public class ExplosiveCarBehavior : MonoBehaviour
 {
@@ -27,6 +25,7 @@ public class ExplosiveCarBehavior : MonoBehaviour
     {
         LookAtPlayer(targetPosition);
         GoForward();
+        if (GetComponentInChildren<MineManager>() == null) Destroy(thisCar);
     }
 
     ///begin tracking player
@@ -48,8 +47,10 @@ public class ExplosiveCarBehavior : MonoBehaviour
     }
     void MakeCarGoBoom(GameObject[] players)
     {
+        /*
         damagePlayers(GetCarsInRange(players));
         GameObject.Destroy(thisCar);
+        */
     }
     List<GameObject> GetCarsInRange(GameObject[] players)
     {
