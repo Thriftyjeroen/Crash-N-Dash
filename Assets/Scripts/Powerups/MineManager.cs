@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class MineManager : MonoBehaviour
 {
@@ -17,6 +16,14 @@ public class MineManager : MonoBehaviour
     {
         if (!collision.gameObject.name.Contains("Player")) return;
 
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<BoxCollider2D>().enabled = false;
+
+        if (gameObject.transform.parent != null && gameObject.transform.parent.CompareTag("Enemy"))
+        {
+            gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = false;
+        }
+
 
         StartCoroutine(DestroySelf());
         particles.Play();
@@ -28,6 +35,14 @@ public class MineManager : MonoBehaviour
     IEnumerator DestroySelf()
     {
         yield return new WaitForSeconds(timeToWait);
+
+
+        if (gameObject.transform.parent != null && gameObject.transform.parent.CompareTag("Enemy"))
+        {
+            Destroy(gameObject.transform.parent.gameObject);
+        }
+
+
         Destroy(gameObject);
     }
 }
