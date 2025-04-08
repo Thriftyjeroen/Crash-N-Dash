@@ -30,13 +30,16 @@ public class FreezeRayEffect : MonoBehaviour
         SpriteRenderer spriteRenderer = playerMovement.GetComponent<SpriteRenderer>();
         Color originalColor = spriteRenderer.color;
         spriteRenderer.color = Color.blue;
-        playerMovement.rotationSpeed = 0f;
-        float originalSpeed = playerMovement.maxAccel;
-        playerMovement.maxAccel = 0.01f;
+
+        float originalRotationSpeed = playerMovement.GetRotationSpeed();
+        playerMovement.AlterRotation(false, originalRotationSpeed);
+
+        float originalSpeed = playerMovement.GetMaxAccel();
+        playerMovement.AlterMaxAccel(false, originalSpeed - 0.01f);
 
         yield return new WaitForSecondsRealtime(1);
-        playerMovement.rotationSpeed = 50;
-        playerMovement.maxAccel = originalSpeed;
+        playerMovement.AlterRotation(true, originalRotationSpeed);
+        playerMovement.AlterMaxAccel(true, originalSpeed + 0.01f);
         spriteRenderer.color = originalColor;
         Destroy(gameObject.transform.parent.gameObject);
     }
