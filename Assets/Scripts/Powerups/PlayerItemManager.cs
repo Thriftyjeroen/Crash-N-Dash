@@ -6,12 +6,10 @@ public class PlayerItemManager : MonoBehaviour
 {
     PowerupManager powerupManager;
     public PowerupType? currentItem;
-    TMP_Text itemText;
 
     private void Start()
     {
         powerupManager = GetComponent<PowerupManager>();
-        itemText = GetComponentInChildren<TMP_Text>();
     }
 
 
@@ -21,7 +19,6 @@ public class PlayerItemManager : MonoBehaviour
         {
             powerupManager.Activate(currentItem, gameObject);
             currentItem = null;
-            itemText.text = null;
         }
     }
 
@@ -32,6 +29,5 @@ public class PlayerItemManager : MonoBehaviour
         if (currentItem != null) return;
 
         currentItem = powerupManager.GetRandomItem();
-        itemText.text = currentItem.ToString();
     }
 }
