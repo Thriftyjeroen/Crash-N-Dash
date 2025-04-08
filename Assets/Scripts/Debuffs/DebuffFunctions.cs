@@ -5,6 +5,7 @@ public class DebuffFunctions : MonoBehaviour
 {
     Player player;
     List<int> playerDebuffs = new List<int>();
+    List<bool> debuffUsedManager = new List<bool>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -13,7 +14,7 @@ public class DebuffFunctions : MonoBehaviour
         {
             playerDebuffs.Add(id);
         }
-        
+
     }
 
     // Update is called once per frame
@@ -25,41 +26,52 @@ public class DebuffFunctions : MonoBehaviour
             foreach (int id in player.debuffs)
             {
                 playerDebuffs.Add(id);
+                debuffUsedManager.Add(false);
             }
-            if (playerDebuffs == player.debuffs)
-            {
-                print("skibidi");
-                DebuffEffects();
-            }
-            
+
+            DebuffEffects();
+
+
         }
 
         print("speed = " + player.GetMaxSpeed());
         print("accel = " + player.GetMaxAccel());
         print("rotation = " + player.GetRotationSpeed());
-
-        print("own list count " + playerDebuffs.Count);
-        print("other list count " + player.debuffs.Count);
     }
 
 
     void DebuffEffects()
     {
-        print("test");
         for (int i = 0; i < playerDebuffs.Count; i++)
         {
-            switch (playerDebuffs[i])
+            if (debuffUsedManager[i] != true)
             {
-                case 1: //speed nerf
-                    player.AlterMaxSpeed(false,5);
-                    break;
-                case 2: //accel nerf
-                    player.AlterMaxAccel(false,5);
-                    break;
-                case 3: //rotation nerf
-                    player.AlterRotation(false, 5);
-                    break;
-            }
+                switch (playerDebuffs[i])
+                {
+                    case 1: //speed nerf
+                        if (player.GetMaxSpeed() > 5) player.AlterMaxSpeed(false, 5);
+                        break;
+                    case 2: //accel nerf
+                        if (player.GetMaxAccel() > 1) player.AlterMaxAccel(false, 5);
+                        break;
+                    case 3: //rotation nerf
+                        if (player.GetRotationSpeed() > 20) player.AlterRotation(false, 5);
+                        break;
+                }
+                debuffUsedManager[i] = true;
+            }  
         }
     }
+
+    //bool CompareLists()
+    //{
+    //    bool isSame = true;
+
+    //    for (int i = 0; i < playerDebuffs.Count; i++)
+    //    {
+    //        if (playerDebuffs[i] != player.debuffs[i] && isSame) isSame = false;
+    //    }
+
+    //    return isSame;
+    //}
 }
