@@ -591,6 +591,10 @@ MonoBehaviour:
     m_ActionId: 5ebe3052-8c8c-480a-8375-e5c703e4461e
     m_ActionName: 'MenuMap/Select[/ShanWan Controller Adapter1/button2,/ShanWan Controller
       Adapter2/button2,/ShanWan Controller Adapter3/button2,/ShanWan Controller Adapter/button2]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 716fd271-ad18-425f-87cc-4e83f0b26ad8
+    m_ActionName: MenuMap/AnyKey
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: MenuMap
@@ -1461,7 +1465,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1922113651}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 489750678}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ColorSelect
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1922113651
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.InputSystem;
+using System.Drawing;
 
 public class LeaderboardManager : MonoBehaviour
 {
@@ -33,7 +34,10 @@ public class LeaderboardManager : MonoBehaviour
         
         for (int rank = 0; rank < playerLeaderboard.Count; rank++)
         {
-            leaderboard.text += $"{rank + 1} - {playerLeaderboard[rank].GetComponent<PlayerInput>().currentControlScheme} - {playerLeaderboard[rank].GetComponent<PlayerItemManager>().currentItem} \n";
+            Color32 color32 = playerLeaderboard[rank].GetComponent<SpriteRenderer>().color;
+            string color = $"#{color32.r:X2}{color32.g:X2}{color32.b:X2}{color32.a:X2}";
+            
+            leaderboard.text += $"<color={color}>{rank + 1} - {playerLeaderboard[rank].GetComponent<PlayerItemManager>().currentItem} \n";
         }
     }
 }
