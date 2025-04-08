@@ -536,9 +536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98f6e75fd6cf1ee45bbcd8e69848784b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstaclePrefab: {fileID: 2077671593327862438, guid: d51aa44db315be74a8daed0929dd04f0, type: 3}
-  poolKey: Obstacle
-  poolSize: 10
+  obstacles: []
 --- !u!212 &597202294
 SpriteRenderer:
   m_ObjectHideFlags: 0

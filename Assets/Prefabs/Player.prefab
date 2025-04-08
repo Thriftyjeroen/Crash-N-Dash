@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7029573099945845525}
   - component: {fileID: -2650693090662122466}
   - component: {fileID: -6631930433250543160}
+  - component: {fileID: 6530933948465068104}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -309,6 +310,20 @@ MonoBehaviour:
   grapplePrefab: {fileID: 9039605853354439399, guid: 4e8ca0ce30459d14d9768801680fe372, type: 3}
   fakePowerupBoxPrefab: {fileID: 8240762933719485118, guid: b7591f54712fb9e43b9161e77c1308dd, type: 3}
   freezeRayPrefab: {fileID: 9039605853354439399, guid: 8285b1ae0d52cdf44adcdb5572457610, type: 3}
+--- !u!114 &6530933948465068104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079395262517111632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6feefafb3e39db64bb2a0049c244ef20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkPointsTransform: {fileID: 0}
+  obstacleSpawner: {fileID: 0}
 --- !u!1 &3092342873791891545
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,7 +31,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-
         if (pushGas) rb.AddForce(transform.up * LimitSpeed(accel), ForceMode2D.Force);
 
 
