@@ -18,9 +18,10 @@ public class OilSlickManager : MonoBehaviour
     public IEnumerator RemovePlayerSteering(Collider2D collision)
     {
         Player playerMovement = collision.gameObject.GetComponent<Player>();
-        playerMovement.rotationSpeed = 0f;
+        float originalSpeed = playerMovement.GetRotationSpeed();
+        playerMovement.AlterRotation(false, originalSpeed);
         yield return new WaitForSecondsRealtime(1);
-        playerMovement.rotationSpeed = 50;
+        playerMovement.AlterRotation(true, originalSpeed);
         Destroy(gameObject);
     }
 }
