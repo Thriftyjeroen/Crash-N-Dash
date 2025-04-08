@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 
 
     /// <summary>
-    /// first parameter is for addition(true) or substraction(false) 
+    /// first parameter is for addition(true) or substraction(false) ONLY CHANGE WITH EVEN NUMBERS
     /// </summary>
     /// <param name="type"></param>
     /// <param name="amount"></param>
@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
         else if (!type) maxAccel -= amount;
     }
     /// <summary>
-    /// first parameter is for addition(true) or substraction(false) 
+    /// first parameter is for addition(true) or substraction(false) ONLY CHANGE WITH EVEN NUMBERS
     /// </summary>
     /// <param name="type"></param>
     /// <param name="amount"></param>
@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
         else if (!type) minAccel -= amount;
     }
     /// <summary>
-    /// first parameter is for addition(true) or substraction(false) 
+    /// first parameter is for addition(true) or substraction(false) FOR LONG LASTING CHANGES ONLY CHANGES IN INCREMENTS OF 5
     /// </summary>
     /// <param name="type"></param>
     /// <param name="amount"></param>
@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
         else if (!type) maxSpeed -= amount;
     }
     /// <summary>
-    /// first parameter is for addition(true) or substraction(false) 
+    /// first parameter is for addition(true) or substraction(false) FOR LONG LASTING CHANGES ONLY CHANGE IN INCREMENTS OF 5
     /// </summary>
     /// <param name="type"></param>
     /// <param name="amount"></param>

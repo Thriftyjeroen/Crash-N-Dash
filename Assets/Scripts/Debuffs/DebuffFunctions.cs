@@ -33,10 +33,6 @@ public class DebuffFunctions : MonoBehaviour
 
 
         }
-
-        print("speed = " + player.GetMaxSpeed());
-        print("accel = " + player.GetMaxAccel());
-        print("rotation = " + player.GetRotationSpeed());
     }
 
 
@@ -52,7 +48,7 @@ public class DebuffFunctions : MonoBehaviour
                         if (player.GetMaxSpeed() > 5) player.AlterMaxSpeed(false, 5);
                         break;
                     case 2: //accel nerf
-                        if (player.GetMaxAccel() > 1) player.AlterMaxAccel(false, 5);
+                        if (player.GetMaxAccel() > 2) player.AlterMaxAccel(false, 2);
                         break;
                     case 3: //rotation nerf
                         if (player.GetRotationSpeed() > 20) player.AlterRotation(false, 5);
