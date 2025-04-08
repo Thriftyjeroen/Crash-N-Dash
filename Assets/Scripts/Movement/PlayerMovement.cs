@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     Vector2 rotateDirection;
-    Rigidbody2D rb;
+    public Rigidbody2D rb;
     float accel = 0;
     float maxAccel = 0;
     float minAccel = 0;

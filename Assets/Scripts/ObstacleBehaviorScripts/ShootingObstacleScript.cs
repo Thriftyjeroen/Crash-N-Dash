@@ -26,8 +26,6 @@ public class ObstacleScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
-
         players = GameObject.FindGameObjectsWithTag(Playertag);
         try
         {
@@ -38,6 +36,10 @@ public class ObstacleScript : MonoBehaviour
             print("cannot find object with playerhealtcheck script attached to it");
         }
         parentObstacle = this.gameObject;
+        if(parentObstacle.name.Contains("flamethrower"))
+        {
+            parentObstacle.transform.GetChild(0).gameObject.SetActive(isFlameThrowerShooting);
+        }
     }
 
     // Update is called once per frame
@@ -50,19 +52,20 @@ public class ObstacleScript : MonoBehaviour
             {
                 switch (parentObstacle.name)
                 {
-                    case "TurretGun":
+                    // with the "when" keyword another condition can be added, basically an if statement kinda
+                    case string name when name.Contains("TurretGun"):
                         StartCoroutine(shootNormalBullet(1));
                         break;
-                    case "TurretShotgun":
+                    case string name when name.Contains("TurretShotgun"):
                         StartCoroutine(shootShotgunBullet(3));
                         break;
-                    case "flamethrower":
+                    case string name when name.Contains("flamethrower"):
                         if (distance < 3)
                         {
-                            shootFlameThrower(4);
+                            shootFlameThrower(3);
                         }
                         break;
-                    case "lazer":
+                    case string name when name.Contains("lazer"):
                         break;
                     default:
                         print("i dont know what i am cuh, pls hewp devewopeee :(");
@@ -111,9 +114,11 @@ public class ObstacleScript : MonoBehaviour
             parentObstacle.transform.rotation = newRotation;
             yield return new WaitForSeconds(waitForSec / amountOfFlameThrowerCorrections);
         }
-        yield return new WaitForSeconds(waitForSec);
         isFlameThrowerShooting = false;
         parentObstacle.transform.GetChild(0).gameObject.SetActive(isFlameThrowerShooting);
+
+        //timer until flamethrower can shoot again
+        yield return new WaitForSeconds(waitForSec);
         allowedToShoot = true;
     }
 

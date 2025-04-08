@@ -7,7 +7,7 @@ public class ObstacleSpawner : MonoBehaviour
     //Only spawn objects on track
     //Spawn an object every lap
     //check if there is an item avaliable in the pool
-    [SerializeField] private GameObject obstacle;
+    [SerializeField] private GameObject[] obstacles;
     Vector3 spawnPosition;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -31,8 +31,8 @@ public class ObstacleSpawner : MonoBehaviour
         //Collider2D hitCollider = Physics2D.OverlapPoint(spawnPosition);
         //if (hitCollider != null && hitCollider.CompareTag("Track"))
         //{
-            // Instantiate the obstacle at a valid position
-            Instantiate(obstacle, spawnPosition, Quaternion.identity);
+        // Instantiate the obstacle at a valid position
+        Instantiate(obstacles[Random.Range(0, obstacles.Length)], spawnPosition, Quaternion.identity);
         //}
         //else
         //{
