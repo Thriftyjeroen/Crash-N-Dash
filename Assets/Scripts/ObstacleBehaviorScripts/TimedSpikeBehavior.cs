@@ -12,6 +12,7 @@ public class TimedSpikeBehavior : MonoBehaviour
     string emptyTag = "Untagged";
 
 
+    public bool spikesOnSwitch = true;
     public bool spikesActive = false;
     public bool ActivateSpikesNow = true;
 
@@ -35,13 +36,17 @@ public class TimedSpikeBehavior : MonoBehaviour
     }
 
     // Update is called once per frame
+
     void Update()
     {
-        //if spikes should activate now
-        if (ActivateSpikesNow == true)
+        if (spikesOnSwitch == true)
         {
-            //starts coroutine for activating the spikes
-            StartCoroutine(ActivateSpikeCycle());
+            //if spikes should activate now
+            if (ActivateSpikesNow == true)
+            {
+                //starts coroutine for activating the spikes
+                StartCoroutine(ActivateSpikeCycle());
+            }
         }
     }
 
@@ -74,5 +79,13 @@ public class TimedSpikeBehavior : MonoBehaviour
     void AdjustSpikeSprite()
     {
         if (spikesActive == true) spriteRenderer.sprite = spriteActivated; else spriteRenderer.sprite = spriteRetracted;
+    }
+
+
+    //from other scripts turn spikes on or off
+    public void SwitchSpike(bool onOrOff)
+    {
+        spikesOnSwitch = onOrOff;
+        print($"switched spikes to {onOrOff}");
     }
 }
