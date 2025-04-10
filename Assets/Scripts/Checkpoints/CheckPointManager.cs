@@ -51,4 +51,9 @@ public class CheckPointManager : MonoBehaviour
     {
         return nextCheckPointIndex;
     }
+
+    public GameObject GetLastPassedCheckpoint()
+    {
+        return checkPointList[nextCheckPointIndex - 1].gameObject;
+    }
 }
