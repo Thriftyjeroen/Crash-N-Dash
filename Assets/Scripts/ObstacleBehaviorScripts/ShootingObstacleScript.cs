@@ -16,8 +16,6 @@ public class ObstacleScript : MonoBehaviour
     public bool isFlameThrowerShooting = false;
     [SerializeField] GameObject bulletPrefab;
     string Playertag = "Player";
-    string CheckpointTag = "CheckPoint";
-    string ObstacleTag = "Enemy";
 
     //  [SerializeField]GameObject testPlayerObject;
 
@@ -66,6 +64,14 @@ public class ObstacleScript : MonoBehaviour
                         }
                         break;
                     case string name when name.Contains("lazer"):
+                        {
+                            //shooting logic here if needed
+                        }
+                        break;
+                    case string name when name.Contains("DartTrap"):
+                        {
+                            StartCoroutine(shootNormalBullet(1));
+                        }
                         break;
                     default:
                         print("i dont know what i am cuh, pls hewp devewopeee :(");
@@ -124,8 +130,19 @@ public class ObstacleScript : MonoBehaviour
 
     IEnumerator InstantiateBullet(Vector3 thisObstaclePosition, Vector3 closestPlayerPos)
     {
-        //get direction of player as vector 3
-        Vector3 targetDir = (closestPlayerPos - thisObstaclePosition).normalized;
+        Vector3 targetDir;
+        Vector3 downwardDirection = -transform.up;
+        // If it's a DartTrap, shoot straight forward
+        if (parentObstacle.CompareTag("dartTrap"))
+        {
+            // Assuming forward is right (x-axis). Adjust based on prefab rotation if needed.
+            targetDir = downwardDirection;
+        }
+        else
+        {
+            // Normal turrets shoot at the player
+            targetDir = (closestPlayerPos - thisObstaclePosition).normalized;
+        }
 
         GameObject newBullet = Instantiate(bulletPrefab, parentObstacle.transform.position, Quaternion.identity);
         Rigidbody2D rb = newBullet.GetComponent<Rigidbody2D>();
