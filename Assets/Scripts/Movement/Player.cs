@@ -5,30 +5,31 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private float maxAccel = 10f;
+    private float maxSpeed = 10f;
+    private float accelInc = 0.1f;
     private float minAccel = 0f;
     private float rotationSpeed = 75f;
-    private float maxSpeed = 50f;
+    //private float maxSpeed = 50f;
 
 
     public List<int> debuffs = new List<int>();
 
 
-    public float GetMaxAccel() { return maxAccel; }
+    public float GetAccelInc() { return accelInc; }
     public float GetMinAccel() { return minAccel; }
     public float GetRotationSpeed() { return rotationSpeed; }
     public float GetMaxSpeed() { return maxSpeed; }
 
 
     /// <summary>
-    /// first parameter is for addition(true) or substraction(false) ONLY CHANGE WITH EVEN NUMBERS
+    /// first parameter is for addition(true) or substraction(false)
     /// </summary>
     /// <param name="type"></param>
     /// <param name="amount"></param>
-    public void AlterMaxAccel(bool type,float amount)
+    public void AlterAccelInc(bool type,float amount)
     {
-        if (type) maxAccel += amount;
-        else if (!type) maxAccel -= amount;
+        if (type) accelInc += amount;
+        else if (!type) accelInc -= amount;
     }
     /// <summary>
     /// first parameter is for addition(true) or substraction(false) ONLY CHANGE WITH EVEN NUMBERS

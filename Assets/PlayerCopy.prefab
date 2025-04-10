@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 8599756620824022971}
   - component: {fileID: -2122107762159478681}
   - component: {fileID: 8409529440627560731}
+  - component: {fileID: 1404470517703958939}
   m_Layer: 0
   m_Name: PlayerCopy
   m_TagString: Untagged
@@ -193,6 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a5bb0fadfe56434c9d96899751d7261, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
 --- !u!114 &-5750227756962191972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,3 +356,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6ca9cdf5b753eb49bca44309b6a6dad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1404470517703958939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079395262517111632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6feefafb3e39db64bb2a0049c244ef20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lap: 1
