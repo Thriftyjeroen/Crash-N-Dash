@@ -7,8 +7,11 @@ public class CheckPoint : MonoBehaviour
     {
         if (other.TryGetComponent<Player>(out Player player))
         {
-            checkPointManager = player.gameObject.GetComponent<CheckPointManager>();
             checkPointManager.PassCheckPoint(this);
         }
+    }
+    public void SetTrackCheckPointManager(CheckPointManager pcheckPointManager)
+    {
+        checkPointManager = pcheckPointManager;
     }
 }

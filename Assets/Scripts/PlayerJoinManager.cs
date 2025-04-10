@@ -11,6 +11,7 @@ public class PlayerJoinManager : MonoBehaviour
     Color[] colorsAvailable = { Color.magenta, Color.blue, Color.red, Color.cyan, Color.green, Color.yellow};
     public void OnJoin(PlayerInput playerInput)
     {
+        Debug.Log("player joined");
         playerInput.gameObject.transform.SetParent(playerFolder);
 
         if (playerInput.gameObject.TryGetComponent<CheckPointManager>(out var t)) return;

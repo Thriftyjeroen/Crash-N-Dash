@@ -17,17 +17,20 @@ public class GlueManager : MonoBehaviour
 
     public IEnumerator RemovePlayerSpeed(Collider2D collision)
     {
-        Player player = collision.gameObject.GetComponent<Player>();
+        Player playerMovement = collision.gameObject.GetComponent<Player>();
+        float originalAccel = playerMovement.GetMaxAccel();
+        float originalSpeed = playerMovement.GetMaxSpeed();
+        playerMovement.AlterMaxAccel(false, 8f);
+        playerMovement.AlterMaxSpeed(false, originalSpeed - 1f);
         Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
 
-        player.maxAccel = 1f;
-
         Vector2 currentVelocity = rb.linearVelocity;
-        rb.linearVelocity = currentVelocity * 0.25f;
+        rb.linearVelocity = new Vector2(0, 0);
 
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSecondsRealtime(500f);
 
-        player.maxAccel = 10;
+        playerMovement.AlterMaxAccel(true, 8f);
+        playerMovement.AlterMaxSpeed(true, originalSpeed - 1f);
 
         Destroy(gameObject);
     }

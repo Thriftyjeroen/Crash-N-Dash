@@ -10,6 +10,7 @@ public class CheckPointManager : MonoBehaviour
     public int lap = 1;
     public void Init(Transform pCheckPointsTransform, ObstacleSpawner pObstacleSpawner)
     {
+        Debug.Log("running checkpointManager Init");
         checkPointsTransform = pCheckPointsTransform;
         obstacleSpawner = pObstacleSpawner;
 
@@ -18,8 +19,10 @@ public class CheckPointManager : MonoBehaviour
         foreach (Transform checkPointChild in checkPointsTransform)
         {
             CheckPoint checkPoint = checkPointChild.GetComponent<CheckPoint>();
+            checkPoint.SetTrackCheckPointManager(this);
             checkPointList.Add(checkPoint);
         }
+        
         nextCheckPointIndex = 0;
     }
 

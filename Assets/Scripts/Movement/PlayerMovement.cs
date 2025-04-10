@@ -22,7 +22,6 @@ public class PlayerMovement : MonoBehaviour
         //ClampRotation();
         GetInfo();
 
-
         if (pushGas)
         {
             transform.Rotate(new Vector3(0, 0, 1), rotateDirection.x * rotationSpeed * Time.deltaTime);
