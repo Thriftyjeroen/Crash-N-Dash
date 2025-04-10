@@ -536,7 +536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98f6e75fd6cf1ee45bbcd8e69848784b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacle: {fileID: 2077671593327862438, guid: d51aa44db315be74a8daed0929dd04f0, type: 3}
+  obstacles: []
 --- !u!212 &597202294
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1143,7 +1143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1591409474
 Transform:
   m_ObjectHideFlags: 0
@@ -1174,8 +1174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6feefafb3e39db64bb2a0049c244ef20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkPointsTransform: {fileID: 1591409474}
-  obstacleSpawner: {fileID: 597202293}
+  lap: 1
 --- !u!1 &1699194455
 GameObject:
   m_ObjectHideFlags: 0
