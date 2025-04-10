@@ -592,6 +592,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mushroom
       objectReference: {fileID: 0}
+    - target: {fileID: 2026230938130640219, guid: 4aba410c17ef4b54da3ae608a2bfc463, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1102,6 +1106,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadObstacle
       objectReference: {fileID: 0}
+    - target: {fileID: 7265121124238800789, guid: ef4c58bdeb7c94643b59ccd4e1a1dc42, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1121,15 +1129,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114680888821181783, guid: 5c83ccb0ac062ed489f772f7608befcc, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5046491609179301750, guid: 5c83ccb0ac062ed489f772f7608befcc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4
+      value: 1.17
       objectReference: {fileID: 0}
     - target: {fileID: 5046491609179301750, guid: 5c83ccb0ac062ed489f772f7608befcc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.27
+      value: -2.77
       objectReference: {fileID: 0}
     - target: {fileID: 5046491609179301750, guid: 5c83ccb0ac062ed489f772f7608befcc, type: 3}
       propertyPath: m_LocalPosition.z
