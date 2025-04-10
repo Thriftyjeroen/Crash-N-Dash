@@ -2,45 +2,37 @@ using UnityEngine;
 
 public class ObstacleSpawner : MonoBehaviour
 {
-    //CheckList
-    //Spawn Objects on random position
-    //Only spawn objects on track
-    //Spawn an object every lap
-    //check if there is an item avaliable in the pool
     [SerializeField] private GameObject[] obstacles;
-    Vector3 spawnPosition;
+    [SerializeField] private int poolSize = 10;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        // Setup the pool for each obstacle
+        foreach (GameObject obstacle in obstacles)
+        {
+            ObjectPooler.SetupPool(obstacle, poolSize, obstacle.name);
+        }
     }
 
     public void OnLap()
     {
-        // Generate a random position within the range of the map
-        spawnPosition = new Vector3(Random.Range(-10f, 10f), Random.Range(-5f, 5f), 0);
+        Vector3 spawnPosition = new Vector3(Random.Range(-10f, 10f), Random.Range(-5f, 5f), 0);
 
-        // Check if the position is on a track using Physics2D.OverlapPoint
-        //Collider2D hitCollider = Physics2D.OverlapPoint(spawnPosition);
-        //if (hitCollider != null && hitCollider.CompareTag("Track"))
-        //{
-        // Instantiate the obstacle at a valid position
-        Instantiate(obstacles[Random.Range(0, obstacles.Length)], spawnPosition, Quaternion.identity);
-        //}
-        //else
-        //{
-        //    //If it didnt find a valid position call the method again
-        //    OnLap();
-        //}
-        
-        
+        // Make sure we only spawn on track
+        Collider2D hitCollider = Physics2D.OverlapPoint(spawnPosition);
+        if (hitCollider != null && hitCollider.CompareTag("Track"))
+        {
+            GameObject selectedPrefab = obstacles[Random.Range(0, obstacles.Length)];
+            GameObject obstacle = ObjectPooler.DequeueObject(selectedPrefab.name, selectedPrefab);
+
+            obstacle.transform.position = spawnPosition;
+            obstacle.transform.rotation = Quaternion.identity;
+            obstacle.SetActive(true);
+        }
+        else
+        {
+            // Retry if spawn position isn't valid
+            OnLap();
+        }
     }
-
 }

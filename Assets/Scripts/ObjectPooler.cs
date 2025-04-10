@@ -1,51 +1,44 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class ObjectPooler
 {
-    public static Dictionary<string, Queue<Component>> poolDictionary = new Dictionary<string, Queue<Component>>();
+    public static Dictionary<string, Queue<GameObject>> poolDictionary = new();
 
     // Adds an object back to the pool when it's no longer needed
-    public static void EnqueueObject<T>(T item, string name) where T : Component
+    public static void EnqueueObject(GameObject item, string name)
     {
-        if (!item.gameObject.activeSelf) return;
+        if (!item.activeSelf) return;
 
-        item.transform.position = Vector3.zero; // Reset position
+        item.transform.position = Vector3.zero;
+        item.transform.rotation = Quaternion.identity;
+
         if (!poolDictionary.ContainsKey(name))
-        {
-            poolDictionary[name] = new Queue<Component>();
-        }
+            poolDictionary[name] = new Queue<GameObject>();
 
         poolDictionary[name].Enqueue(item);
-        item.gameObject.SetActive(false); // Deactivate the object
+        item.SetActive(false);
     }
 
-    // Retrieves an object from the pool OR creates a new one if the pool is empty
-    public static T DequeueObject<T>(string key, T prefab) where T : Component
+    // Retrieves an object from the pool or creates a new one if the pool is empty
+    public static GameObject DequeueObject(string key, GameObject prefab)
     {
         if (!poolDictionary.ContainsKey(key) || poolDictionary[key].Count == 0)
-        {
-            // Pool is empty create a new object and add it to the pool
-            T newInstance = Object.Instantiate(prefab);
-            return newInstance;
-        }
+            return Object.Instantiate(prefab);
 
-        // Retrieve an object from the pool
-        return (T)poolDictionary[key].Dequeue();
+        return poolDictionary[key].Dequeue();
     }
 
-    // Sets up a pool by pre-creating a number of objects
-    public static void SetupPool<T>(T pooledPrefab, int poolSize, string dictionaryEntry) where T : Component
+    // Pre-creates a number of objects for the pool
+    public static void SetupPool(GameObject pooledPrefab, int poolSize, string dictionaryEntry)
     {
         if (!poolDictionary.ContainsKey(dictionaryEntry))
-        {
-            poolDictionary[dictionaryEntry] = new Queue<Component>();
-        }
+            poolDictionary[dictionaryEntry] = new Queue<GameObject>();
 
         for (int i = 0; i < poolSize; i++)
         {
-            T pooledInstance = Object.Instantiate(pooledPrefab);
-            pooledInstance.gameObject.SetActive(false);
+            GameObject pooledInstance = Object.Instantiate(pooledPrefab);
+            pooledInstance.SetActive(false);
             poolDictionary[dictionaryEntry].Enqueue(pooledInstance);
         }
     }
