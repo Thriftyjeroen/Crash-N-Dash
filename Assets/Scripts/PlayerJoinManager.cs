@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 
+
 public class PlayerJoinManager : MonoBehaviour
 {
     [SerializeField] private Transform checkPointsTransform;
@@ -9,6 +10,9 @@ public class PlayerJoinManager : MonoBehaviour
     [SerializeField] private Transform playerFolder;
     List<Color> colorsInScene = new();
     Color[] colorsAvailable = { Color.magenta, Color.blue, Color.red, Color.cyan, Color.green, Color.yellow};
+
+    [SerializeField] Quaternion rotation;
+
     public void OnJoin(PlayerInput playerInput)
     {
         playerInput.gameObject.transform.SetParent(playerFolder);
@@ -18,6 +22,7 @@ public class PlayerJoinManager : MonoBehaviour
         c.Init(checkPointsTransform, obstacleSpawner);
 
         SetColor(playerInput.gameObject.GetComponent<SpriteRenderer>());
+        SetRotation(playerInput.gameObject);
     }
 
     private void SetColor(SpriteRenderer player)
@@ -34,4 +39,9 @@ public class PlayerJoinManager : MonoBehaviour
         player.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
     }
     
+
+    void SetRotation(GameObject player)
+    {
+        player.transform.rotation = rotation;
+    }
 }
