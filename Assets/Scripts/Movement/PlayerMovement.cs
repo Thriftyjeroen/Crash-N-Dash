@@ -6,11 +6,11 @@ public class PlayerMovement : MonoBehaviour
     Vector2 rotateDirection;
     public Rigidbody2D rb;
     float accel = 0;
-    float maxAccel = 0;
-    float minAccel = 0;
-    float rotationSpeed = 0f;
     float maxSpeed = 0;
-    float forceMult = 0;
+    float minAccel = 0;
+    float accelInc = 0.1f;
+    float rotationSpeed = 0f;
+
 
     private void Start()
     {
@@ -19,30 +19,33 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        //ClampRotation();
         GetInfo();
 
         if (pushGas)
         {
             transform.Rotate(new Vector3(0, 0, 1), rotateDirection.x * rotationSpeed * Time.deltaTime);
         }
+
+        
+        SpeedLimitCheck(MathCurrentSpeed(rb.linearVelocity.magnitude));
+        
     }
 
     private void FixedUpdate()
     {
-        if (pushGas) rb.AddForce(transform.up * LimitSpeed(accel), ForceMode2D.Force);
+
+        if (pushGas) rb.AddForce(transform.up * accel, ForceMode2D.Force);
 
 
-        //AddToClamp();
 
 
-        if (pushGas && accel < maxAccel)
+        if (pushGas && accel < maxSpeed)
         {
-            accel += 0.1f;
+            accel += accelInc;
         }
         else if (!pushGas && accel > minAccel)
         {
-            accel -= 0.5f;
+            accel -= accelInc;
         }
         if (accel < minAccel) accel = minAccel;
 
@@ -73,31 +76,30 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    float LimitSpeed(float accel)
-    {
-        float currentspeed = rb.linearVelocity.magnitude;
-        float forceToGive = 0;
-
-        if (currentspeed > maxSpeed - (maxSpeed / 4))
-        {
-            forceMult = accel * maxSpeed - (currentspeed / maxSpeed);
-            forceToGive = forceMult;
-
-        }
-        else
-        {
-            forceToGive = accel;
-        }
 
 
-        return forceToGive;
-    }
 
     void GetInfo()
     {
-         maxAccel = gameObject.GetComponent<Player>().GetMaxAccel();
-         minAccel = gameObject.GetComponent<Player>().GetMinAccel();
-         rotationSpeed = gameObject.GetComponent<Player>().GetRotationSpeed();
-         maxSpeed = gameObject.GetComponent<Player>().GetMaxSpeed();
+        maxSpeed = gameObject.GetComponent<Player>().GetMaxSpeed();
+        minAccel = gameObject.GetComponent<Player>().GetMinAccel();
+        rotationSpeed = gameObject.GetComponent<Player>().GetRotationSpeed();
+        accelInc = gameObject.GetComponent<Player>().GetAccelInc();
+    }
+
+
+    float mathOne = 0.5714276f;
+    float MathCurrentSpeed(float dumbNumber)
+    {
+        float actualSpeed = dumbNumber / mathOne;
+        return actualSpeed;
+    }
+
+    void SpeedLimitCheck(float speed)
+    {
+        if (speed > maxSpeed + 1)
+        {
+            rb.AddForce(-transform.up * (speed - maxSpeed), ForceMode2D.Force);
+        }
     }
 }
