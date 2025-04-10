@@ -39,7 +39,7 @@ public class FreezeRayEffect : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(1);
         playerMovement.AlterRotation(true, originalRotationSpeed);
-        playerMovement.AlterMaxAccel(true, originalSpeed + 0.01f);
+        playerMovement.AlterMaxAccel(true, originalSpeed - 0.01f);
         spriteRenderer.color = originalColor;
         Destroy(gameObject.transform.parent.gameObject);
     }
