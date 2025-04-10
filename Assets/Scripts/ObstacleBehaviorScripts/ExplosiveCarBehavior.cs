@@ -1,57 +1,126 @@
+using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class ExplosiveCarBehavior : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    float carSpeed = 2;    //change this to playercarspeed + small difference
-    bool ExplodeCar = false;
-    Vector3 targetPosition = Vector3.zero;
-    public GameObject thisCar;
-    Rigidbody2D rb;
+
+    //change this to playercarspeed + small difference
+    float carSpeed = 2;
+    //current angle of car, public for debug reasons
     public float carAngle = 0;
-    float carSteeringSmoothness = 4f;
-    Vector3 deltaPositionCarAndPlayer = Vector3.zero;
+    //damage the car can deal, can set it to random but im busy rn
     float carMaxExplosiveDamage = 50;
+
+    bool canUpdatePlayerLocation = true;
+    float carSteeringSmoothness = 4f;
+
+    string playerTag = "Player";
+    Vector3 deltaPositionCarAndPlayer = Vector3.zero;
+    public Vector3 closestFoundPlayer = Vector3.zero;
+
+    public GameObject target;
+    public GameObject thisCar;
+    GameObject[] Activeplayers;
+
+    //turns car behavior on or off
+    bool CarBehaviorSwitch = true;
+
 
     void Start()
     {
-        thisCar = this.gameObject;
-        rb = GetComponent<Rigidbody2D>();
+        thisCar = gameObject;
+        //get the closest player near the car
+        target = GetClosestPlayer();
+        closestFoundPlayer = target.transform.position;
     }
 
     private void Update()
     {
-        LookAtPlayer(targetPosition);
-        GoForward();
-        if (GetComponentInChildren<MineManager>() == null) Destroy(thisCar);
-    }
-
-    ///begin tracking player
-
-    public void GetTargetPosition(Vector3 newTargetPosition)
-    {
-        targetPosition = newTargetPosition;
-    }
-    public bool CheckRangeFromPlayer(Vector3 thisObjectPosition, Vector3 playerPosition, GameObject[] players)
-    {
-        float distance = Vector3.Distance(thisObjectPosition, playerPosition);
-        if (distance < 1)
+        //if the car behavior is enabled
+        if (CarBehaviorSwitch == true)
         {
-            MakeCarGoBoom(players);
+            //if the car can update its target position
+            if (canUpdatePlayerLocation == true)
+            {
+                target = GetClosestPlayer();
+                StartCoroutine(updateTargetLocation(target.transform.position, 0.7f));
+            }
+            //rotate towards closest player
+            LookAtPlayer(closestFoundPlayer);
+            //let car move forward
             GoForward();
-            return true;
+            if (GetComponentInChildren<MineManager>() == null) Destroy(thisCar);
         }
-        return false;
     }
-    void MakeCarGoBoom(GameObject[] players)
+
+    /// <summary>
+    /// get the all players from evil car factory script
+    /// </summary>
+    public void GivePlayersGameObjects(GameObject[] players)
     {
-        /*
-        damagePlayers(GetCarsInRange(players));
-        GameObject.Destroy(thisCar);
-        */
+        Activeplayers = players;
     }
+
+    /// <summary>
+    /// finds the closest player from this gameObject (explosivecar)
+    /// </summary>
+    GameObject GetClosestPlayer()
+    {
+        GameObject closestObject = Activeplayers[0];
+        float closestDistance = float.PositiveInfinity;
+
+        foreach (GameObject p in Activeplayers)
+        {
+            float distance = Vector3.Distance(gameObject.transform.position, p.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestObject = p;
+            }
+        }
+        return closestObject;
+    }
+
+
+    /// <summary>
+    /// method rotates the explosive car to the target location
+    /// </summary>
+    void LookAtPlayer(Vector3 targetPosition)
+    {
+        deltaPositionCarAndPlayer = targetPosition - thisCar.transform.position;
+        float radians = Mathf.Atan2(deltaPositionCarAndPlayer.y, deltaPositionCarAndPlayer.x);
+        carAngle = (radians * Mathf.Rad2Deg) - 90;
+        Quaternion buh = Quaternion.Euler(0f, 0f, carAngle);
+        transform.rotation = Quaternion.Lerp(transform.rotation, buh, Time.deltaTime * carSteeringSmoothness);
+
+    }
+
+    /// <summary>
+    /// moves the explosive car forward
+    /// </summary>
+    void GoForward()
+    {
+        thisCar.transform.Translate(Vector3.up * carSpeed * Time.deltaTime);
+    }
+
+
+    /// <summary>
+    /// updates the location of the target
+    /// </summary>
+    IEnumerator updateTargetLocation(Vector3 position, float seconds)
+    {
+        print("updating location");
+        canUpdatePlayerLocation = false;
+        closestFoundPlayer = position;
+        yield return new WaitForSeconds(seconds);
+        canUpdatePlayerLocation = true;
+    }
+
+    /// <summary>
+    /// get cars in range of the explosive car
+    /// </summary>
     List<GameObject> GetCarsInRange(GameObject[] players)
     {
         List<GameObject> returnList = new List<GameObject>();
@@ -62,6 +131,19 @@ public class ExplosiveCarBehavior : MonoBehaviour
         return returnList;
     }
 
+    /// <summary>
+    /// explodes the car and calls damage players
+    /// </summary>
+    void ExplodeCar()
+    {
+        damagePlayers(GetCarsInRange(Activeplayers));
+        //voeg hier nog effect toe
+        Destroy(gameObject);
+    }
+
+    /// <summary>
+    /// removes health from the players in range
+    /// </summary>
     void damagePlayers(List<GameObject> players)
     {
         foreach (GameObject p in players)
@@ -77,19 +159,15 @@ public class ExplosiveCarBehavior : MonoBehaviour
         }
     }
 
-    ///end tracking player
-    void LookAtPlayer(Vector3 targetPosition)
-    {
-        deltaPositionCarAndPlayer = targetPosition - thisCar.transform.position;
-        float radians = Mathf.Atan2(deltaPositionCarAndPlayer.y, deltaPositionCarAndPlayer.x);
-        carAngle = (radians * Mathf.Rad2Deg) - 90;
-        Quaternion buh = Quaternion.Euler(0f, 0f, carAngle);
-        transform.rotation = Quaternion.Lerp(transform.rotation, buh, Time.deltaTime * carSteeringSmoothness);
 
-    }
-
-    void GoForward()
+    /// <summary>
+    /// if the car collides with something it sets off the explosion
+    /// </summary>
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        thisCar.transform.Translate(Vector3.up * carSpeed * Time.deltaTime);
+        if (collision != null)
+        {
+            ExplodeCar();
+        }
     }
 }

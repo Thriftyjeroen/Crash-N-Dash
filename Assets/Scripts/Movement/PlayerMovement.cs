@@ -10,8 +10,7 @@ public class PlayerMovement : MonoBehaviour
     float minAccel = 0;
     float accelInc = 0.1f;
     float rotationSpeed = 0f;
-    //float maxSpeed = 0;
-    //float forceMult = 0;
+
 
     private void Start()
     {
@@ -22,11 +21,14 @@ public class PlayerMovement : MonoBehaviour
     {
         GetInfo();
 
-
         if (pushGas)
         {
             transform.Rotate(new Vector3(0, 0, 1), rotateDirection.x * rotationSpeed * Time.deltaTime);
         }
+
+        
+        SpeedLimitCheck(MathCurrentSpeed(rb.linearVelocity.magnitude));
+        
     }
 
     private void FixedUpdate()
@@ -35,7 +37,6 @@ public class PlayerMovement : MonoBehaviour
         if (pushGas) rb.AddForce(transform.up * accel, ForceMode2D.Force);
 
 
-        //AddToClamp();
 
 
         if (pushGas && accel < maxSpeed)
@@ -77,25 +78,6 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-    //float LimitSpeed(float accel)
-    //{
-    //    float currentspeed = rb.linearVelocity.magnitude;
-    //    print(MathCurrentSpeed(currentspeed));
-    //    float forceToGive = 0;
-
-    //    if (currentspeed > maxSpeed - (maxSpeed / 4))
-    //    {
-    //        forceMult = accel * maxSpeed - (currentspeed / maxSpeed);
-    //        forceToGive = forceMult;
-    //        print("dit runt blijkbaar gwn nooit :sob:");
-    //    }
-    //    else
-    //    {
-    //        forceToGive = accel;
-    //    }
-
-    //    return forceToGive;
-    //}
 
     void GetInfo()
     {
@@ -103,14 +85,21 @@ public class PlayerMovement : MonoBehaviour
         minAccel = gameObject.GetComponent<Player>().GetMinAccel();
         rotationSpeed = gameObject.GetComponent<Player>().GetRotationSpeed();
         accelInc = gameObject.GetComponent<Player>().GetAccelInc();
-         //maxSpeed = gameObject.GetComponent<Player>().GetMaxSpeed();
     }
 
 
-    //float mathOne = 0.5714276f;
-    //float MathCurrentSpeed(float dumbNumber)
-    //{
-    //    float actualSpeed = dumbNumber / mathOne;
-    //    return actualSpeed;
-    //}
+    float mathOne = 0.5714276f;
+    float MathCurrentSpeed(float dumbNumber)
+    {
+        float actualSpeed = dumbNumber / mathOne;
+        return actualSpeed;
+    }
+
+    void SpeedLimitCheck(float speed)
+    {
+        if (speed > maxSpeed + 1)
+        {
+            rb.AddForce(-transform.up * (speed - maxSpeed), ForceMode2D.Force);
+        }
+    }
 }
