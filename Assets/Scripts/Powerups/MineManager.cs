@@ -29,7 +29,8 @@ public class MineManager : MonoBehaviour
         particles.Play();
 
         PlayerMovement playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
-        playerMovement.rb.AddForce(-transform.up * 200, ForceMode2D.Force);
+        Vector2 explosionDirection = (collision.transform.position - transform.position).normalized;
+        playerMovement.rb.AddForce(explosionDirection * 200f, ForceMode2D.Force);
     }
 
     IEnumerator DestroySelf()

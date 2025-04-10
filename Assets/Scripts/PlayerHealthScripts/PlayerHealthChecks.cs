@@ -69,15 +69,13 @@ public class PlayerHealthChecks : MonoBehaviour
     public IEnumerator PlayerRespawnTimer(float seconds, GameObject obj)
     {
         MakePlayerPrefabAnObstacle(obj);
-        obj.GetComponent<Renderer>().enabled = false;
+        obj.transform.position = new Vector2(1000, 1000);
         yield return new WaitForSeconds(seconds);
-        obj.GetComponent<Renderer>().enabled = true;
         currentlyDeadPlayers.Remove(obj);
         obj.GetComponent<PlayerHealth>().ResetPlayerHealth();
-        GameObject closestSpawn = FindClosestCheckpoint(obj);
+        GameObject closestSpawn = obj.GetComponent<CheckPointManager>().GetLastPassedCheckpoint();
 
         obj.transform.position = closestSpawn.transform.position;
-        obj.transform.rotation = closestSpawn.transform.rotation;
     }
     /// <summary>
     /// method makes a copy of the player, removes the scripts and adds an enemyscript so it can deal damage to players
@@ -100,24 +98,6 @@ public class PlayerHealthChecks : MonoBehaviour
         //newGameObject.AddComponent<EnemyTestScript>();
         //newGameObject.tag = ObstacleTag;
         //when more scripts are attached to this, add them also to the delete list ^
-    }
-
-    /// <summary>
-    /// find nearest checkpoint (gameObject with checkpoint tag)
-    /// </summary>
-    GameObject FindClosestCheckpoint(GameObject obj)
-    {
-        Vector3 playerPosition = obj.transform.position;
-        GameObject closestPossibleSpawn = obj;
-        GameObject[] CheckPoints = GameObject.FindGameObjectsWithTag(CheckpointTag);
-        foreach (GameObject checkPoint in CheckPoints)
-        {
-            if (checkPoint.transform.position.magnitude > closestPossibleSpawn.transform.position.magnitude)
-            {
-                closestPossibleSpawn = checkPoint;
-            }
-        }
-        return closestPossibleSpawn;
     }
 
     public GameObject[] GetAllPlayers() => objectsWithPlayerTag;
