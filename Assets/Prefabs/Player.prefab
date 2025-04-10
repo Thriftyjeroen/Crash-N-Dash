@@ -260,10 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e7dc556da65b0746be6f3d1190543f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAccel: 5
-  minAccel: 0
-  rotationSpeed: 75
-  maxSpeed: 20
+  debuffs: 
 --- !u!114 &7029573099945845525
 MonoBehaviour:
   m_ObjectHideFlags: 0
