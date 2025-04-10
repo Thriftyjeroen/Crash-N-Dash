@@ -706,6 +706,7 @@ MonoBehaviour:
   checkPointsTransform: {fileID: 1591409474}
   obstacleSpawner: {fileID: 597202293}
   playerFolder: {fileID: 405449298}
+  rotation: {x: 0, y: 0, z: 0.57357645, w: 0.81915206}
 --- !u!114 &351281476
 MonoBehaviour:
   m_ObjectHideFlags: 0
