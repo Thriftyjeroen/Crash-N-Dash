@@ -1,10 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Scenes/GidoTestiScene.unity.meta
-guid: a2de44f20a950014ca7a118111aade74
-========
-guid: 6d06e346d38f59443a2e9f563b60b5d3
-folderAsset: yes
->>>>>>>> development:Assets/Scripts/Powerups.meta
+guid: 75ce2111b35ecd54c800189affe17dda
 DefaultImporter:
   externalObjects: {}
   userData: 

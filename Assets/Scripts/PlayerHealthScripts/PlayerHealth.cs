@@ -9,12 +9,15 @@ public class PlayerHealth : MonoBehaviour
     public float playerHealth;
     public float maxPossibleHealth = 100.0f;
 
+    SpriteRenderer spriteRenderer;
+    bool canBeHit = true;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerObject = this.gameObject;
+        spriteRenderer = GetComponent<SpriteRenderer>();
         ResetPlayerHealth();
     }
 
@@ -22,7 +25,9 @@ public class PlayerHealth : MonoBehaviour
 
     public void RemovePlayerHealth(float AmountToBeRemoved)
     {
+        if (!canBeHit) return;
         playerHealth -= AmountToBeRemoved;
+        StartCoroutine(StartIFrames(1));
     }
 
     public void AddPlayerHealth(float AmountToBeAdded)
@@ -66,8 +71,17 @@ public class PlayerHealth : MonoBehaviour
             }
         }
     }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
 
+    IEnumerator StartIFrames(float pTime)
+    {
+        canBeHit = false;
+        float flickerTime = pTime / 5;
+        for (int i = 0; i < 5; i++)
+        {
+            spriteRenderer.enabled = !spriteRenderer.enabled;
+            yield return new WaitForSecondsRealtime(flickerTime);
+        }
+        spriteRenderer.enabled = true;
+        canBeHit = true;
     }
 }

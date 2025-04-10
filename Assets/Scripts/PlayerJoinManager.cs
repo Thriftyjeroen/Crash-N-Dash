@@ -15,6 +15,7 @@ public class PlayerJoinManager : MonoBehaviour
 
     public void OnJoin(PlayerInput playerInput)
     {
+        Debug.Log("player joined");
         playerInput.gameObject.transform.SetParent(playerFolder);
 
         if (playerInput.gameObject.TryGetComponent<CheckPointManager>(out var t)) return;
