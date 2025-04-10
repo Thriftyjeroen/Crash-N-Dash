@@ -5,73 +5,51 @@ using UnityEngine.UIElements;
 public class EvilCarFactoryBehavior : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    GameObject thisObstacle;
+
     [SerializeField] GameObject explosiveCarPrefab;
-    GameObject[] players;
-    string playerTag = "Player";
-
-    bool canUpdatePlayerLocation = true;
-    bool carDead = false;
-
+    GameObject[] allPlayers;
+    GameObject thisObstacle;
     GameObject activeCar;
-    ExplosiveCarBehavior activeCarBehavior;
-    GameObject targetObject;
+
+    string playerTag = "Player";
+    float respawnTimer = 2.0f;
+    bool waitingForRespawn = false;
+
 
     void Start()
     {
         thisObstacle = gameObject;
-        players = players = GameObject.FindGameObjectsWithTag(playerTag);
+        //finds all the gameobjects with the playertag
+        allPlayers = GameObject.FindGameObjectsWithTag(playerTag);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (carDead == false && canUpdatePlayerLocation == true)
+        //checks if activecar is null, if active car == null it spawns a new car
+        if (activeCar == null && waitingForRespawn == false)
         {
-            if (targetObject != null && activeCar != null)
-            {
-                StartCoroutine(updateTargetLocation(targetObject.transform.position, 0.5f));
-                activeCar.GetComponent<ExplosiveCarBehavior>().CheckRangeFromPlayer(activeCar.transform.position, targetObject.transform.position, players);
-            }
-            else
-            {
-                startChase();
-            }
+            StartCoroutine(StartChase(respawnTimer));
         }
     }
-    public void startChase()
+
+    /// <summary>
+    /// instantiates the car after the timer has completed
+    /// </summary>
+    IEnumerator StartChase(float waitForSec)
     {
-        targetObject = GetClosestPlayer();
+        waitingForRespawn = true;
+        yield return new WaitForSeconds(waitForSec);
         CreateExplosiveCar(gameObject.transform.position);
+        waitingForRespawn = false;
     }
 
-
-    IEnumerator updateTargetLocation(Vector3 position, float seconds)
-    {
-        canUpdatePlayerLocation = false;
-        activeCar.GetComponent<ExplosiveCarBehavior>().GetTargetPosition(position);
-        yield return new WaitForSeconds(seconds);
-        canUpdatePlayerLocation = true;
-    }
+    /// <summary>
+    /// creates the explosive car at the position of the factory
+    /// </summary>
     void CreateExplosiveCar(Vector3 position)
     {
         activeCar = Instantiate(explosiveCarPrefab, position, Quaternion.identity);
-    }
-
-    GameObject GetClosestPlayer()
-    {
-        GameObject closestObject = players[0];
-        float closestDistance = float.PositiveInfinity;
-
-        foreach (GameObject p in players)
-        {
-            float distance = Vector3.Distance(thisObstacle.transform.position, p.transform.position);
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestObject = p;
-            }
-        }
-        return closestObject;
+        activeCar.GetComponent<ExplosiveCarBehavior>().GivePlayersGameObjects(allPlayers);
     }
 }

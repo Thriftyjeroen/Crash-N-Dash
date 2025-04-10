@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 718085362363748193}
   - component: {fileID: 8747005571443866078}
-  - component: {fileID: 189941492463816005}
   - component: {fileID: 5838884893211028927}
   - component: {fileID: 1340012736676541671}
+  - component: {fileID: 6861841643977423634}
+  - component: {fileID: 5902202004211829319}
   m_Layer: 0
   m_Name: ExplosiveCar
   m_TagString: Enemy
@@ -91,20 +92,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &189941492463816005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7567261190838368039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e995b5b85a6f2541ad1d1f9174439d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thisCar: {fileID: 0}
-  carAngle: 0
 --- !u!50 &5838884893211028927
 Rigidbody2D:
   serializedVersion: 5
@@ -144,6 +131,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da991f0f1b17cc94f890e285aff3ac16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!61 &6861841643977423634
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7567261190838368039}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.0035091639, y: 0.010527253}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.64, y: 0.64}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.6704123, y: 0.7078426}
+  m_EdgeRadius: 0
+--- !u!114 &5902202004211829319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7567261190838368039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e995b5b85a6f2541ad1d1f9174439d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carAngle: 0
+  closestPlayer: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
+  thisCar: {fileID: 0}
 --- !u!1001 &7904970509981532579
 PrefabInstance:
   m_ObjectHideFlags: 0
