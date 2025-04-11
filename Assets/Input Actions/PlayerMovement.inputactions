@@ -203,6 +203,39 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "2D Vector",
+                    "id": "7f072f41-38f4-42b9-a873-0ea33500ed0a",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotation",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "left",
+                    "id": "e36199f2-0415-42e2-8f48-3cb91704dd96",
+                    "path": "<Pointer>/delta/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotation",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "828b4bd9-8194-4184-b183-d5f2a4dcabef",
+                    "path": "<Pointer>/delta/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotation",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "4efdec6e-44df-43d3-9b03-e37558875d2f",
                     "path": "<SwitchProControllerHID>/buttonEast",
@@ -272,6 +305,17 @@
                     "name": "",
                     "id": "d9cb8b8a-50df-4eaf-bb8b-168bf184b831",
                     "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Gas",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b17a7660-3c51-41ba-b087-6310a0425e8b",
+                    "path": "<Pointer>/press",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -432,6 +476,17 @@
             "devices": [
                 {
                     "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "pointer",
+            "bindingGroup": "pointer",
+            "devices": [
+                {
+                    "devicePath": "<Pointer>",
                     "isOptional": false,
                     "isOR": false
                 }

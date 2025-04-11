@@ -7,17 +7,23 @@ public class Player : MonoBehaviour
 {
     private float maxSpeed = 10f;
     private float accelInc = 0.1f;
+    private float accelDec = 0.1f;
     private float minAccel = 0f;
     private float rotationSpeed = 125f;
+    private float steerDelay = 0f;
+    private bool invertControls = false;
 
 
     public List<int> debuffs = new List<int>();
 
 
     public float GetAccelInc() { return accelInc; }
+    public float GetAccelDec() { return accelDec; }
     public float GetMinAccel() { return minAccel; }
     public float GetRotationSpeed() { return rotationSpeed; }
     public float GetMaxSpeed() { return maxSpeed; }
+    public float GetSteerDelay() { return steerDelay; }
+    public bool GetInvertControls() { return invertControls; }
 
 
     /// <summary>
@@ -41,7 +47,7 @@ public class Player : MonoBehaviour
         else if (!type) minAccel -= amount;
     }
     /// <summary>
-    /// first parameter is for addition(true) or substraction(false) FOR LONG LASTING CHANGES ONLY CHANGES IN INCREMENTS OF 5
+    /// first parameter is for addition(true) or substraction(false)
     /// </summary>
     /// <param name="type"></param>
     /// <param name="amount"></param>
@@ -60,6 +66,23 @@ public class Player : MonoBehaviour
         if (type) rotationSpeed += amount;
         else if (!type) rotationSpeed -= amount;
     }
-
+    public void AlterAccelDec(bool type , float amount)
+    {
+        if (type) accelDec += amount;
+        
+    }
+    public void AlterSteerDelay(bool type,float amount)
+    {
+        if (type) steerDelay += amount;
+        else if (!type) steerDelay -= amount;
+    }
+    /// <summary>
+    /// just put true to set it to true and put false to set to false
+    /// </summary>
+    /// <param name="type"></param>
+    public void AlterInvertControls(bool type)
+    {
+        invertControls = type;
+    }
 
 }

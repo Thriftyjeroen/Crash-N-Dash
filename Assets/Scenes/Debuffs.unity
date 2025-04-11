@@ -537,6 +537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacles: []
+  poolSize: 10
 --- !u!212 &597202294
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1048,6 +1049,30 @@ MonoBehaviour:
       - m_Name: 
         m_Id: fd9bc8fd-00f9-4201-9c8a-7c63c468f0ab
         m_Path: <Keyboard>/space
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      - m_Name: 
+        m_Id: f0e33696-8179-456b-8937-9e531cf17b54
+        m_Path: <Mouse>/middleButton
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      - m_Name: 
+        m_Id: cb173f1f-2512-4488-ae6d-9a750ecb9cc4
+        m_Path: <HID::ShanWan Controller Adapter>/button10
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      - m_Name: 
+        m_Id: 79502314-ec53-46b5-a79a-99378511381e
+        m_Path: <Pointer>/press
         m_Interactions: 
         m_Processors: 
         m_Groups: 
