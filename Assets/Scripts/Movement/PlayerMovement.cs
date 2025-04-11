@@ -21,13 +21,17 @@ public class PlayerMovement : MonoBehaviour
     {
         GetInfo();
 
-        if (pushGas)
+        if (MathCurrentSpeed(rb.linearVelocity.magnitude) > 0.5f || pushGas)
         {
             transform.Rotate(new Vector3(0, 0, 1), rotateDirection.x * rotationSpeed * Time.deltaTime);
         }
 
         
         SpeedLimitCheck(MathCurrentSpeed(rb.linearVelocity.magnitude));
+
+
+
+
         
     }
 
@@ -36,7 +40,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (pushGas) rb.AddForce(transform.up * accel, ForceMode2D.Force);
 
-
+        if (pushBrake)
+        {
+            rb.AddForce(-transform.up * MathCurrentSpeed(rb.linearVelocity.magnitude), ForceMode2D.Force);
+        }
 
 
         if (pushGas && accel < maxSpeed)
@@ -75,7 +82,18 @@ public class PlayerMovement : MonoBehaviour
             pushGas = false;
         }
     }
-
+    bool pushBrake = false;
+    public void Brake(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            pushBrake = true;
+        }
+        else
+        {
+            pushBrake = false;
+        }
+    }
 
 
 

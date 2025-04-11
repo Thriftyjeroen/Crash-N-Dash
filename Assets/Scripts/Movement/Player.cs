@@ -8,8 +8,7 @@ public class Player : MonoBehaviour
     private float maxSpeed = 10f;
     private float accelInc = 0.1f;
     private float minAccel = 0f;
-    private float rotationSpeed = 75f;
-    //private float maxSpeed = 50f;
+    private float rotationSpeed = 125f;
 
 
     public List<int> debuffs = new List<int>();

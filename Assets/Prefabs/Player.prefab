@@ -245,6 +245,70 @@ MonoBehaviour:
     m_ActionName: 'PlayerMovement/Use Item[/ShanWan Controller Adapter1/button4,/ShanWan
       Controller Adapter2/button4,/ShanWan Controller Adapter3/button4,/ShanWan Controller
       Adapter4/button4,/Keyboard/q]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7029573099945845525}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: Brake
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b4b40a5e-4420-4676-93ee-becc65089a12
+    m_ActionName: 'PlayerMovement/brake[/Keyboard/s]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -1884036017699656332}
+        m_TargetAssemblyTypeName: GiveDebuff, Assembly-CSharp
+        m_MethodName: IndexDown
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f83e136f-b6cf-492a-9af0-be8113b47ef1
+    m_ActionName: 'PlayerMovement/left[/Keyboard/leftArrow]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -1884036017699656332}
+        m_TargetAssemblyTypeName: GiveDebuff, Assembly-CSharp
+        m_MethodName: IndexUp
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6aa27f54-598d-4c0d-85d3-9db9549161a2
+    m_ActionName: 'PlayerMovement/right[/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -1884036017699656332}
+        m_TargetAssemblyTypeName: GiveDebuff, Assembly-CSharp
+        m_MethodName: Select
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4ba23fdf-b37b-411a-9b51-8e55ade86741
+    m_ActionName: 'PlayerMovement/select[/Keyboard/enter]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Pro Controller
   m_DefaultActionMap: PlayerMovement
