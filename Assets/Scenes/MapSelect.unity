@@ -142,7 +142,10 @@ MonoBehaviour:
   - test1
   - test2
   - test3
+  - test4
   testbool: 0
+  TestmapData: 1
+  resolution: 1080
 --- !u!1 &1636806112
 GameObject:
   m_ObjectHideFlags: 0
