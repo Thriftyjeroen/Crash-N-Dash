@@ -18,9 +18,11 @@ public class MapSelectionManager : MonoBehaviour
     int testNum = 0;
     int currentYPosition = 500;
     public int resolution = Screen.height;
+    int itemTargetLocation = 0;
     void Start()
     {
         ParentCanvas = GetComponent<Canvas>();
+        itemTargetLocation = resolution/2;
     }
 
     // Update is called once per frame
@@ -42,7 +44,7 @@ public class MapSelectionManager : MonoBehaviour
         {
             Button newButton = Instantiate(MapSelectTemplate, ParentCanvas.transform);
             ChooseRandomAvailableMap(newButton);
-            newButton.transform.position = new Vector3(currentYPosition, (resolution / 2), 0);
+            newButton.transform.position = new Vector3(currentYPosition, itemTargetLocation, 0);
             currentYPosition += 500;
             allMapSelectButtons.Add(newButton);
         }
@@ -78,6 +80,9 @@ public class MapSelectionManager : MonoBehaviour
         {
             print("we are gonna have a problem here, bud");
         }
+
     }
+
+    ///method that slides an item on screen (using itemtargetlocation)
 
 }
