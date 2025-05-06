@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
@@ -13,25 +14,26 @@ public class MapSelectionManager : MonoBehaviour
     [SerializeField] List<Button> allMapSelectButtons;
     [SerializeField] List<string> AllAvailableMaps;
     List<string> AlreadyInstantiatedMaps = new List<string>();
-    public bool testbool = false;
+    public bool AddNewMap = false;
     public bool TestmapData = true;
     int testNum = 0;
     int currentYPosition = 500;
     public int resolution = Screen.height;
     int itemTargetLocation = 0;
+    int slideAmountPerSecond = Screen.height;
     void Start()
     {
         ParentCanvas = GetComponent<Canvas>();
-        itemTargetLocation = resolution/2;
+        itemTargetLocation = resolution / 2;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (testbool == true && allMapSelectButtons.Count < 7)
+        if (AddNewMap == true && allMapSelectButtons.Count < 7)
         {
             AddMapButtonToCanvas();
-            testbool = false;
+            AddNewMap = false;
         }
     }
 
@@ -44,8 +46,9 @@ public class MapSelectionManager : MonoBehaviour
         {
             Button newButton = Instantiate(MapSelectTemplate, ParentCanvas.transform);
             ChooseRandomAvailableMap(newButton);
-            newButton.transform.position = new Vector3(currentYPosition, itemTargetLocation, 0);
+            newButton.transform.position = new Vector3(currentYPosition, 1500, 0);
             currentYPosition += 500;
+            StartCoroutine(transformButton(newButton));
             allMapSelectButtons.Add(newButton);
         }
     }
@@ -82,7 +85,15 @@ public class MapSelectionManager : MonoBehaviour
         }
 
     }
-
-    ///method that slides an item on screen (using itemtargetlocation)
-
+    IEnumerator transformButton(Button currentButton)
+    {
+        print("executing ienumerator");
+        while (currentButton.transform.position.y > itemTargetLocation)
+        {
+            currentButton.transform.Translate(0, -7, 0);
+            yield return new WaitForSeconds(0.01f);
+        }
+        yield return null;
+        AddNewMap = true;
+    }
 }
