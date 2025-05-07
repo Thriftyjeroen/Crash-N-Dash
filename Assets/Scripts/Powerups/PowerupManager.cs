@@ -74,7 +74,7 @@ public class PowerupManager : MonoBehaviour
     void SpeedBoost(GameObject pPlayer)
     {
         PlayerMovement playerMovement = pPlayer.GetComponent<PlayerMovement>();
-        playerMovement.rb.AddForce(transform.up * 200, ForceMode2D.Force);
+        playerMovement.rb.AddForce(transform.up * 500, ForceMode2D.Force);
     }
     void DropItem(GameObject pPlayer, GameObject pPrefab)
     {
