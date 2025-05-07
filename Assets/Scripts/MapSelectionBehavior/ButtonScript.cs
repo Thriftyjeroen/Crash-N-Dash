@@ -12,6 +12,8 @@ public class ButtonScript : MonoBehaviour
     Button thisButton;
     TMP_Text[] allText;
     TMP_Text numberOfVotes;
+    public float timeToVote = 10.0f;
+    bool startTimer = false;
     void Start()
     {
         thisButton = GetComponent<Button>();
@@ -36,5 +38,11 @@ public class ButtonScript : MonoBehaviour
     IEnumerator TemporaryBiggerButton()
     {
         yield return new WaitForSeconds(0.2f);
+    }
+
+    public int TellAmountOfVotes()
+    {
+        int returnNum = amountClickedOnButton;
+        return returnNum;
     }
 }

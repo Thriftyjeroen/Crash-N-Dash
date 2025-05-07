@@ -21,10 +21,19 @@ public class MapSelectionManager : MonoBehaviour
     public int resolution = Screen.height;
     int itemTargetLocation = 0;
     int slideAmountPerSecond = Screen.height;
+
+    Button votedMap;
+
+    TMP_Text timerText;
+    public float timeToVote = 10.0f;
+    bool startTimer = false;
+    bool removeButtons = false;
+    bool mapsRemoved = false;
     void Start()
     {
         ParentCanvas = GetComponent<Canvas>();
         itemTargetLocation = resolution / 2;
+        timerText = GetComponentInChildren<TMP_Text>();
     }
 
     // Update is called once per frame
@@ -34,6 +43,25 @@ public class MapSelectionManager : MonoBehaviour
         {
             AddMapButtonToCanvas();
             AddNewMap = false;
+            if (allMapSelectButtons.Count > 2)
+            {
+                startTimer = true;
+            }
+        }
+
+        if (timeToVote >= 0 && startTimer == true)
+        {
+            timeToVote -= Time.deltaTime;
+            timerText.text = Mathf.Round(timeToVote).ToString();
+        }
+        else if (startTimer == true && timeToVote <= 0)
+        {
+            Destroy(timerText);
+            print("select most voted map");
+            if(mapsRemoved == false)
+            {
+                RemoveMapButtons();
+            }
         }
     }
 
@@ -48,9 +76,22 @@ public class MapSelectionManager : MonoBehaviour
             ChooseRandomAvailableMap(newButton);
             newButton.transform.position = new Vector3(currentYPosition, 1500, 0);
             currentYPosition += 500;
-            StartCoroutine(transformButton(newButton));
+            StartCoroutine(transformButton(newButton, itemTargetLocation, -7));
             allMapSelectButtons.Add(newButton);
         }
+    }
+
+    void RemoveMapButtons()
+    {
+        votedMap = FindHighestVotedMap();
+        foreach (Button mapButton in allMapSelectButtons)
+        {
+            if (mapButton != votedMap)
+            {
+                StartCoroutine(transformButton(mapButton, -1000, -7));
+            }
+        }
+        mapsRemoved = true;
     }
 
 
@@ -85,15 +126,30 @@ public class MapSelectionManager : MonoBehaviour
         }
 
     }
-    IEnumerator transformButton(Button currentButton)
+    IEnumerator transformButton(Button currentButton, int targetLocation, int Speed)
     {
         print("executing ienumerator");
-        while (currentButton.transform.position.y > itemTargetLocation)
+        while (currentButton.transform.position.y > targetLocation)
         {
-            currentButton.transform.Translate(0, -7, 0);
+            currentButton.transform.Translate(0, Speed, 0);
             yield return new WaitForSeconds(0.01f);
         }
         yield return null;
         AddNewMap = true;
     }
+    Button FindHighestVotedMap()
+    {
+        Button returnButton = allMapSelectButtons[0];
+        int highestVote = 0;
+        foreach (Button b in allMapSelectButtons)
+        {
+            if (b.GetComponent<ButtonScript>().TellAmountOfVotes() > highestVote)
+            {
+                returnButton = b;
+                highestVote = b.GetComponent<ButtonScript>().TellAmountOfVotes();
+            }
+        }
+        return returnButton;
+    }
+
 }
