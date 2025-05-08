@@ -16,7 +16,6 @@ public class MapSelectionManager : MonoBehaviour
     List<string> AlreadyInstantiatedMaps = new List<string>();
     public bool AddNewMap = false;
     public bool TestmapData = true;
-    int testNum = 0;
     int currentYPosition = 500;
     public int resolution = Screen.height;
     int itemTargetLocation = 0;
@@ -27,8 +26,8 @@ public class MapSelectionManager : MonoBehaviour
     TMP_Text timerText;
     public float timeToVote = 10.0f;
     bool startTimer = false;
-    bool removeButtons = false;
     bool mapsRemoved = false;
+    bool canOpenMap = true;
     void Start()
     {
         ParentCanvas = GetComponent<Canvas>();
@@ -66,9 +65,9 @@ public class MapSelectionManager : MonoBehaviour
         }
     }
 
-/// <summary>
-/// adds a new map button to the canvas 
-/// </summary>
+    /// <summary>
+    /// adds a new map button to the canvas 
+    /// </summary>
     void AddMapButtonToCanvas()
     {
         //if all the current buttons on screen <=2 and all current buttons selected is less than all available maps (you cant have more maps on screen than there are in the map-pool)
@@ -86,7 +85,7 @@ public class MapSelectionManager : MonoBehaviour
             currentYPosition += 500;
 
             //starts the sliding animation for the button
-            StartCoroutine(transformButton(newButton, itemTargetLocation, -7));
+            StartCoroutine(transformButton(newButton, itemTargetLocation, -7, false));
 
             //this button gets added to the list for active maps
             allMapSelectButtons.Add(newButton);
@@ -98,7 +97,7 @@ public class MapSelectionManager : MonoBehaviour
     /// removes the map buttons who were votes the least
     /// </summary>
     void RemoveLeastVotedMapButtons()
-    {   
+    {
         //finds the most voted map and remembers it :O
         votedMap = FindHighestVotedMap();
 
@@ -107,7 +106,11 @@ public class MapSelectionManager : MonoBehaviour
         {
             if (mapButton != votedMap)
             {
-                StartCoroutine(transformButton(mapButton, -1000, -7));
+                StartCoroutine(transformButton(mapButton, -600, -7, true));
+            }
+            else if (mapButton == votedMap && canOpenMap == true)
+            {
+                StartCoroutine(activateMap(mapButton));
             }
         }
         mapsRemoved = true;
@@ -156,7 +159,7 @@ public class MapSelectionManager : MonoBehaviour
     /// <summary>
     /// ienumerator to transform the buttons up or down, used to slide the buttons in and out of screen
     /// </summary>
-    IEnumerator transformButton(Button currentButton, int targetLocation, int Speed)
+    IEnumerator transformButton(Button currentButton, int targetLocation, int Speed, bool deleteMapAfter)
     {
         print("executing ienumerator");
         while (currentButton.transform.position.y > targetLocation)
@@ -166,14 +169,23 @@ public class MapSelectionManager : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
         yield return null;
-        
-        //if all the buttons on screen is higher than 2, or there are no more maps available to choose, it starts the votingTimer
-        if (allMapSelectButtons.Count > 2 || allMapSelectButtons.Count == AllAvailableMaps.Count)
+
+        if (deleteMapAfter == false)
         {
-            startTimer = true;
+            //if all the buttons on screen is higher than 2, or there are no more maps available to choose, it starts the votingTimer
+            if (allMapSelectButtons.Count > 2 || allMapSelectButtons.Count == AllAvailableMaps.Count)
+            {
+                startTimer = true;
+            }
+            //after the sliding animation is done, a new map can be instantiated
+            AddNewMap = true;
         }
-        //after the sliding animation is done, a new map can be instantiated
-        AddNewMap = true;
+        else
+        {
+            allMapSelectButtons.Remove(currentButton);
+            Destroy(currentButton.GetComponent<ButtonScript>());
+        }
+
     }
 
     /// <summary>
@@ -194,4 +206,11 @@ public class MapSelectionManager : MonoBehaviour
         return returnButton;
     }
 
+    IEnumerator activateMap(Button votedButton)
+    {
+        canOpenMap = false;
+        yield return new WaitForSeconds(3);
+        votedButton.GetComponent<ButtonScript>().ActivateThisMap();
+
+    }
 }

@@ -10,18 +10,18 @@ public class ButtonScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public int amountClickedOnButton = 0;
     Button thisButton;
-    TMP_Text[] allText;
+    public TMP_Text[] allText;
     TMP_Text numberOfVotes;
-    public float timeToVote = 10.0f;
-    bool startTimer = false;
+    public string mapname;
     void Start()
     {
         thisButton = GetComponent<Button>();
         thisButton.onClick.AddListener(OnClick);
 
-        GameObject emptyTextObject = thisButton.transform.Find("Text").gameObject;
+        GameObject emptyTextObject = transform.Find("Text").gameObject;
         allText = emptyTextObject.GetComponentsInChildren<TMP_Text>();
         numberOfVotes = allText[1];
+        mapname = allText[0].text;
     }
 
     // Update is called once per frame
@@ -33,10 +33,12 @@ public class ButtonScript : MonoBehaviour
     void OnClick()
     {
         amountClickedOnButton++;
+        TemporaryBiggerButton();
     }
 
     IEnumerator TemporaryBiggerButton()
     {
+        thisButton.transform.localScale = thisButton.transform.localScale * 2;
         yield return new WaitForSeconds(0.2f);
     }
 
@@ -44,5 +46,21 @@ public class ButtonScript : MonoBehaviour
     {
         int returnNum = amountClickedOnButton;
         return returnNum;
+    }
+
+    public void ActivateThisMap()
+    {
+        switch (allText[0].text)
+        {
+            case "test1":
+                print("test1 in switch statement");
+                break;
+            case "map1":
+                print("open map 1");
+                break;
+            default:
+                print("couldnt find a matching name, name input was" + allText[0].text);
+                break;
+        }
     }
 }

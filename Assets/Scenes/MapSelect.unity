@@ -140,9 +140,8 @@ MonoBehaviour:
   allMapSelectButtons: []
   AllAvailableMaps:
   - test1
-  - test2
-  - test3
-  - test4
+  - map1
+  - test
   AddNewMap: 1
   TestmapData: 1
   resolution: 1080
