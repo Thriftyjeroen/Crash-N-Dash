@@ -4,13 +4,13 @@ using System.Collections.Generic;
 public class CheckPointManager : MonoBehaviour
 {
     private Transform checkPointsTransform;
+    private RaceManager raceManager;
     private ObstacleSpawner obstacleSpawner;
     private List<CheckPoint> checkPointList;
     private int nextCheckPointIndex;
     public int lap = 1;
     public void Init(Transform pCheckPointsTransform, ObstacleSpawner pObstacleSpawner)
     {
-        Debug.Log("running checkpointManager Init");
         checkPointsTransform = pCheckPointsTransform;
         obstacleSpawner = pObstacleSpawner;
 
@@ -38,6 +38,10 @@ public class CheckPointManager : MonoBehaviour
                 //did a lap
                 lap++;
                 obstacleSpawner.OnLap();
+                if (lap == 4)
+                {
+                    raceManager.EndRace();
+                }
             }
         }
         else
@@ -45,6 +49,11 @@ public class CheckPointManager : MonoBehaviour
             //passed wrong checkpoint
 
         }
+    }
+    public void ResetCheckPoints()
+    {
+        lap = 1;
+        nextCheckPointIndex = 0;
     }
 
     public int GetLapProgress()
