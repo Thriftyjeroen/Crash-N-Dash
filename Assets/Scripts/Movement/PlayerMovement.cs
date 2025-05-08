@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,8 +9,11 @@ public class PlayerMovement : MonoBehaviour
     float accel = 0;
     float maxSpeed = 0;
     float minAccel = 0;
-    float accelInc = 0.1f;
-    float rotationSpeed = 0f;
+    float accelInc = 0;
+    float accelDec = 0;
+    float rotationSpeed = 0;
+    float steerDelay = 0;
+    bool invertControls = false;
 
 
     private void Start()
@@ -21,13 +25,18 @@ public class PlayerMovement : MonoBehaviour
     {
         GetInfo();
 
-        if (pushGas)
+        if (MathCurrentSpeed(rb.linearVelocity.magnitude) > 0.5f || pushGas)
         {
-            transform.Rotate(new Vector3(0, 0, 1), rotateDirection.x * rotationSpeed * Time.deltaTime);
+            if (invertControls) transform.Rotate(new Vector3(0, 0, 1), -rotateDirection.x * rotationSpeed * Time.deltaTime);
+            else transform.Rotate(new Vector3(0, 0, 1), rotateDirection.x * rotationSpeed * Time.deltaTime);
         }
 
-        
+
         SpeedLimitCheck(MathCurrentSpeed(rb.linearVelocity.magnitude));
+
+
+
+
         
     }
 
@@ -36,7 +45,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (pushGas) rb.AddForce(transform.up * accel, ForceMode2D.Force);
 
-
+        if (pushBrake)
+        {
+            rb.AddForce(-transform.up * MathCurrentSpeed(rb.linearVelocity.magnitude), ForceMode2D.Force);
+        }
 
 
         if (pushGas && accel < maxSpeed)
@@ -45,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (!pushGas && accel > minAccel)
         {
-            accel -= accelInc;
+            accel -= accelDec;
         }
         if (accel < minAccel) accel = minAccel;
 
@@ -55,12 +67,18 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.performed)
         {
-            rotateDirection = context.ReadValue<Vector2>();
+            StartCoroutine(ChangeRotateValue(context));
         }
         else
         {
             rotateDirection = Vector2.zero;
         }
+    }
+
+    IEnumerator ChangeRotateValue(InputAction.CallbackContext context)
+    {
+        yield return new WaitForSeconds(steerDelay);
+        rotateDirection = context.ReadValue<Vector2>();
     }
 
     bool pushGas = false;
@@ -75,7 +93,18 @@ public class PlayerMovement : MonoBehaviour
             pushGas = false;
         }
     }
-
+    bool pushBrake = false;
+    public void Brake(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            pushBrake = true;
+        }
+        else
+        {
+            pushBrake = false;
+        }
+    }
 
 
 
@@ -85,6 +114,9 @@ public class PlayerMovement : MonoBehaviour
         minAccel = gameObject.GetComponent<Player>().GetMinAccel();
         rotationSpeed = gameObject.GetComponent<Player>().GetRotationSpeed();
         accelInc = gameObject.GetComponent<Player>().GetAccelInc();
+        accelDec = gameObject.GetComponent<Player>().GetAccelDec();
+        steerDelay = gameObject.GetComponent<Player>().GetSteerDelay();
+        invertControls = gameObject.GetComponent<Player>().GetInvertControls();
     }
 
 
