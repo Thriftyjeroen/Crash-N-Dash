@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     private float rotationSpeed = 125f;
     private float steerDelay = 0f;
     private bool invertControls = false;
+    private bool randomAccel = false;
+    private bool ghostBrakes = false;
 
 
     public List<int> debuffs = new List<int>();
@@ -24,6 +26,8 @@ public class Player : MonoBehaviour
     public float GetMaxSpeed() { return maxSpeed; }
     public float GetSteerDelay() { return steerDelay; }
     public bool GetInvertControls() { return invertControls; }
+    public bool GetRandomAccelDebuff() { return randomAccel; }
+    public bool GetGhostBrakes() { return ghostBrakes; }
 
 
     /// <summary>
@@ -84,5 +88,12 @@ public class Player : MonoBehaviour
     {
         invertControls = type;
     }
-
+    public void AlterRandomAccel(bool type)
+    {
+        randomAccel = type;
+    }
+    public void AlterGhostBrakes(bool type)
+    {
+        ghostBrakes = type;
+    }
 }

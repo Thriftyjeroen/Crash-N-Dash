@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     float rotationSpeed = 0;
     float steerDelay = 0;
     bool invertControls = false;
+    bool randomAccel = false;
+    bool ghostBrakes = false;
 
 
     private void Start()
@@ -37,12 +41,11 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        
     }
 
     private void FixedUpdate()
     {
-
+        System.Random rand = new System.Random();
         if (pushGas) rb.AddForce(transform.up * accel, ForceMode2D.Force);
 
         if (pushBrake)
@@ -53,7 +56,15 @@ public class PlayerMovement : MonoBehaviour
 
         if (pushGas && accel < maxSpeed)
         {
-            accel += accelInc;
+            if (randomAccel)
+            {
+                rand = new System.Random();
+                float randomNum = rand.Next(2, 30);
+                randomNum /= 100;
+                accel += randomNum;
+                print(accel);
+            }
+            else accel += accelInc;
         }
         else if (!pushGas && accel > minAccel)
         {
@@ -61,8 +72,25 @@ public class PlayerMovement : MonoBehaviour
         }
         if (accel < minAccel) accel = minAccel;
 
-    }
 
+        if (ghostBrakes)
+        {
+            int ghostBrakeCheck = rand.Next(0, 100);
+            if (ghostBrakeCheck == 0)
+            {
+                pushBrake = true;
+                StartCoroutine(StopBrake());
+            }
+        }
+        
+
+
+    }
+    IEnumerator StopBrake()
+    {
+        yield return new WaitForSeconds(1);
+        pushBrake = false;
+    }
     public void Rotation(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -117,6 +145,8 @@ public class PlayerMovement : MonoBehaviour
         accelDec = gameObject.GetComponent<Player>().GetAccelDec();
         steerDelay = gameObject.GetComponent<Player>().GetSteerDelay();
         invertControls = gameObject.GetComponent<Player>().GetInvertControls();
+        randomAccel = gameObject.GetComponent<Player>().GetRandomAccelDebuff();
+        ghostBrakes = gameObject.GetComponent<Player>().GetGhostBrakes();
     }
 
 

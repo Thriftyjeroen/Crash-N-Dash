@@ -16,9 +16,10 @@ public class Debuffs : MonoBehaviour
     private void InitializeDebuffs()
     {
         //PLACEHOLDERS
-        Debuff speednerf = new Debuff(1, "Speed nerf", "decreases speed","common");
+        //NOT PLACEHOLDERS
+        Debuff speednerf = new Debuff(1, "Flat tire", "decreases speed","common");
         debuffs.Add(speednerf);
-        Debuff accelnerf = new Debuff(2, "Accel nerf", "decreases acceleration","common");
+        Debuff accelnerf = new Debuff(2, "Rusted Engine", "decreases acceleration","common");
         debuffs.Add(accelnerf);
         Debuff rotationnerf = new Debuff(3, "Rotation nerf", "decreases rotation","common");
         debuffs.Add(rotationnerf);
@@ -30,5 +31,13 @@ public class Debuffs : MonoBehaviour
         debuffs.Add(invertControls);
         Debuff overSteering = new Debuff(7, "Oversteering", "way too much steering", "epic");
         debuffs.Add(overSteering);
+        Debuff underSteering = new Debuff(8, "Understeering", "almost no steering", "epic");
+        debuffs.Add(underSteering);
+        Debuff randomAcceleration = new Debuff(9, "random acceleration", "random acceleration", "epic");
+        debuffs.Add(randomAcceleration);
+        Debuff heavyCar = new Debuff(10, "heavy car", "slower speed and rotation", "rare");
+        debuffs.Add(heavyCar);
+        Debuff ghostBrakes = new Debuff(11, "ghost brakes", "brakes randomly activate", "epic");
+        debuffs.Add(ghostBrakes);
     }
 }
