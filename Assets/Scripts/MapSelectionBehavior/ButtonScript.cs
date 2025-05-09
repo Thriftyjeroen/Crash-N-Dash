@@ -13,8 +13,10 @@ public class ButtonScript : MonoBehaviour
     public TMP_Text[] allText;
     TMP_Text numberOfVotes;
     public string mapname;
+    BoxCollider2D boxCollider;
     void Start()
     {
+        boxCollider = GetComponent<BoxCollider2D>();
         thisButton = GetComponent<Button>();
         thisButton.onClick.AddListener(OnClick);
 
@@ -62,5 +64,14 @@ public class ButtonScript : MonoBehaviour
                 print("couldnt find a matching name, name input was" + allText[0].text);
                 break;
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        amountClickedOnButton++;
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        amountClickedOnButton--;
     }
 }
