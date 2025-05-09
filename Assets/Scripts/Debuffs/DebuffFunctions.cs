@@ -33,7 +33,6 @@ public class DebuffFunctions : MonoBehaviour
             DebuffEffects();
 
         }
-        print(player.GetRotationSpeed());
     }
     
 
@@ -66,6 +65,19 @@ public class DebuffFunctions : MonoBehaviour
                         break;
                     case 7:
                         player.AlterRotation(true,100);
+                        break;
+                    case 8:
+                        if (player.GetRotationSpeed() > 55) player.AlterRotation(false, 50);
+                        break;
+                    case 9:
+                        player.AlterRandomAccel(true);
+                        break;
+                    case 10:
+                        if (player.GetMaxSpeed() > 3) player.AlterMaxSpeed(false, 3);
+                        if (player.GetRotationSpeed() > 30) player.AlterRotation(false,30);
+                        break;
+                    case 11:
+                        player.AlterGhostBrakes(true);
                         break;
                 }
                 debuffUsedManager[i] = true;
