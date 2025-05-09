@@ -369,6 +369,28 @@
                 },
                 {
                     "name": "",
+                    "id": "0090e777-88e4-481b-918d-9a55754ca465",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Use Item",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b545f88b-1be6-4d28-9eb2-49fde9ca896b",
+                    "path": "<HID::usb gamepad           >/button9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Use Item",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "595c6b36-87ac-4a6d-9f0f-cf0595349eab",
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
@@ -415,6 +437,17 @@
                     "name": "",
                     "id": "099cd3df-b2ae-422b-981c-5b9b4bbdc05f",
                     "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "brake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "acb3c25f-b6d5-452d-9355-b27c40081e4a",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
