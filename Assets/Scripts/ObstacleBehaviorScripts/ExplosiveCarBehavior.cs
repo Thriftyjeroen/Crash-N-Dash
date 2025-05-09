@@ -131,15 +131,7 @@ public class ExplosiveCarBehavior : MonoBehaviour
         return returnList;
     }
 
-    /// <summary>
-    /// explodes the car and calls damage players
-    /// </summary>
-    void ExplodeCar()
-    {
-        damagePlayers(GetCarsInRange(Activeplayers));
-        //voeg hier nog effect toe
-        Destroy(gameObject);
-    }
+
 
     /// <summary>
     /// removes health from the players in range
@@ -160,14 +152,5 @@ public class ExplosiveCarBehavior : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// if the car collides with something it sets off the explosion
-    /// </summary>
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision != null)
-        {
-            ExplodeCar();
-        }
-    }
+
 }
