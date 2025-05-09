@@ -71,7 +71,7 @@ public class GiveDebuff : MonoBehaviour
 
 
         // hard code what debuff shows for testing purposes DELETE WHEN DONE TESTING
-        //DebuffChoices[0] = db.debuffs[6];
+        //DebuffChoices[0] = db.debuffs[10];
 
 
         //show random cards on screen
