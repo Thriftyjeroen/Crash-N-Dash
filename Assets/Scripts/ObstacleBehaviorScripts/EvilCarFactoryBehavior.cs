@@ -26,10 +26,18 @@ public class EvilCarFactoryBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        allPlayers = GameObject.FindGameObjectsWithTag(playerTag);
         //checks if activecar is null, if active car == null it spawns a new car
         if (activeCar == null && waitingForRespawn == false)
         {
-            StartCoroutine(StartChase(respawnTimer));
+            if (allPlayers != null)
+            {
+                StartCoroutine(StartChase(respawnTimer));
+            }
+            else
+            {
+                print("no players found");
+            }
         }
     }
 
@@ -49,7 +57,11 @@ public class EvilCarFactoryBehavior : MonoBehaviour
     /// </summary>
     void CreateExplosiveCar(Vector3 position)
     {
-        activeCar = Instantiate(explosiveCarPrefab, position, Quaternion.identity);
-        activeCar.GetComponent<ExplosiveCarBehavior>().GivePlayersGameObjects(allPlayers);
+        if (allPlayers != null)
+        {
+            activeCar = Instantiate(explosiveCarPrefab, position, Quaternion.identity);
+            activeCar.GetComponent<ExplosiveCarBehavior>().GivePlayersGameObjects(allPlayers);
+        }
     }
+
 }
