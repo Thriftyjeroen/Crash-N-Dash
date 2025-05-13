@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -7,12 +8,12 @@ public class EvilCarFactoryBehavior : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     [SerializeField] GameObject explosiveCarPrefab;
-    GameObject[] allPlayers;
+    public GameObject[] allPlayers;
     GameObject thisObstacle;
     GameObject activeCar;
 
     string playerTag = "Player";
-    float respawnTimer = 2.0f;
+    public float respawnTimer = 2.0f;
     bool waitingForRespawn = false;
 
 
@@ -20,7 +21,6 @@ public class EvilCarFactoryBehavior : MonoBehaviour
     {
         thisObstacle = gameObject;
         //finds all the gameobjects with the playertag
-        allPlayers = GameObject.FindGameObjectsWithTag(playerTag);
     }
 
     // Update is called once per frame
@@ -30,7 +30,7 @@ public class EvilCarFactoryBehavior : MonoBehaviour
         //checks if activecar is null, if active car == null it spawns a new car
         if (activeCar == null && waitingForRespawn == false)
         {
-            if (allPlayers != null)
+            if (allPlayers.Length > 0)
             {
                 StartCoroutine(StartChase(respawnTimer));
             }
@@ -46,6 +46,7 @@ public class EvilCarFactoryBehavior : MonoBehaviour
     /// </summary>
     IEnumerator StartChase(float waitForSec)
     {
+        print("starting chase");
         waitingForRespawn = true;
         yield return new WaitForSeconds(waitForSec);
         CreateExplosiveCar(gameObject.transform.position);
