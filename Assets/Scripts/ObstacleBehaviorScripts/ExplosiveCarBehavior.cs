@@ -32,7 +32,10 @@ public class ExplosiveCarBehavior : MonoBehaviour
     {
         thisCar = gameObject;
         //get the closest player near the car
-        target = GetClosestPlayer();
+        if (Activeplayers[0] != null)
+        {
+            target = GetClosestPlayer();
+        }
         closestFoundPlayer = target.transform.position;
     }
 
@@ -42,10 +45,13 @@ public class ExplosiveCarBehavior : MonoBehaviour
         if (CarBehaviorSwitch == true)
         {
             //if the car can update its target position
-            if (canUpdatePlayerLocation == true)
+            if (canUpdatePlayerLocation == true && Activeplayers.Length > 0)
             {
                 target = GetClosestPlayer();
-                StartCoroutine(updateTargetLocation(target.transform.position, 0.7f));
+                if (target != null)
+                {
+                    StartCoroutine(updateTargetLocation(target.transform.position, 0.7f));
+                }
             }
             //rotate towards closest player
             LookAtPlayer(closestFoundPlayer);
@@ -69,6 +75,7 @@ public class ExplosiveCarBehavior : MonoBehaviour
     GameObject GetClosestPlayer()
     {
         GameObject closestObject = Activeplayers[0];
+
         float closestDistance = float.PositiveInfinity;
 
         foreach (GameObject p in Activeplayers)
@@ -132,16 +139,6 @@ public class ExplosiveCarBehavior : MonoBehaviour
     }
 
     /// <summary>
-    /// explodes the car and calls damage players
-    /// </summary>
-    void ExplodeCar()
-    {
-        damagePlayers(GetCarsInRange(Activeplayers));
-        //voeg hier nog effect toe
-        Destroy(gameObject);
-    }
-
-    /// <summary>
     /// removes health from the players in range
     /// </summary>
     void damagePlayers(List<GameObject> players)
@@ -156,18 +153,6 @@ public class ExplosiveCarBehavior : MonoBehaviour
             {
                 print("kan geen playerhealth vinden");
             }
-        }
-    }
-
-
-    /// <summary>
-    /// if the car collides with something it sets off the explosion
-    /// </summary>
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision != null)
-        {
-            ExplodeCar();
         }
     }
 }
