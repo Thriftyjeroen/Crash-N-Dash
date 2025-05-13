@@ -2,16 +2,11 @@ using UnityEngine;
 
 public class CheckPoint : MonoBehaviour
 {
-    private CheckPointManager checkPointManager;
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent<Player>(out Player player))
+        if (other.TryGetComponent<CheckPointManager>(out var manager))
         {
-            checkPointManager.PassCheckPoint(this);
+            manager.PassCheckPoint(this);
         }
-    }
-    public void SetTrackCheckPointManager(CheckPointManager pcheckPointManager)
-    {
-        checkPointManager = pcheckPointManager;
     }
 }

@@ -18,7 +18,7 @@ public class ObstacleSpawner : MonoBehaviour
     {
         Vector3 spawnPosition = new Vector3(Random.Range(-10f, 10f), Random.Range(-5f, 5f), 0);
 
-        // Make sure we only spawn on track
+        // Make sure it only spawns on track
         Collider2D hitCollider = Physics2D.OverlapPoint(spawnPosition);
         if (hitCollider != null && hitCollider.CompareTag("Track"))
         {

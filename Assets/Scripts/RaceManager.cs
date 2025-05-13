@@ -18,8 +18,8 @@ public class RaceManager : MonoBehaviour
         // Reset player position
         foreach (var player in playerList.GetComponentsInChildren<PlayerJoinManager>())
         {
-            player.SetPosition();
-            player.SetRotation();
+            //player.SetPosition();
+            //player.SetRotation();
         }
         
     }

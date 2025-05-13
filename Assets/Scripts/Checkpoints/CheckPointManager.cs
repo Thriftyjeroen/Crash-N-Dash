@@ -19,7 +19,6 @@ public class CheckPointManager : MonoBehaviour
         foreach (Transform checkPointChild in checkPointsTransform)
         {
             CheckPoint checkPoint = checkPointChild.GetComponent<CheckPoint>();
-            checkPoint.SetTrackCheckPointManager(this);
             checkPointList.Add(checkPoint);
         }
         
@@ -28,6 +27,7 @@ public class CheckPointManager : MonoBehaviour
 
     public void PassCheckPoint(CheckPoint checkPointScript)
     {
+        //IF THERE ARE MORE THAN ONE PLAYERS. THE LAP PROGRESS STOPS COUNTING 
         if (checkPointList.IndexOf(checkPointScript) == nextCheckPointIndex)
         {
             //passed correct checkpoint 
@@ -58,7 +58,9 @@ public class CheckPointManager : MonoBehaviour
 
     public int GetLapProgress()
     {
+        Debug.Log(gameObject.name + nextCheckPointIndex);
         return nextCheckPointIndex;
+        
     }
 
     public GameObject GetLastPassedCheckpoint()
