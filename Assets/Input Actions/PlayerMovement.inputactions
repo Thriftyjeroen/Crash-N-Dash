@@ -348,7 +348,7 @@
                 {
                     "name": "",
                     "id": "793f505c-b2be-4a7c-b9f7-87551edfcbb1",
-                    "path": "<HID::usb gamepad           >/button3",
+                    "path": "<HID::usb gamepad           >/button4",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -448,6 +448,17 @@
                     "name": "",
                     "id": "acb3c25f-b6d5-452d-9355-b27c40081e4a",
                     "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "brake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fc44f13e-92be-43f3-88a9-bfb00ec7e4af",
+                    "path": "<HID::usb gamepad           >/button3",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

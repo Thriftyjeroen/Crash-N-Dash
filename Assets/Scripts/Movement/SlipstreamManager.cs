@@ -6,7 +6,7 @@ public class SlipstreamManager : MonoBehaviour
 {
     bool activated;
     float originalSpeed;
-    float inc = 5;
+    float inc = 2;
     Player playerMovement;
     bool running = false;
     LayerMask mask;

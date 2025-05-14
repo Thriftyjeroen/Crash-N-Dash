@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2823017656228640365}
   m_Layer: 0
   m_Name: ElectricFence
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 4883751872323573630}
   m_Layer: 0
   m_Name: ElectricFence
-  m_TagString: Enemy
+  m_TagString: elecrick fense
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
