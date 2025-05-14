@@ -32,10 +32,7 @@ public class ExplosiveCarBehavior : MonoBehaviour
     {
         thisCar = gameObject;
         //get the closest player near the car
-        if (Activeplayers[0] != null)
-        {
-            target = GetClosestPlayer();
-        }
+        target = GetClosestPlayer();
         closestFoundPlayer = target.transform.position;
     }
 
@@ -45,13 +42,10 @@ public class ExplosiveCarBehavior : MonoBehaviour
         if (CarBehaviorSwitch == true)
         {
             //if the car can update its target position
-            if (canUpdatePlayerLocation == true && Activeplayers.Length > 0)
+            if (canUpdatePlayerLocation == true)
             {
                 target = GetClosestPlayer();
-                if (target != null)
-                {
-                    StartCoroutine(updateTargetLocation(target.transform.position, 0.7f));
-                }
+                StartCoroutine(updateTargetLocation(target.transform.position, 0.7f));
             }
             //rotate towards closest player
             LookAtPlayer(closestFoundPlayer);
@@ -75,7 +69,6 @@ public class ExplosiveCarBehavior : MonoBehaviour
     GameObject GetClosestPlayer()
     {
         GameObject closestObject = Activeplayers[0];
-
         float closestDistance = float.PositiveInfinity;
 
         foreach (GameObject p in Activeplayers)
@@ -138,6 +131,8 @@ public class ExplosiveCarBehavior : MonoBehaviour
         return returnList;
     }
 
+
+
     /// <summary>
     /// removes health from the players in range
     /// </summary>
@@ -155,4 +150,7 @@ public class ExplosiveCarBehavior : MonoBehaviour
             }
         }
     }
+
+
+
 }
