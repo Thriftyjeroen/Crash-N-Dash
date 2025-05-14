@@ -111,7 +111,6 @@ public class ExplosiveCarBehavior : MonoBehaviour
     /// </summary>
     IEnumerator updateTargetLocation(Vector3 position, float seconds)
     {
-        print("updating location");
         canUpdatePlayerLocation = false;
         closestFoundPlayer = position;
         yield return new WaitForSeconds(seconds);
