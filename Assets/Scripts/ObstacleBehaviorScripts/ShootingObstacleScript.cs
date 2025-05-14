@@ -37,7 +37,7 @@ public class ObstacleScript : MonoBehaviour
         }
 
         //if the gameObject name is flamethrower it turns off the flame
-        if(turretGameObject.name.Contains("flamethrower"))
+        if (turretGameObject.name.Contains("flamethrower"))
         {
             flame = turretGameObject.transform.GetChild(0).gameObject;
             flame.SetActive(false);
@@ -50,6 +50,7 @@ public class ObstacleScript : MonoBehaviour
     {
         if (allowedToShoot == true)
         {
+            players = GameObject.FindGameObjectsWithTag(Playertag);
             //finds the distance between this turret and the closest player
             float distance = Vector3.Distance(turretGameObject.transform.position, findClosestPlayer(players, turretGameObject));
 
