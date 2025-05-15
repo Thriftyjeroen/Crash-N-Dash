@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.Mathematics;
 using Unity.VisualScripting;
@@ -17,6 +18,7 @@ public class ObstacleScript : MonoBehaviour
     GameObject flame = null;
     string Playertag = "Player";
     float bulletSpeed = 100;
+    bool canCheckForPlayers = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -48,7 +50,7 @@ public class ObstacleScript : MonoBehaviour
     //in the update it chooses an action to perform based on the name of the gameobject
     void Update()
     {
-        if (allowedToShoot == true)
+        if (allowedToShoot == true && players.Length > 0)
         {
             players = GameObject.FindGameObjectsWithTag(Playertag);
             //finds the distance between this turret and the closest player
@@ -89,6 +91,11 @@ public class ObstacleScript : MonoBehaviour
 
             }
 
+        }
+        else if (canCheckForPlayers == true)
+        {
+            print("checking for players");
+            StartCoroutine(checkForPlayers());
         }
     }
 
@@ -201,5 +208,34 @@ public class ObstacleScript : MonoBehaviour
             }
         }
         return returnthing;
+    }
+
+
+    Vector2 CalculatePlayerPositionAccordingToSpeed(GameObject targetedPlayer)
+    {
+        Rigidbody2D targetPlayerRigidBody = targetedPlayer.GetComponent<Rigidbody2D>();
+
+        //get distance from player 
+        float distanceFromTarget = Vector3.Distance(turretGameObject.transform.position, targetedPlayer.transform.position);
+        //get targeted player positon 
+        Vector2 currentPlayerPosition = targetedPlayer.transform.position;
+        //get targeted player velocity
+        Vector2 playerVelocity = targetPlayerRigidBody.linearVelocity;
+        //bulletspeed variable 
+        float bulletVelocity = bulletSpeed;
+
+        float timeBeforeImpact = (distanceFromTarget / bulletSpeed);
+        Vector2 futurePosition = currentPlayerPosition + (playerVelocity * timeBeforeImpact);
+
+
+        return futurePosition;
+    }
+
+    IEnumerator checkForPlayers()
+    {
+        canCheckForPlayers = false;
+        players = GameObject.FindGameObjectsWithTag(Playertag);
+        yield return new WaitForSeconds(2);
+        canCheckForPlayers = true;
     }
 }
