@@ -11,14 +11,32 @@ using static UnityEngine.GraphicsBuffer;
 public class ObstacleScript : MonoBehaviour
 {
     public GameObject[] players;
-    public GameObject healthManager;
     public GameObject turretGameObject;
     public bool allowedToShoot = true;
     [SerializeField] GameObject bulletPrefab;
     GameObject flame = null;
     string Playertag = "Player";
-    float bulletSpeed = 100;
+    float bulletSpeed = 10;
     bool canCheckForPlayers = true;
+
+
+
+
+
+    //testing
+    public float distanceFromTarget;
+    //get targeted player positon 
+    public Vector3 currentPlayerPosition;
+    //get targeted player velocity
+    public Vector3 playerVelocity;
+    //bulletspeed variable 
+    public float bulletVelocity;
+    public float timeBeforeImpact;
+    public Vector3 futurePosition = Vector3.zero;
+
+
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,15 +46,6 @@ public class ObstacleScript : MonoBehaviour
 
         //find every player (a player is a gameobject with the player tag)
         players = GameObject.FindGameObjectsWithTag(Playertag);
-        try
-        {
-            healthManager = GameObject.Find("healthManager");
-        }
-        catch
-        {
-            //if not found print this string
-            print("cannot find object with playerhealtcheck script attached to it");
-        }
 
         //if the gameObject name is flamethrower it turns off the flame
         if (turretGameObject.name.Contains("flamethrower"))
@@ -54,7 +63,7 @@ public class ObstacleScript : MonoBehaviour
         {
             players = GameObject.FindGameObjectsWithTag(Playertag);
             //finds the distance between this turret and the closest player
-            float distance = Vector3.Distance(turretGameObject.transform.position, findClosestPlayer(players, turretGameObject));
+            float distance = Vector3.Distance(turretGameObject.transform.position, findClosestPlayer(players, turretGameObject).transform.position);
 
             //if the distance is less than 5, it can shoot the bullet
             if (distance < 5)
@@ -63,7 +72,7 @@ public class ObstacleScript : MonoBehaviour
                 {
                     // with the "when" keyword another condition can be added, basically an if statement kinda
                     case string name when name.Contains("TurretGun"):
-                        StartCoroutine(shootNormalBullet(1));
+                        StartCoroutine(shootNormalBullet(1.5f));
                         break;
                     case string name when name.Contains("TurretShotgun"):
                         StartCoroutine(shootShotgunBullet(3));
@@ -81,7 +90,7 @@ public class ObstacleScript : MonoBehaviour
                         break;
                     case string name when name.Contains("DartTrap"):
                         {
-                            StartCoroutine(shootNormalBullet(1));
+                            StartCoroutine(shootNormalBullet(1.5f));
                         }
                         break;
                     default:
@@ -117,7 +126,7 @@ public class ObstacleScript : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            StartCoroutine(InstantiateBullet(turretGameObject.transform.position, findClosestPlayer(players, turretGameObject) * i));
+            StartCoroutine(InstantiateBullet(turretGameObject.transform.position, findClosestPlayer(players, turretGameObject)));
         }
         allowedToShoot = false;
         yield return new WaitForSeconds(waitForSec);
@@ -132,13 +141,13 @@ public class ObstacleScript : MonoBehaviour
         //bools to keep track if the flamethower is shooting
         flame.gameObject.SetActive(true);
         allowedToShoot = false;
-        int amountOfFlameThrowerCorrections = 20;
+        int amountOfFlameThrowerCorrections = 6;
 
         //tracks where the flamethrower needs to shoot
         for (int i = 0; i < amountOfFlameThrowerCorrections; i++)
         {
             //finds where the flamethrower should be shooting to hit the closest player
-            Vector3 targetDir = (findClosestPlayer(players, turretGameObject) - turretGameObject.transform.position).normalized;
+            Vector3 targetDir = (findClosestPlayer(players, turretGameObject).transform.position - turretGameObject.transform.position).normalized;
             float angleOfZ = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
 
             //turns the flamethrower to the calculated angle
@@ -161,7 +170,7 @@ public class ObstacleScript : MonoBehaviour
     /// <summary>
     /// method instantiates a bullet, after no hit it deletes itself
     /// </summary>
-    IEnumerator InstantiateBullet(Vector3 thisObstaclePosition, Vector3 closestPlayerPos)
+    IEnumerator InstantiateBullet(Vector3 thisObstaclePosition, GameObject closestPlayerPos)
     {
         Vector3 targetDir;
         Vector3 downwardDirection = -transform.up;
@@ -174,7 +183,7 @@ public class ObstacleScript : MonoBehaviour
         else
         {
             // Normal turrets shoot at the player
-            targetDir = (closestPlayerPos - thisObstaclePosition).normalized;
+            targetDir = (CalculatePlayerPositionAccordingToSpeed(closestPlayerPos) - thisObstaclePosition).normalized;
         }
 
         //instantiates a new bullet
@@ -183,7 +192,6 @@ public class ObstacleScript : MonoBehaviour
 
         //add force to direction of player
         rb.AddRelativeForce(targetDir * bulletSpeed);
-
         //bullet has a lifetime of 4 seconds, if it didnt hit anything it is removed
         yield return new WaitForSeconds(4);
         GameObject.Destroy(newBullet);
@@ -193,9 +201,10 @@ public class ObstacleScript : MonoBehaviour
     /// <summary>
     /// method finds the closest player position to the gameobject provided 
     /// </summary>
-    Vector3 findClosestPlayer(GameObject[] players, GameObject thisObstacle)
+    GameObject findClosestPlayer(GameObject[] players, GameObject thisObstacle)
     {
         Vector3 returnthing = new Vector3(0, 0, 0);
+        GameObject playerSelected = players[0];
         float closestDistance = float.PositiveInfinity;
 
         foreach (GameObject p in players)
@@ -205,29 +214,28 @@ public class ObstacleScript : MonoBehaviour
             {
                 closestDistance = distance;
                 returnthing = p.transform.position;
+                playerSelected = p;
             }
         }
-        return returnthing;
+        return playerSelected;
     }
 
 
-    Vector2 CalculatePlayerPositionAccordingToSpeed(GameObject targetedPlayer)
+    Vector3 CalculatePlayerPositionAccordingToSpeed(GameObject targetedPlayer)
     {
         Rigidbody2D targetPlayerRigidBody = targetedPlayer.GetComponent<Rigidbody2D>();
-
+        futurePosition = Vector3.zero;
         //get distance from player 
-        float distanceFromTarget = Vector3.Distance(turretGameObject.transform.position, targetedPlayer.transform.position);
+        distanceFromTarget = Vector3.Distance(turretGameObject.transform.position, targetedPlayer.transform.position);
         //get targeted player positon 
-        Vector2 currentPlayerPosition = targetedPlayer.transform.position;
+        currentPlayerPosition = targetedPlayer.transform.position;
         //get targeted player velocity
-        Vector2 playerVelocity = targetPlayerRigidBody.linearVelocity;
+        playerVelocity = targetPlayerRigidBody.linearVelocity;
         //bulletspeed variable 
-        float bulletVelocity = bulletSpeed;
+        bulletVelocity = bulletSpeed;
 
-        float timeBeforeImpact = (distanceFromTarget / bulletSpeed);
-        Vector2 futurePosition = currentPlayerPosition + (playerVelocity * timeBeforeImpact);
-
-
+        timeBeforeImpact = distanceFromTarget / bulletSpeed;
+        futurePosition = currentPlayerPosition + (playerVelocity * 2) * timeBeforeImpact;
         return futurePosition;
     }
 
