@@ -42,5 +42,6 @@ public class FreezeRayEffect : MonoBehaviour
         playerMovement.AlterAccelInc(true, originalSpeed - 0.01f);
         spriteRenderer.color = originalColor;
         Destroy(gameObject.transform.parent.gameObject);
+
     }
 }

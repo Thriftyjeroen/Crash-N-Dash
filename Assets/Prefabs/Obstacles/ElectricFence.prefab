@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 4652853179909535768}
   - component: {fileID: 4596752370848397723}
   - component: {fileID: 7678680319457120099}
+  - component: {fileID: 2823017656228640365}
   m_Layer: 0
   m_Name: ElectricFence
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -149,6 +150,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activated: 0
+--- !u!114 &2823017656228640365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4906475566329977344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da991f0f1b17cc94f890e285aff3ac16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6425393359830264104
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,7 +205,7 @@ GameObject:
   - component: {fileID: 4883751872323573630}
   m_Layer: 0
   m_Name: ElectricFence
-  m_TagString: Enemy
+  m_TagString: elecrick fense
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

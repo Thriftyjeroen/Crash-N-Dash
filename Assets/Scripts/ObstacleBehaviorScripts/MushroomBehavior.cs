@@ -2,13 +2,13 @@ using NUnit.Framework;
 using System;
 using System.Collections;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MushroomBehavior : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    bool MushroomActive = true;
-    public bool TestCollission = false;
+    public bool MushroomActive = true;
 
     void Start()
     {
@@ -18,22 +18,25 @@ public class MushroomBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (TestCollission == true)
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (MushroomActive == true && collision.gameObject.CompareTag("Player"))
         {
-            ActivateCollission();
+            StartCoroutine(revertPlayerControls(collision.gameObject));
+            StartCoroutine(MushroomCollissionAnimation());
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    IEnumerator revertPlayerControls(GameObject player)
     {
-        // collision.gameObject.GetComponent<PlayerMovement>().                     invert player controls when allowed
+        player.GetComponent<Player>().AlterInvertControls(true);
         MushroomActive = false;
-    }
-
-    void ActivateCollission()
-    {
-        TestCollission = false;
-        StartCoroutine(MushroomCollissionAnimation());
+        yield return new WaitForSeconds(2);
+        player.GetComponent<Player>().AlterInvertControls(false);
+        MushroomActive = true;
     }
 
     IEnumerator MushroomCollissionAnimation()

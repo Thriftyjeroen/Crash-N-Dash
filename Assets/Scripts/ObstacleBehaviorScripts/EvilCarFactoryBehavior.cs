@@ -34,10 +34,6 @@ public class EvilCarFactoryBehavior : MonoBehaviour
             {
                 StartCoroutine(StartChase(respawnTimer));
             }
-            else
-            {
-                print("no players found");
-            }
         }
     }
 
@@ -46,7 +42,6 @@ public class EvilCarFactoryBehavior : MonoBehaviour
     /// </summary>
     IEnumerator StartChase(float waitForSec)
     {
-        print("starting chase");
         waitingForRespawn = true;
         yield return new WaitForSeconds(waitForSec);
         CreateExplosiveCar(gameObject.transform.position);
