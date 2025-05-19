@@ -18,8 +18,10 @@ public class ObstacleScript : MonoBehaviour
     string Playertag = "Player";
     float bulletSpeed = 10;
     bool canCheckForPlayers = true;
-
-
+    float maxDistanceFromPlayer = 5;
+    float maxDistanceForFlameThrower = 3;
+    float closestPlayerDistance = 10;
+    bool canUpdatePlayerPosition = true;
 
 
 
@@ -59,47 +61,58 @@ public class ObstacleScript : MonoBehaviour
     //in the update it chooses an action to perform based on the name of the gameobject
     void Update()
     {
-        if (allowedToShoot == true && players.Length > 0)
+        if (canCheckForPlayers && players.Length > 0)
         {
-            players = GameObject.FindGameObjectsWithTag(Playertag);
-            //finds the distance between this turret and the closest player
-            float distance = Vector3.Distance(turretGameObject.transform.position, findClosestPlayer(players, turretGameObject).transform.position);
+            StartCoroutine(checkForDistance(0.2f));
+        }
 
-            //if the distance is less than 5, it can shoot the bullet
-            if (distance < 5)
+        //if the nearest player is in range
+        if (players.Length > 0 && closestPlayerDistance < maxDistanceFromPlayer)
+        {
+            //dart trap does not need to rotate to the player
+            if (!turretGameObject.name.Contains("DartTrap"))
             {
-                switch (turretGameObject.name)
-                {
-                    // with the "when" keyword another condition can be added, basically an if statement kinda
-                    case string name when name.Contains("TurretGun"):
-                        StartCoroutine(shootNormalBullet(1.5f));
-                        break;
-                    case string name when name.Contains("TurretShotgun"):
-                        StartCoroutine(shootShotgunBullet(3));
-                        break;
-                    case string name when name.Contains("flamethrower"):
-                        if (distance < 3)
-                        {
-                            StartCoroutine(shootFlames(3));
-                        }
-                        break;
-                    case string name when name.Contains("lazer"):
-                        {
-                            //shooting logic here if needed
-                        }
-                        break;
-                    case string name when name.Contains("DartTrap"):
-                        {
-                            StartCoroutine(shootNormalBullet(1.5f));
-                        }
-                        break;
-                    default:
-                        print("i dont know what i am cuh, pls hewp devewopeee :(");
-                        break;
-                }
-
+                RotateToAnAngle(turretGameObject);
             }
+            if (allowedToShoot == true)
+            {
+                players = GameObject.FindGameObjectsWithTag(Playertag);
 
+                //if the distance is less than 5, it can shoot the bullet
+                if (closestPlayerDistance < maxDistanceFromPlayer)
+                {
+                    switch (turretGameObject.name)
+                    {
+                        // with the "when" keyword another condition can be added, basically an if statement kinda
+                        case string name when name.Contains("TurretGun"):
+                            StartCoroutine(shootNormalBullet(1.5f));
+                            break;
+                        case string name when name.Contains("TurretShotgun"):
+                            StartCoroutine(shootShotgunBullet(3));
+                            break;
+                        case string name when name.Contains("flamethrower"):
+                            if (closestPlayerDistance < maxDistanceForFlameThrower)
+                            {
+                                StartCoroutine(shootFlames(3));
+                            }
+                            break;
+                        case string name when name.Contains("lazer"):
+                            {
+                                //shooting logic here if needed
+                            }
+                            break;
+                        case string name when name.Contains("DartTrap"):
+                            {
+                                StartCoroutine(shootNormalBullet(1.5f));
+                            }
+                            break;
+                        default:
+                            print("i dont know what i am cuh, pls hewp devewopeee :(");
+                            break;
+                    }
+
+                }
+            }
         }
         else if (canCheckForPlayers == true)
         {
@@ -220,6 +233,15 @@ public class ObstacleScript : MonoBehaviour
         return playerSelected;
     }
 
+    void RotateToAnAngle(GameObject gameObjectToRotate)
+    {
+        Vector3 targetDir = (findClosestPlayer(players, turretGameObject).transform.position - turretGameObject.transform.position).normalized;
+        float angleOfZ = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
+
+        //turns the flamethrower to the calculated angle
+        Quaternion newRotation = Quaternion.Euler(turretGameObject.transform.rotation.x, turretGameObject.transform.rotation.y, angleOfZ - 90);
+        gameObjectToRotate.transform.rotation = newRotation;
+    }
 
     Vector3 CalculatePlayerPositionAccordingToSpeed(GameObject targetedPlayer)
     {
@@ -246,4 +268,14 @@ public class ObstacleScript : MonoBehaviour
         yield return new WaitForSeconds(2);
         canCheckForPlayers = true;
     }
+
+    IEnumerator checkForDistance(float waitForSec)
+    {
+        //finds the distance between this turret and the closest player
+        closestPlayerDistance = Vector3.Distance(turretGameObject.transform.position, findClosestPlayer(players, turretGameObject).transform.position);
+        canCheckForPlayers = false;
+        yield return new WaitForSeconds(waitForSec);
+        canCheckForPlayers = true;
+    }
+
 }
