@@ -26,6 +26,12 @@ public class PlayerHealth : MonoBehaviour
     public void RemovePlayerHealth(float AmountToBeRemoved)
     {
         if (!canBeHit) return;
+        if (GetComponentInChildren<ShieldScript>() != null)
+        {
+            Destroy(GetComponentInChildren<ShieldScript>().gameObject);
+            StartCoroutine(StartIFrames(1));
+            return;
+        }
         playerHealth -= AmountToBeRemoved;
         StartCoroutine(StartIFrames(1));
     }
