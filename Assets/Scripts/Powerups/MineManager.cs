@@ -8,7 +8,7 @@ public class MineManager : MonoBehaviour
 
     private void Start()
     {
-        particles = GetComponent<ParticleSystem>();
+        particles = GetComponentInChildren<ParticleSystem>();
         timeToWait = particles.main.duration;
     }
 
@@ -35,6 +35,11 @@ public class MineManager : MonoBehaviour
 
     IEnumerator DestroySelf()
     {
+        if (gameObject.transform.parent != null && gameObject.transform.parent.CompareTag("Enemy"))
+        {
+            Destroy(gameObject.transform.parent.gameObject.GetComponent<ExplosiveCarBehavior>());
+        }
+
         yield return new WaitForSeconds(timeToWait);
 
 
