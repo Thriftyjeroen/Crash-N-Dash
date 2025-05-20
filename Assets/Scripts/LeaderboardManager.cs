@@ -37,7 +37,7 @@ public class LeaderboardManager : MonoBehaviour
             Color32 color32 = playerLeaderboard[rank].GetComponent<SpriteRenderer>().color;
             string color = $"#{color32.r:X2}{color32.g:X2}{color32.b:X2}{color32.a:X2}";
             
-            leaderboard.text += $"<color={color}>{rank + 1}: {playerLeaderboard[rank].GetComponent<PlayerHealth>().playerHealth}% - {playerLeaderboard[rank].GetComponent<PlayerItemManager>().currentItem} \n";
+            leaderboard.text += $"<color={color}>{rank + 1}: {playerLeaderboard[rank].GetComponent<PlayerHealth>().playerHealth}% - {playerLeaderboard[rank].GetComponent<CheckPointManager>().lap} - {playerLeaderboard[rank].GetComponent<PlayerItemManager>().currentItem} \n";
         }
     }
 }

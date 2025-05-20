@@ -3,25 +3,31 @@ using UnityEngine;
 
 public class RaceManager : MonoBehaviour
 {
-    public CheckPointManager checkpointManager;
-    [SerializeField] private GameObject playerList;
+    GameObject playerList;
+    PlayerJoinManager joinManager;
+
     public void EndRace()
     {
         Debug.Log("Race finished!");
         //give winning player a point
-        Invoke(nameof(ResetRace), 3f); // wait a bit before resetting, if needed
+        ResetRace();
     }
 
     public void ResetRace()
     {
-        checkpointManager.ResetCheckPoints();
         // Reset player position
-        foreach (var player in playerList.GetComponentsInChildren<PlayerJoinManager>())
+        foreach (var player in playerList.GetComponentsInChildren<Player>())
         {
-            //player.SetPosition();
-            //player.SetRotation();
+            player.GetComponent<CheckPointManager>().ResetCheckPoints();
+            joinManager.SetPosition(player.gameObject);
+            joinManager.SetRotation(player.gameObject);
         }
         
+    }
+    public void Init(GameObject _playerList, PlayerJoinManager _joinManager)
+    {
+        playerList = _playerList;
+        joinManager = _joinManager;
     }
 
 }

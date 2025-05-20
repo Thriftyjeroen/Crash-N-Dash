@@ -9,10 +9,11 @@ public class CheckPointManager : MonoBehaviour
     private List<CheckPoint> checkPointList;
     private int nextCheckPointIndex;
     public int lap = 1;
-    public void Init(Transform pCheckPointsTransform, ObstacleSpawner pObstacleSpawner)
+    public void Init(Transform pCheckPointsTransform, ObstacleSpawner pObstacleSpawner, RaceManager pRaceManager)
     {
         checkPointsTransform = pCheckPointsTransform;
         obstacleSpawner = pObstacleSpawner;
+        raceManager = pRaceManager;
 
         checkPointList = new List<CheckPoint>();
         //Order of checkpoints in the heigherarchy is important
@@ -38,7 +39,7 @@ public class CheckPointManager : MonoBehaviour
                 //did a lap
                 lap++;
                 obstacleSpawner.OnLap();
-                if (lap == 4)
+                if (lap >= 1)
                 {
                     raceManager.EndRace();
                 }
@@ -58,7 +59,7 @@ public class CheckPointManager : MonoBehaviour
 
     public int GetLapProgress()
     {
-        Debug.Log(gameObject.name + nextCheckPointIndex);
+        //Debug.Log(gameObject.name + nextCheckPointIndex);
         return nextCheckPointIndex;
         
     }
