@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.69, y: -3.16, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6455565553436682392}
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carAngle: 0
-  closestPlayer: {x: 0, y: 0, z: 0}
+  closestFoundPlayer: {x: 0, y: 0, z: 0}
   target: {fileID: 0}
   thisCar: {fileID: 0}
 --- !u!1001 &7904970509981532579
