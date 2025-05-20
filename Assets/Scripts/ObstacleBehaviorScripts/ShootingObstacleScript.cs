@@ -23,18 +23,8 @@ public class ObstacleScript : MonoBehaviour
     float closestPlayerDistance = 10;
     bool canUpdatePlayerPosition = true;
 
-
-
-    //testing
-    public float distanceFromTarget;
-    //get targeted player positon 
-    public Vector3 currentPlayerPosition;
-    //get targeted player velocity
-    public Vector3 playerVelocity;
-    //bulletspeed variable 
-    public float bulletVelocity;
-    public float timeBeforeImpact;
-    public Vector3 futurePosition = Vector3.zero;
+    //vector 3 for the predicted future position
+    Vector3 futurePosition = Vector3.zero;
 
 
 
@@ -74,9 +64,11 @@ public class ObstacleScript : MonoBehaviour
             {
                 RotateToAnAngle(turretGameObject);
             }
+
+
+            //if the turret is allowed to shoot, only then it calculate the things it needs
             if (allowedToShoot == true)
             {
-                players = GameObject.FindGameObjectsWithTag(Playertag);
 
                 //if the distance is less than 5, it can shoot the bullet
                 if (closestPlayerDistance < maxDistanceFromPlayer)
@@ -114,8 +106,10 @@ public class ObstacleScript : MonoBehaviour
                 }
             }
         }
+        //if the turret cant shoot, but it can check for players
         else if (canCheckForPlayers == true)
         {
+            //checks for players that have not been added to the list
             print("checking for players");
             StartCoroutine(checkForPlayers());
         }
@@ -235,19 +229,37 @@ public class ObstacleScript : MonoBehaviour
 
     void RotateToAnAngle(GameObject gameObjectToRotate)
     {
+        //finds the position of the closest player to this gameobject
         Vector3 targetDir = (findClosestPlayer(players, turretGameObject).transform.position - turretGameObject.transform.position).normalized;
+
+        //finds the z angle for the turret to look at the player (z rotates the gameobject)
         float angleOfZ = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
 
-        //turns the flamethrower to the calculated angle
+        //turns the gameobject to the rotation in the quaternion thing(angleOfZ - 90 because bug of the rotation being +90)
         Quaternion newRotation = Quaternion.Euler(turretGameObject.transform.rotation.x, turretGameObject.transform.rotation.y, angleOfZ - 90);
+
+        //actually rotates the gameobject in the parameter
         gameObjectToRotate.transform.rotation = newRotation;
     }
 
     Vector3 CalculatePlayerPositionAccordingToSpeed(GameObject targetedPlayer)
     {
+        //finds the rigidbody from the target player
         Rigidbody2D targetPlayerRigidBody = targetedPlayer.GetComponent<Rigidbody2D>();
-        futurePosition = Vector3.zero;
-        //get distance from player 
+
+        //few vectors for velocity, currentposition and predicted position
+        Vector3 currentPlayerPosition;
+        Vector3 playerVelocity;
+        Vector3 futurePosition = Vector3.zero;
+
+        //floats for keeping track of distance, timebefore impact and bullet velocity
+        float distanceFromTarget = 10;
+        float timeBeforeImpact = 10;
+        float bulletVelocity = 10;
+
+        //predicts the amount of seconds in the future, higher is less accurate
+        float amountOfSecondsInTheFuture = 2;
+
         distanceFromTarget = Vector3.Distance(turretGameObject.transform.position, targetedPlayer.transform.position);
         //get targeted player positon 
         currentPlayerPosition = targetedPlayer.transform.position;
@@ -256,11 +268,15 @@ public class ObstacleScript : MonoBehaviour
         //bulletspeed variable 
         bulletVelocity = bulletSpeed;
 
+        //time before impact is distance / speed of the bullet
         timeBeforeImpact = distanceFromTarget / bulletSpeed;
-        futurePosition = currentPlayerPosition + (playerVelocity * 2) * timeBeforeImpact;
+        //the future calculated position is the current position + playervelocity * amount of sec in the future * time before impact
+        futurePosition = currentPlayerPosition + (playerVelocity * amountOfSecondsInTheFuture) * timeBeforeImpact;
         return futurePosition;
     }
-
+    /// <summary>
+    /// checks for new players every 2 seconds
+    /// </summary>
     IEnumerator checkForPlayers()
     {
         canCheckForPlayers = false;
@@ -269,6 +285,10 @@ public class ObstacleScript : MonoBehaviour
         canCheckForPlayers = true;
     }
 
+
+    /// <summary>
+    /// checks for closest player distance
+    /// </summary>
     IEnumerator checkForDistance(float waitForSec)
     {
         //finds the distance between this turret and the closest player
