@@ -139,8 +139,8 @@ public class ObstacleScript : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             //instantiates a bullet with spread factor (i * 0.3) 
-            StartCoroutine(InstantiateBullet(turretGameObject.transform.position * (i * 0.33f), findClosestPlayer(players, turretGameObject), false));
-            yield return new WaitForSeconds(0.01f);
+            StartCoroutine(InstantiateBullet(turretGameObject.transform.position, findClosestPlayer(players, turretGameObject), false));
+            yield return new WaitForSeconds(0.03f);
         }
         yield return new WaitForSeconds(waitForSec);
         allowedToShoot = true;
