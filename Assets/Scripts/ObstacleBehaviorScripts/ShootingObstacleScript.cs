@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -20,6 +21,7 @@ public class ObstacleScript : MonoBehaviour
     bool canCheckForPlayers = true;
     float maxDistanceFromPlayer = 5;
     float maxDistanceForFlameThrower = 3;
+    float maxDistanceForShotgun = 3;
     float closestPlayerDistance = 10;
     bool canUpdatePlayerPosition = true;
     bool canRotateTurret = true;
@@ -65,7 +67,15 @@ public class ObstacleScript : MonoBehaviour
             {
                 if (canRotateTurret == true)
                 {
-                    StartCoroutine(RotateToAnAngle(turretGameObject));
+                    //shotgun turret does not predict the future position, other turrets do
+                    if (turretGameObject.name.Contains("TurretShotgun"))
+                    {
+                        StartCoroutine(RotateToAnAngle(turretGameObject, false));
+                    }
+                    else
+                    {
+                        StartCoroutine(RotateToAnAngle(turretGameObject, true));
+                    }
                 }
             }
 
@@ -84,7 +94,10 @@ public class ObstacleScript : MonoBehaviour
                             StartCoroutine(shootNormalBullet(1.5f));
                             break;
                         case string name when name.Contains("TurretShotgun"):
-                            StartCoroutine(shootShotgunBullet(3));
+                            if (closestPlayerDistance < maxDistanceForShotgun)
+                            {
+                                StartCoroutine(shootShotgunBullet(5, 3));
+                            }
                             break;
                         case string name when name.Contains("flamethrower"):
                             if (closestPlayerDistance < maxDistanceForFlameThrower)
@@ -124,8 +137,10 @@ public class ObstacleScript : MonoBehaviour
     /// </summary>
     IEnumerator shootNormalBullet(float waitForSec)
     {
-        StartCoroutine(InstantiateBullet(turretGameObject.transform.position, findClosestPlayer(players, turretGameObject), true));
+        //instantiates a bullet, gets the clostest player from the turretObject, checks if it needs to predict the future position, checks if there is spread needed and applies the bulletspeed
+        StartCoroutine(InstantiateBullet(turretGameObject, findClosestPlayer(players, turretGameObject), true, 0, bulletSpeed));
         allowedToShoot = false;
+        //waits for a few seconds to until it can shoot again
         yield return new WaitForSeconds(waitForSec);
         allowedToShoot = true;
     }
@@ -133,14 +148,15 @@ public class ObstacleScript : MonoBehaviour
     /// <summary>
     /// method shoots 3 bullets in the general direction of the closest player
     /// </summary>
-    IEnumerator shootShotgunBullet(float waitForSec)
+    IEnumerator shootShotgunBullet(float waitForSec, int amountOfBullets)
     {
         allowedToShoot = false;
-        for (int i = 0; i < 3; i++)
+        //shoots the amount of bullets it gets as parameter (now 3)
+        for (int i = 0; i < amountOfBullets; i++)
         {
-            //instantiates a bullet with spread factor (i * 0.3) 
-            StartCoroutine(InstantiateBullet(turretGameObject.transform.position, findClosestPlayer(players, turretGameObject), false));
-            yield return new WaitForSeconds(0.03f);
+            //instantiates a bullet per loop, sets the prediction on false, and slows the bulletspeed 
+            StartCoroutine(InstantiateBullet(turretGameObject, findClosestPlayer(players, turretGameObject), false, i, (bulletSpeed / 1.2f)));
+            yield return new WaitForSeconds(0.1f);
         }
         yield return new WaitForSeconds(waitForSec);
         allowedToShoot = true;
@@ -183,10 +199,15 @@ public class ObstacleScript : MonoBehaviour
     /// <summary>
     /// method instantiates a bullet, after no hit it deletes itself
     /// </summary>
-    IEnumerator InstantiateBullet(Vector3 thisObstaclePosition, GameObject closestPlayerPos, bool UsePrediction)
+    /// uses the gameobstacle it shoots from, the closest player, bool if prediction is activated, int for keeping track of spreadprogress, and the chosen bulletspeed 
+    IEnumerator InstantiateBullet(GameObject theShootingObstacle, GameObject closestPlayerPos, bool UsePrediction, int spreadProgress, float chosenBulletSpeed)
     {
-        Vector3 targetDir;
+        Vector2 targetDir;
         Vector3 downwardDirection = -transform.up;
+        int spreadAmount = 1;
+        //this is only used for if spread is active, its teh spread amount (1) times the progess -1 (so it shoots left too)
+        float currentSpread = (spreadAmount * (spreadProgress - 1));
+
         // If it's a DartTrap, shoot straight forward
         if (turretGameObject.CompareTag("dartTrap"))
         {
@@ -195,14 +216,16 @@ public class ObstacleScript : MonoBehaviour
         }
         else
         {
-            // Normal turrets shoot at the player
+            // Normal turrets shoot at the predicted location
             if (UsePrediction == true)
             {
-                targetDir = (CalculatePlayerPositionAccordingToSpeed(closestPlayerPos) - thisObstaclePosition).normalized;
+                targetDir = (CalculatePlayerPositionAccordingToSpeed(closestPlayerPos) - theShootingObstacle.transform.position).normalized;
             }
+            //if prediction isnt needed it just shoots directly at the player
             else
             {
-                targetDir = (closestPlayerPos.transform.position - thisObstaclePosition).normalized;
+                Vector3 applySpreadTarget = new Vector3(closestPlayerPos.transform.position.x + currentSpread, closestPlayerPos.transform.position.y + currentSpread, closestPlayerPos.transform.position.z);
+                targetDir = (applySpreadTarget - theShootingObstacle.transform.position).normalized;
             }
 
         }
@@ -212,11 +235,12 @@ public class ObstacleScript : MonoBehaviour
         Rigidbody2D rb = newBullet.GetComponent<Rigidbody2D>();
 
         //add force to direction of player
-        rb.AddRelativeForce(targetDir * bulletSpeed);
+        rb.AddRelativeForce(targetDir * chosenBulletSpeed);
         //bullet has a lifetime of 4 seconds, if it didnt hit anything it is removed
         yield return new WaitForSeconds(4);
         GameObject.Destroy(newBullet);
     }
+
 
 
     /// <summary>
@@ -241,11 +265,23 @@ public class ObstacleScript : MonoBehaviour
         return playerSelected;
     }
 
-    IEnumerator RotateToAnAngle(GameObject gameObjectToRotate)
+    IEnumerator RotateToAnAngle(GameObject gameObjectToRotate, bool predictFutureLocation)
     {
         canRotateTurret = false;
         //finds the position of the closest player to this gameobject
-        Vector3 targetDir = (CalculatePlayerPositionAccordingToSpeed(findClosestPlayer(players, turretGameObject)) - turretGameObject.transform.position).normalized;
+        Vector3 targetDir;
+
+        //if predict position is true it predicts the future location and rotates to that position
+        if (predictFutureLocation == true)
+        {
+            targetDir = (CalculatePlayerPositionAccordingToSpeed(findClosestPlayer(players, turretGameObject)) - turretGameObject.transform.position).normalized;
+        }
+        //if prediction is false it just rotates to the closest player
+        else
+        {
+            Vector3 closestPlayer = findClosestPlayer(players, turretGameObject).transform.position;
+            targetDir = (closestPlayer - turretGameObject.transform.position).normalized;
+        }
 
         //finds the z angle for the turret to look at the player (z rotates the gameobject)
         float angleOfZ = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
