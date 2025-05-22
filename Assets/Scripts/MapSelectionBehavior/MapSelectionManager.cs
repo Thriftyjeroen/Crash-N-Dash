@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MapSelectionManager : MonoBehaviour
@@ -213,4 +214,6 @@ public class MapSelectionManager : MonoBehaviour
         votedButton.GetComponent<ButtonScript>().ActivateThisMap();
 
     }
+
+    public List<string> TellAllMapNames() => AllAvailableMaps;
 }
