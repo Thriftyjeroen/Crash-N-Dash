@@ -71,7 +71,7 @@ public class ButtonScript : MonoBehaviour
 
         if (mapNumber > 0 && TESTBOOLACTIVATELOADSCENE)
         {
-            SceneManager.LoadScene(mapNames[mapNumber]);
+            //         SceneManager.LoadScene(mapNames[mapNumber]);
         }
         print("mapname is" + mapNames[mapNumber] + mapNumber);
     }
