@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 8213827512416696040}
   - component: {fileID: -227028170571433561}
   - component: {fileID: 4112006825298150504}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -430,7 +430,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8355487607643872509}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SpikeSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
