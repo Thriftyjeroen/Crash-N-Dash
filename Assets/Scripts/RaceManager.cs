@@ -32,7 +32,7 @@ public class RaceManager : MonoBehaviour
         _winner.score++;
         Debug.Log($"{_winner.name} won the race, their current score: {_winner.score}");
 
-        if (_winner.score == 1 && !infiniteMode)
+        if (_winner.score == 2 && !infiniteMode)
         {
             ShowButtons();
             if (winMessageText != null)
