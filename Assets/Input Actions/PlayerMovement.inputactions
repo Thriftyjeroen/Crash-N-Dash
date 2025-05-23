@@ -402,6 +402,28 @@
                 },
                 {
                     "name": "",
+                    "id": "14252f15-073d-4dbe-9997-09d1bfc36568",
+                    "path": "<Joystick>/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b77c23cf-93b3-43a3-b0c0-a5b899a3ae1f",
+                    "path": "<Joystick>/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "9a0b05b1-82b9-46ca-a00f-c6738af1705d",
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
@@ -413,8 +435,52 @@
                 },
                 {
                     "name": "",
+                    "id": "724a9a49-9a0f-4f52-a450-fb1813f69678",
+                    "path": "<Joystick>/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eebfb43c-792f-492b-aa25-975eb24a5980",
+                    "path": "<Joystick>/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a4795772-0056-4a0a-b3bc-292b76968c56",
                     "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ca41a326-72a8-4fc7-8c15-1c344a24aad3",
+                    "path": "<HID::usb gamepad           >/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4d09dd9b-65b8-4012-a4cb-549e8b6381f1",
+                    "path": "<HID::usb gamepad           >/button2",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
