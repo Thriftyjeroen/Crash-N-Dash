@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TitleScreen.unity
     guid: 2cec1f6660c69b24681594f099015323
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 9fccc21d31d8d394084151cb65111afa
   - enabled: 0
@@ -31,7 +31,7 @@ EditorBuildSettings:
     guid: ae37a8c124548ae44a84afa0c5875dbf
   - enabled: 0
     path: Assets/Scenes/GidoTestiScene.unity
-    guid: 75ce2111b35ecd54c800189affe17dda
+    guid: 47a8b11d65e92fc4d93f3be92af27f46
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: a100e239c5ecd8841941fed1ada7e51d, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

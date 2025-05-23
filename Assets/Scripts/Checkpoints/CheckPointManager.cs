@@ -9,6 +9,7 @@ public class CheckPointManager : MonoBehaviour
     private List<CheckPoint> checkPointList;
     private int nextCheckPointIndex;
     public int lap = 1;
+    public int score = 0;
     public void Init(Transform pCheckPointsTransform, ObstacleSpawner pObstacleSpawner, RaceManager pRaceManager)
     {
         checkPointsTransform = pCheckPointsTransform;
@@ -39,9 +40,9 @@ public class CheckPointManager : MonoBehaviour
                 //did a lap
                 lap++;
                 obstacleSpawner.OnLap();
-                if (lap >= 1)
+                if (lap == 3)
                 {
-                    raceManager.EndRace();
+                    raceManager.EndRace(this);
                 }
             }
         }
