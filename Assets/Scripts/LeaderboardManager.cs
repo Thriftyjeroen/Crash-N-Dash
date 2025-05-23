@@ -11,7 +11,7 @@ public class LeaderboardManager : MonoBehaviour
     [SerializeField] private GameObject playerList;
     [SerializeField] private TMP_Text leaderboard;
 
-    List<Player> playerLeaderboard;
+    public List<Player> playerLeaderboard;
 
     public void Update()
     {
