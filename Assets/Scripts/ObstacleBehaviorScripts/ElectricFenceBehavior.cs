@@ -26,7 +26,7 @@ public class ElectricFenceBehavior : MonoBehaviour
         {
             electricFenceActive = false;
             StartCoroutine(setPlayerSpeedZero(collission.gameObject, stunPlayerForSeconds));
-            StartCoroutine(setPlayerColor(Color.blue, Color.cyan, collission.gameObject, stunPlayerForSeconds));
+            // StartCoroutine(setPlayerColor(Color.yellow, Color.black, collission.gameObject, stunPlayerForSeconds));
         }
     }
 
@@ -39,13 +39,15 @@ public class ElectricFenceBehavior : MonoBehaviour
             player.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
             yield return new WaitForSeconds(amountOfSec / checkSpeedAmountOfTime);
         }
+        electricFenceActive = true;
     }
 
     IEnumerator setPlayerColor(Color changeToColor, Color secondaryColor, GameObject player, float amountOfSec)
     {
-        int loopAmountOfTimes = 30;
         SpriteRenderer spriteRenderer = player.GetComponent<SpriteRenderer>();
         Color originalColor = spriteRenderer.color;
+        int loopAmountOfTimes = 30;
+
         for (int i = 0; i < loopAmountOfTimes; i++)
         {
             if (i % 2 == 0)

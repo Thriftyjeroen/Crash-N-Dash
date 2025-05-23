@@ -16,7 +16,7 @@ public class ObstacleSpawner : MonoBehaviour
 
     public void OnLap()
     {
-        Vector3 spawnPosition = new Vector3(Random.Range(-10f, 10f), Random.Range(-5f, 5f), 0);
+        Vector3 spawnPosition = new Vector3(Random.Range(-10f, 10f), Random.Range(-5f, 5f), -0.01f);
 
         // Make sure it only spawns on track
         Collider2D hitCollider = Physics2D.OverlapPoint(spawnPosition);
