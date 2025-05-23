@@ -183,7 +183,7 @@
                 {
                     "name": "left",
                     "id": "b4920486-cd44-4011-8e88-dee09c391bde",
-                    "path": "<Mouse>/delta/right",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -194,7 +194,7 @@
                 {
                     "name": "right",
                     "id": "f1c07f76-44f2-44e0-ac5a-c521f6ca0856",
-                    "path": "<Mouse>/delta/left",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -304,7 +304,7 @@
                 {
                     "name": "",
                     "id": "d9cb8b8a-50df-4eaf-bb8b-168bf184b831",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Mouse>/middleButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

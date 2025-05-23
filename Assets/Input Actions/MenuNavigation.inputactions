@@ -96,6 +96,28 @@
                 },
                 {
                     "name": "",
+                    "id": "6621ffac-42ba-4c32-bd4d-d483d19fda37",
+                    "path": "<Joystick>/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Up",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d511947a-173b-43ae-b98c-a9f87bb255bb",
+                    "path": "<Joystick>/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Up",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "81a2090d-01f0-4077-b12a-44c0541614ee",
                     "path": "<HID::ShanWan Controller Adapter>/button15",
                     "interactions": "",
@@ -129,6 +151,28 @@
                 },
                 {
                     "name": "",
+                    "id": "25aba91a-4c99-4054-9985-8661d82b2043",
+                    "path": "<Joystick>/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8977ae00-0915-42b5-ae04-a5998f23b4ae",
+                    "path": "<Joystick>/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "92dc0b35-6a9a-4731-83ee-bac6cbb29aa1",
                     "path": "<HID::ShanWan Controller Adapter>/button2",
                     "interactions": "",
@@ -140,8 +184,41 @@
                 },
                 {
                     "name": "",
+                    "id": "aa119070-09f2-4a3c-9134-b7bcb41c76cc",
+                    "path": "<HID::usb gamepad           >/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e0a61d89-096d-44c8-8504-48eaa32136f1",
+                    "path": "<HID::usb gamepad           >/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "f5d56d01-4b62-4496-ad78-c5e934a495ab",
                     "path": "*/button*/",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AnyKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "82e1c1dc-e2ba-4b4f-9f16-da6804e6eb43",
+                    "path": "<Keyboard>/anyKey",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -184,6 +261,28 @@
                 },
                 {
                     "name": "",
+                    "id": "45444638-8fb8-4050-acf6-7832f5df9878",
+                    "path": "<Joystick>/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1731fa56-983a-4f34-b326-f283c6983f74",
+                    "path": "<Joystick>/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "2d524c66-16f9-4a3d-9e52-4dc262b9d8ff",
                     "path": "<Joystick>/stick/right",
                     "interactions": "",
@@ -208,6 +307,28 @@
                     "name": "",
                     "id": "713bb38e-78c9-4fda-b174-1e7b610d7e41",
                     "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "93f1662a-f4bf-4cdc-9587-a0c33d6c9c9e",
+                    "path": "<Joystick>/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d9380525-74d6-462a-a6fe-cbefad35b8fc",
+                    "path": "<Joystick>/stick/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

@@ -118,7 +118,7 @@ public class ExplosiveCarBehavior : MonoBehaviour
     }
 
     /// <summary>
-    /// get cars in range of the explosive car
+    /// get cars in range of the explosive car, is not used currently
     /// </summary>
     List<GameObject> GetCarsInRange(GameObject[] players)
     {
@@ -133,7 +133,7 @@ public class ExplosiveCarBehavior : MonoBehaviour
 
 
     /// <summary>
-    /// removes health from the players in range
+    /// removes health from the players in range, is not used currently
     /// </summary>
     void damagePlayers(List<GameObject> players)
     {

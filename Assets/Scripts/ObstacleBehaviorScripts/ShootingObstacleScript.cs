@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -18,21 +19,15 @@ public class ObstacleScript : MonoBehaviour
     string Playertag = "Player";
     float bulletSpeed = 10;
     bool canCheckForPlayers = true;
+    float maxDistanceFromPlayer = 5;
+    float maxDistanceForFlameThrower = 3;
+    float maxDistanceForShotgun = 3;
+    float closestPlayerDistance = 10;
+    bool canUpdatePlayerPosition = true;
+    bool canRotateTurret = true;
 
-
-
-
-
-    //testing
-    public float distanceFromTarget;
-    //get targeted player positon 
-    public Vector3 currentPlayerPosition;
-    //get targeted player velocity
-    public Vector3 playerVelocity;
-    //bulletspeed variable 
-    public float bulletVelocity;
-    public float timeBeforeImpact;
-    public Vector3 futurePosition = Vector3.zero;
+    //vector 3 for the predicted future position
+    Vector3 futurePosition = Vector3.zero;
 
 
 
@@ -59,50 +54,79 @@ public class ObstacleScript : MonoBehaviour
     //in the update it chooses an action to perform based on the name of the gameobject
     void Update()
     {
-        if (allowedToShoot == true && players.Length > 0)
+        if (canCheckForPlayers && players.Length > 0)
         {
-            players = GameObject.FindGameObjectsWithTag(Playertag);
-            //finds the distance between this turret and the closest player
-            float distance = Vector3.Distance(turretGameObject.transform.position, findClosestPlayer(players, turretGameObject).transform.position);
+            StartCoroutine(checkForDistance(0.2f));
+        }
 
-            //if the distance is less than 5, it can shoot the bullet
-            if (distance < 5)
+        //if the nearest player is in range
+        if (players.Length > 0 && closestPlayerDistance < maxDistanceFromPlayer)
+        {
+            //dart trap does not need to rotate to the player
+            if (!turretGameObject.name.Contains("DartTrap"))
             {
-                switch (turretGameObject.name)
+                if (canRotateTurret == true)
                 {
-                    // with the "when" keyword another condition can be added, basically an if statement kinda
-                    case string name when name.Contains("TurretGun"):
-                        StartCoroutine(shootNormalBullet(1.5f));
-                        break;
-                    case string name when name.Contains("TurretShotgun"):
-                        StartCoroutine(shootShotgunBullet(3));
-                        break;
-                    case string name when name.Contains("flamethrower"):
-                        if (distance < 3)
-                        {
-                            StartCoroutine(shootFlames(3));
-                        }
-                        break;
-                    case string name when name.Contains("lazer"):
-                        {
-                            //shooting logic here if needed
-                        }
-                        break;
-                    case string name when name.Contains("DartTrap"):
-                        {
-                            StartCoroutine(shootNormalBullet(1.5f));
-                        }
-                        break;
-                    default:
-                        print("i dont know what i am cuh, pls hewp devewopeee :(");
-                        break;
+                    //shotgun turret does not predict the future position, other turrets do
+                    if (turretGameObject.name.Contains("TurretShotgun"))
+                    {
+                        StartCoroutine(RotateToAnAngle(turretGameObject, false));
+                    }
+                    else
+                    {
+                        StartCoroutine(RotateToAnAngle(turretGameObject, true));
+                    }
                 }
-
             }
 
+
+            //if the turret is allowed to shoot, only then it calculate the things it needs
+            if (allowedToShoot == true)
+            {
+
+                //if the distance is less than 5, it can shoot the bullet
+                if (closestPlayerDistance < maxDistanceFromPlayer)
+                {
+                    switch (turretGameObject.name)
+                    {
+                        // with the "when" keyword another condition can be added, basically an if statement kinda
+                        case string name when name.Contains("TurretGun"):
+                            StartCoroutine(shootNormalBullet(1.5f));
+                            break;
+                        case string name when name.Contains("TurretShotgun"):
+                            if (closestPlayerDistance < maxDistanceForShotgun)
+                            {
+                                StartCoroutine(shootShotgunBullet(5, 3));
+                            }
+                            break;
+                        case string name when name.Contains("flamethrower"):
+                            if (closestPlayerDistance < maxDistanceForFlameThrower)
+                            {
+                                StartCoroutine(shootFlames(3));
+                            }
+                            break;
+                        case string name when name.Contains("lazer"):
+                            {
+                                //shooting logic here if needed
+                            }
+                            break;
+                        case string name when name.Contains("DartTrap"):
+                            {
+                                StartCoroutine(shootNormalBullet(1.5f));
+                            }
+                            break;
+                        default:
+                            print("i dont know what i am cuh, pls hewp devewopeee :(" + name);
+                            break;
+                    }
+
+                }
+            }
         }
+        //if the turret cant shoot, but it can check for players
         else if (canCheckForPlayers == true)
         {
+            //checks for players that have not been added to the list
             print("checking for players");
             StartCoroutine(checkForPlayers());
         }
@@ -113,8 +137,10 @@ public class ObstacleScript : MonoBehaviour
     /// </summary>
     IEnumerator shootNormalBullet(float waitForSec)
     {
-        StartCoroutine(InstantiateBullet(turretGameObject.transform.position, findClosestPlayer(players, turretGameObject)));
+        //instantiates a bullet, gets the clostest player from the turretObject, checks if it needs to predict the future position, checks if there is spread needed and applies the bulletspeed
+        StartCoroutine(InstantiateBullet(turretGameObject, findClosestPlayer(players, turretGameObject), true, 0, bulletSpeed));
         allowedToShoot = false;
+        //waits for a few seconds to until it can shoot again
         yield return new WaitForSeconds(waitForSec);
         allowedToShoot = true;
     }
@@ -122,13 +148,16 @@ public class ObstacleScript : MonoBehaviour
     /// <summary>
     /// method shoots 3 bullets in the general direction of the closest player
     /// </summary>
-    IEnumerator shootShotgunBullet(float waitForSec)
+    IEnumerator shootShotgunBullet(float waitForSec, int amountOfBullets)
     {
-        for (int i = 0; i < 3; i++)
-        {
-            StartCoroutine(InstantiateBullet(turretGameObject.transform.position, findClosestPlayer(players, turretGameObject)));
-        }
         allowedToShoot = false;
+        //shoots the amount of bullets it gets as parameter (now 3)
+        for (int i = 0; i < amountOfBullets; i++)
+        {
+            //instantiates a bullet per loop, sets the prediction on false, and slows the bulletspeed 
+            StartCoroutine(InstantiateBullet(turretGameObject, findClosestPlayer(players, turretGameObject), false, i, (bulletSpeed / 1.2f)));
+            yield return new WaitForSeconds(0.1f);
+        }
         yield return new WaitForSeconds(waitForSec);
         allowedToShoot = true;
     }
@@ -170,10 +199,15 @@ public class ObstacleScript : MonoBehaviour
     /// <summary>
     /// method instantiates a bullet, after no hit it deletes itself
     /// </summary>
-    IEnumerator InstantiateBullet(Vector3 thisObstaclePosition, GameObject closestPlayerPos)
+    /// uses the gameobstacle it shoots from, the closest player, bool if prediction is activated, int for keeping track of spreadprogress, and the chosen bulletspeed 
+    IEnumerator InstantiateBullet(GameObject theShootingObstacle, GameObject closestPlayerPos, bool UsePrediction, int spreadProgress, float chosenBulletSpeed)
     {
-        Vector3 targetDir;
+        Vector2 targetDir;
         Vector3 downwardDirection = -transform.up;
+        int spreadAmount = 1;
+        //this is only used for if spread is active, its teh spread amount (1) times the progess -1 (so it shoots left too)
+        float currentSpread = (spreadAmount * (spreadProgress - 1));
+
         // If it's a DartTrap, shoot straight forward
         if (turretGameObject.CompareTag("dartTrap"))
         {
@@ -182,8 +216,18 @@ public class ObstacleScript : MonoBehaviour
         }
         else
         {
-            // Normal turrets shoot at the player
-            targetDir = (CalculatePlayerPositionAccordingToSpeed(closestPlayerPos) - thisObstaclePosition).normalized;
+            // Normal turrets shoot at the predicted location
+            if (UsePrediction == true)
+            {
+                targetDir = (CalculatePlayerPositionAccordingToSpeed(closestPlayerPos) - theShootingObstacle.transform.position).normalized;
+            }
+            //if prediction isnt needed it just shoots directly at the player
+            else
+            {
+                Vector3 applySpreadTarget = new Vector3(closestPlayerPos.transform.position.x + currentSpread, closestPlayerPos.transform.position.y + currentSpread, closestPlayerPos.transform.position.z);
+                targetDir = (applySpreadTarget - theShootingObstacle.transform.position).normalized;
+            }
+
         }
 
         //instantiates a new bullet
@@ -191,11 +235,12 @@ public class ObstacleScript : MonoBehaviour
         Rigidbody2D rb = newBullet.GetComponent<Rigidbody2D>();
 
         //add force to direction of player
-        rb.AddRelativeForce(targetDir * bulletSpeed);
+        rb.AddRelativeForce(targetDir * chosenBulletSpeed);
         //bullet has a lifetime of 4 seconds, if it didnt hit anything it is removed
         yield return new WaitForSeconds(4);
         GameObject.Destroy(newBullet);
     }
+
 
 
     /// <summary>
@@ -220,12 +265,54 @@ public class ObstacleScript : MonoBehaviour
         return playerSelected;
     }
 
+    IEnumerator RotateToAnAngle(GameObject gameObjectToRotate, bool predictFutureLocation)
+    {
+        canRotateTurret = false;
+        //finds the position of the closest player to this gameobject
+        Vector3 targetDir;
+
+        //if predict position is true it predicts the future location and rotates to that position
+        if (predictFutureLocation == true)
+        {
+            targetDir = (CalculatePlayerPositionAccordingToSpeed(findClosestPlayer(players, turretGameObject)) - turretGameObject.transform.position).normalized;
+        }
+        //if prediction is false it just rotates to the closest player
+        else
+        {
+            Vector3 closestPlayer = findClosestPlayer(players, turretGameObject).transform.position;
+            targetDir = (closestPlayer - turretGameObject.transform.position).normalized;
+        }
+
+        //finds the z angle for the turret to look at the player (z rotates the gameobject)
+        float angleOfZ = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
+
+        //turns the gameobject to the rotation in the quaternion thing(angleOfZ - 90 because bug of the rotation being +90)
+        Quaternion newRotation = Quaternion.Euler(turretGameObject.transform.rotation.x, turretGameObject.transform.rotation.y, angleOfZ - 90);
+
+        //actually rotates the gameobject in the parameter
+        gameObjectToRotate.transform.rotation = newRotation;
+        yield return new WaitForSeconds(0.03f);
+        canRotateTurret = true;
+    }
 
     Vector3 CalculatePlayerPositionAccordingToSpeed(GameObject targetedPlayer)
     {
+        //finds the rigidbody from the target player
         Rigidbody2D targetPlayerRigidBody = targetedPlayer.GetComponent<Rigidbody2D>();
-        futurePosition = Vector3.zero;
-        //get distance from player 
+
+        //few vectors for velocity, currentposition and predicted position
+        Vector3 currentPlayerPosition;
+        Vector3 playerVelocity;
+        Vector3 futurePosition = Vector3.zero;
+
+        //floats for keeping track of distance, timebefore impact and bullet velocity
+        float distanceFromTarget = 10;
+        float timeBeforeImpact = 10;
+        float bulletVelocity = 10;
+
+        //predicts the amount of seconds in the future, higher is less accurate
+        float amountOfSecondsInTheFuture = 2.1f;
+
         distanceFromTarget = Vector3.Distance(turretGameObject.transform.position, targetedPlayer.transform.position);
         //get targeted player positon 
         currentPlayerPosition = targetedPlayer.transform.position;
@@ -234,11 +321,15 @@ public class ObstacleScript : MonoBehaviour
         //bulletspeed variable 
         bulletVelocity = bulletSpeed;
 
+        //time before impact is distance / speed of the bullet
         timeBeforeImpact = distanceFromTarget / bulletSpeed;
-        futurePosition = currentPlayerPosition + (playerVelocity * 2) * timeBeforeImpact;
+        //the future calculated position is the current position + playervelocity * amount of sec in the future * time before impact
+        futurePosition = currentPlayerPosition + (playerVelocity * amountOfSecondsInTheFuture) * timeBeforeImpact;
         return futurePosition;
     }
-
+    /// <summary>
+    /// checks for new players every 2 seconds
+    /// </summary>
     IEnumerator checkForPlayers()
     {
         canCheckForPlayers = false;
@@ -246,4 +337,18 @@ public class ObstacleScript : MonoBehaviour
         yield return new WaitForSeconds(2);
         canCheckForPlayers = true;
     }
+
+
+    /// <summary>
+    /// checks for closest player distance
+    /// </summary>
+    IEnumerator checkForDistance(float waitForSec)
+    {
+        //finds the distance between this turret and the closest player
+        closestPlayerDistance = Vector3.Distance(turretGameObject.transform.position, findClosestPlayer(players, turretGameObject).transform.position);
+        canCheckForPlayers = false;
+        yield return new WaitForSeconds(waitForSec);
+        canCheckForPlayers = true;
+    }
+
 }

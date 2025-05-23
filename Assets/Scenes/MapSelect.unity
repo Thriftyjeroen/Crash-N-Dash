@@ -140,7 +140,7 @@ MonoBehaviour:
   allMapSelectButtons: []
   AllAvailableMaps:
   - test1
-  - map1
+  - TestSceneObstacles
   - test
   AddNewMap: 1
   TestmapData: 1

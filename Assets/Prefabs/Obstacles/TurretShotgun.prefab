@@ -68,8 +68,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: TurretShotgun
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6058578158610294037, guid: 9a01abe24dece1147a9d4b327c2ff7dd, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8035503258586005908, guid: 9a01abe24dece1147a9d4b327c2ff7dd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 496986834248357403}
   m_SourcePrefab: {fileID: 100100000, guid: 9a01abe24dece1147a9d4b327c2ff7dd, type: 3}
+--- !u!1 &8457275243442907605 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8035503258586005908, guid: 9a01abe24dece1147a9d4b327c2ff7dd, type: 3}
+  m_PrefabInstance: {fileID: 1935862456314095681}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &496986834248357403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8457275243442907605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f66207bdc7ea17a42b93ff55a2dcb75b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  players: []
+  turretGameObject: {fileID: 0}
+  allowedToShoot: 1
+  bulletPrefab: {fileID: 37993412922236802, guid: 0dd619dc53f137d4a8f91e1a09d8d944, type: 3}

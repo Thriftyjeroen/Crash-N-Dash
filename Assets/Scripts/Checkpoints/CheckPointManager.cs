@@ -4,22 +4,23 @@ using System.Collections.Generic;
 public class CheckPointManager : MonoBehaviour
 {
     private Transform checkPointsTransform;
+    private RaceManager raceManager;
     private ObstacleSpawner obstacleSpawner;
     private List<CheckPoint> checkPointList;
     private int nextCheckPointIndex;
     public int lap = 1;
-    public void Init(Transform pCheckPointsTransform, ObstacleSpawner pObstacleSpawner)
+    public int score = 0;
+    public void Init(Transform pCheckPointsTransform, ObstacleSpawner pObstacleSpawner, RaceManager pRaceManager)
     {
-        Debug.Log("running checkpointManager Init");
         checkPointsTransform = pCheckPointsTransform;
         obstacleSpawner = pObstacleSpawner;
+        raceManager = pRaceManager;
 
         checkPointList = new List<CheckPoint>();
         //Order of checkpoints in the heigherarchy is important
         foreach (Transform checkPointChild in checkPointsTransform)
         {
             CheckPoint checkPoint = checkPointChild.GetComponent<CheckPoint>();
-            checkPoint.SetTrackCheckPointManager(this);
             checkPointList.Add(checkPoint);
         }
         
@@ -28,6 +29,7 @@ public class CheckPointManager : MonoBehaviour
 
     public void PassCheckPoint(CheckPoint checkPointScript)
     {
+        //IF THERE ARE MORE THAN ONE PLAYERS. THE LAP PROGRESS STOPS COUNTING 
         if (checkPointList.IndexOf(checkPointScript) == nextCheckPointIndex)
         {
             //passed correct checkpoint 
@@ -38,6 +40,10 @@ public class CheckPointManager : MonoBehaviour
                 //did a lap
                 lap++;
                 obstacleSpawner.OnLap();
+                if (lap == 3)
+                {
+                    raceManager.EndRace(this);
+                }
             }
         }
         else
@@ -46,10 +52,17 @@ public class CheckPointManager : MonoBehaviour
 
         }
     }
+    public void ResetCheckPoints()
+    {
+        lap = 1;
+        nextCheckPointIndex = 0;
+    }
 
     public int GetLapProgress()
     {
+        //Debug.Log(gameObject.name + nextCheckPointIndex);
         return nextCheckPointIndex;
+        
     }
 
     public GameObject GetLastPassedCheckpoint()

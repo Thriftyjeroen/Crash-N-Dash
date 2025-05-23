@@ -26,6 +26,12 @@ public class PlayerHealth : MonoBehaviour
     public void RemovePlayerHealth(float AmountToBeRemoved)
     {
         if (!canBeHit) return;
+        if (GetComponentInChildren<ShieldScript>() != null)
+        {
+            Destroy(GetComponentInChildren<ShieldScript>().gameObject);
+            StartCoroutine(StartIFrames(1));
+            return;
+        }
         playerHealth -= AmountToBeRemoved;
         StartCoroutine(StartIFrames(1));
     }
@@ -74,14 +80,19 @@ public class PlayerHealth : MonoBehaviour
 
     IEnumerator StartIFrames(float pTime)
     {
+        Color tmp = spriteRenderer.color;
         canBeHit = false;
         float flickerTime = pTime / 5;
         for (int i = 0; i < 5; i++)
         {
-            spriteRenderer.enabled = !spriteRenderer.enabled;
+            tmp.a = 0.5f;
+            spriteRenderer.color = tmp;
             yield return new WaitForSecondsRealtime(flickerTime);
+            tmp.a = 1f;
+            spriteRenderer.color = tmp;
         }
-        spriteRenderer.enabled = true;
+        tmp.a = 1f;
+        spriteRenderer.color = tmp;
         canBeHit = true;
     }
 }
