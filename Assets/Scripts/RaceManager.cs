@@ -1,10 +1,13 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+
 
 public class RaceManager : MonoBehaviour
 {
     public static RaceManager Instance { get; private set; }
-
+    TextMeshProUGUI winMessageText;
     GameObject playerList;
     PlayerJoinManager joinManager;
 
@@ -13,13 +16,15 @@ public class RaceManager : MonoBehaviour
 
     private bool infiniteMode = false;
 
-    public void Init(GameObject _playerList, PlayerJoinManager _joinManager, GameObject _returnButton, GameObject _infiniteButton)
+    public void Init(GameObject _playerList, PlayerJoinManager _joinManager, GameObject _returnButton, GameObject _infiniteButton, TextMeshProUGUI _winMessageText)
     {
         Instance = this;
         playerList = _playerList;
         joinManager = _joinManager;
         returnToMainMenuButton = _returnButton;
         enableInfiniteModeButton = _infiniteButton;
+        winMessageText = _winMessageText;
+
     }
 
     public void EndRace(CheckPointManager _winner)
@@ -27,14 +32,21 @@ public class RaceManager : MonoBehaviour
         _winner.score++;
         Debug.Log($"{_winner.name} won the race, their current score: {_winner.score}");
 
-        if (_winner.score == 3 && !infiniteMode)
+        if (_winner.score == 1 && !infiniteMode)
         {
             ShowButtons();
+            if (winMessageText != null)
+            {
+                var winnerColor = _winner.GetComponent<SpriteRenderer>().color;
+                winMessageText.color = winnerColor;
+                winMessageText.gameObject.SetActive(true);
+            }
         }
         else
         {
             ResetRace();
         }
+
     }
 
     public void SetInfiniteMode(bool value)
@@ -52,7 +64,30 @@ public class RaceManager : MonoBehaviour
             joinManager.SetPosition(player.gameObject);
             joinManager.SetRotation(player.gameObject);
         }
+        StartRaceCountdown(3f);
     }
+    public void StartRaceCountdown(float duration)
+    {
+        StartCoroutine(FreezeGameForSeconds(duration));
+    }
+
+    private IEnumerator FreezeGameForSeconds(float duration)
+    {
+        Time.timeScale = 0f;
+
+        if (CountdownManager.Instance != null)
+            CountdownManager.Instance.ShowCountdown((int)duration);
+
+        float timer = 0f;
+        while (timer < duration)
+        {
+            timer += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        Time.timeScale = 1f;
+    }
+
 
     private void ShowButtons()
     {

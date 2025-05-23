@@ -40,7 +40,7 @@ public class CheckPointManager : MonoBehaviour
                 //did a lap
                 lap++;
                 obstacleSpawner.OnLap();
-                if (lap == 3)
+                if (lap == 4)
                 {
                     raceManager.EndRace(this);
                 }

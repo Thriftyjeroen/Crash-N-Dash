@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class PlayerJoinManager : MonoBehaviour
@@ -12,6 +13,8 @@ public class PlayerJoinManager : MonoBehaviour
     [SerializeField] private Vector2 joinLocation;
     [SerializeField] private GameObject returnButton;
     [SerializeField] private GameObject infiniteModeButton;
+    [SerializeField] private TextMeshProUGUI winMessageText;
+
     List<Color> colorsInScene = new();
     Color[] colorsAvailable = { Color.magenta, Color.blue, Color.red, Color.cyan, Color.green, Color.yellow};
 
@@ -33,7 +36,7 @@ public class PlayerJoinManager : MonoBehaviour
         if (playerInput.gameObject.TryGetComponent<CheckPointManager>(out var t)) return;
         CheckPointManager c = playerInput.gameObject.AddComponent<CheckPointManager>();
         RaceManager r = playerInput.gameObject.AddComponent<RaceManager>();
-        r.Init(playerFolder.gameObject, this, returnButton, infiniteModeButton);
+        r.Init(playerFolder.gameObject, this, returnButton, infiniteModeButton, winMessageText);
         c.Init(checkPointsTransform, obstacleSpawner, r);
 
         SetColor(playerInput.gameObject.GetComponent<SpriteRenderer>());
