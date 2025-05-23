@@ -1,8 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ButtonScript : MonoBehaviour
@@ -14,11 +16,13 @@ public class ButtonScript : MonoBehaviour
     TMP_Text numberOfVotes;
     public string mapname;
     BoxCollider2D boxCollider;
+    MapSelectionManager mapSelectionManager;
     void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
         thisButton = GetComponent<Button>();
         thisButton.onClick.AddListener(OnClick);
+        mapSelectionManager = FindFirstObjectByType<MapSelectionManager>();
 
         GameObject emptyTextObject = transform.Find("Text").gameObject;
         allText = emptyTextObject.GetComponentsInChildren<TMP_Text>();
@@ -52,18 +56,24 @@ public class ButtonScript : MonoBehaviour
 
     public void ActivateThisMap()
     {
-        switch (allText[0].text)
+        bool TESTBOOLACTIVATELOADSCENE = true;
+        int mapNumber = 0; //0 for default test
+        List<string> mapNames = mapSelectionManager.TellAllMapNames();
+
+        for (int i = 0; i < mapNames.Count; i++)
         {
-            case "test1":
-                print("test1 in switch statement");
-                break;
-            case "map1":
-                print("open map 1");
-                break;
-            default:
-                print("couldnt find a matching name, name input was" + allText[0].text);
-                break;
+            string mn = mapNames[i];
+            if (mn == allText[0].text)
+            {
+                mapNumber = i;
+            }
         }
+
+        if (mapNumber > 0 && TESTBOOLACTIVATELOADSCENE)
+        {
+            //         SceneManager.LoadScene(mapNames[mapNumber]);
+        }
+        print("mapname is" + mapNames[mapNumber] + mapNumber);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
