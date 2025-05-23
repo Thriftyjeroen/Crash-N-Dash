@@ -33,13 +33,6 @@ public class GiveDebuff : MonoBehaviour
     bool debuffRunning = false;
     void Update()
     {
-        print(playerID);
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            debuffRunning = true;
-            text.gameObject.SetActive(true);
-        }
-
         if (debuffRunning)
         {
             if (leaderboardManager.playerLeaderboard.Count != 0 && playerID < leaderboardManager.playerLeaderboard.Count)
@@ -102,6 +95,12 @@ public class GiveDebuff : MonoBehaviour
             counter++;
         }
 
+    }
+
+    public void StartDebuffs()
+    {
+        debuffRunning = true;
+        text.gameObject.SetActive(true);
     }
 
     bool inHere = false;
